@@ -1,0 +1,9 @@
+.active-link,
+.disabled-link {
+  text-decoration: none;
+  color: var(--first-color);
+}
+
+.active-link {
+  font-weight: bold;
+}
