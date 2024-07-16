@@ -1,0 +1,42 @@
+.navbar-mobile-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: var(--navbar-mobile-height);
+  background-color: var(--first-color);
+}
+
+.btn-menu-container {
+  margin-right: 1rem;
+}
+
+.btn-menu-container button {
+  background-color: transparent;
+  padding: 0rem;
+  border: none;
+  cursor: pointer;
+  height: 40px;
+}
+
+.logo-navbar-mobile {
+  width: 40px;
+  margin: 10px 0 auto 1rem;
+}
+
+.navbar-hamburguer,
+.navbar-hamburguer-close {
+  width: 40px;
+  height: 38px;
+  margin: 5px 0 auto 0;
+}
+
+@media screen and (min-width: 768px) {
+  .navbar-mobile-container {
+    display: none;
+  }
+}

@@ -1,92 +1,46 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import "./navbar.css";
 import logo from "../../assets/Logo.png";
-import logoMobile from "../../assets/Logo-mobile.png";
-import barsSolid from "../../assets/bars-solid.svg";
-import xSolid from "../../assets/xmark-solid.svg";
-import { HashRouter, NavLink } from "react-router-dom";
 import NavLinks from "../NavLinks/NavLinks";
-import { useModal } from "../../hooks/useModal";
-import ModalMenuMobile from "../ModalMenuMobile/ModalMenuMobile";
+import LogoNav from "../LogoNav/LogoNav";
+import NavMobile from "../NavMobile/NavMobile";
 
 const NavBar = () => {
-  const [menuActive, setMenuActive] = useState(false);
-  const [isOpenModalMenuMobile, openModalMenu, closeModalMenu] =
-    useModal(false);
+  const [isScroll, setIsScroll] = useState(false);
 
-  const handleMenu = () => {
-    if (menuActive) {
-      setMenuActive(false);
-      closeModalMenu();
-    } else {
-      setMenuActive(true);
-      openModalMenu();
-    }
-  };
+  const scrollThreshold = 126;
 
-  const handleCloseMenu = () => {
-    setMenuActive(false), closeModalMenu();
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > scrollThreshold) {
+        setIsScroll(true);
+      } else {
+        setIsScroll(false);
+      }
+    };
+
+    window.addEventListener(`scroll`, handleScroll);
+
+    return () => {
+      window.removeEventListener(`scroll`, handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="navbar-container">
-      <HashRouter>
-        <div className="logo-navbar">
-          <NavLink
-            className={({ isActive }) =>
-              isActive ? "active-link" : "disabled-link"
-            }
-            to=""
-          >
-            <img className="logo" src={logo} alt="logo de AiskelysBakes" />
-          </NavLink>
-        </div>
+    <>
+      <LogoNav />
 
-        <div className="navlinks-container-desktop">
-          <NavLinks />
-        </div>
+      <header className="navlinks-container-desktop">
+        <img
+          className={`logo ${isScroll ? "scrolled" : "no-scrolled"}`}
+          src={logo}
+          alt="logo de AiskelysBakes"
+        />
+        <NavLinks />
+      </header>
 
-        <section className="navbar-mobile-container">
-          <div className="logo-navbar-mobile">
-            <NavLink
-              className={({ isActive }) =>
-                isActive ? "active-link" : "disabled-link"
-              }
-              to=""
-              onClick={handleCloseMenu}
-            >
-              <img
-                className="logo"
-                src={logoMobile}
-                alt="logo de AiskelysBakes"
-              />
-            </NavLink>
-          </div>
-
-          <div className="btn-menu-container">
-            <button
-              onClick={handleMenu}
-              aria-label={menuActive ? "Cerrar menú" : "Abrir menú"}
-            >
-              <img
-                className="navbar-hamburguer"
-                src={menuActive ? xSolid : barsSolid}
-                alt={menuActive ? "Cerrar menú" : "Abrir menú"}
-              />
-            </button>
-          </div>
-
-          <ModalMenuMobile
-            isOpenModal={isOpenModalMenuMobile}
-            closeModal={handleCloseMenu}
-          >
-            <NavLinks />
-          </ModalMenuMobile>
-        </section>
-      </HashRouter>
-
-      <hr />
-    </div>
+      <NavMobile />
+    </>
   );
 };
 
