@@ -5,6 +5,8 @@
   --first-alpha50-color: #54059150;
   --first-alpha75-color: #54059175;
   --second-color: #804000;
+  --second-alpha50-color: #80400050;
+  --second-alpha75-color: #80400075;
   --third-color: #faff00;
   --link-color: #509ee3;
   --title-color: #333333;
@@ -29,15 +31,17 @@
   --step-3: clamp(2.27rem, 2.01rem + 1.29vw, 2.93rem);
   --step-4: clamp(2.72rem, 2.36rem + 1.83vw, 3.66rem);
   --step-5: clamp(3.27rem, 2.75rem + 2.56vw, 4.58rem);
+  --font-family2: "Playwrite AR", cursive;
 }
 
 /**** Reset ****/
 html {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", sans-serif;
+  font-style: normal;
   font-size: 16px;
   scroll-behavior: smooth;
+  padding-bottom: var(--navbar-mobile-height);
 }
 
 *,
@@ -100,3 +104,9 @@ p {
 }
 
 /* Fin Reset */
+
+@media screen and (min-width: 768px) {
+  html {
+    padding-bottom: 0;
+  }
+}

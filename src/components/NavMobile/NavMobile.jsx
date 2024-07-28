@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./navmobile.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import logoMobile from "../../assets/Logo-mobile.png";
 import barsSolid from "../../assets/bars-solid.svg";
@@ -12,6 +12,7 @@ const NavMobile = () => {
   const [menuActive, setMenuActive] = useState(false);
   const [isOpenModalMenuMobile, openModalMenu, closeModalMenu] =
     useModal(false);
+  const { pathname } = useLocation();
 
   const handleMenu = () => {
     if (menuActive) {
@@ -26,6 +27,10 @@ const NavMobile = () => {
   const handleCloseMenu = () => {
     setMenuActive(false), closeModalMenu();
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <section className="navbar-mobile-container">
