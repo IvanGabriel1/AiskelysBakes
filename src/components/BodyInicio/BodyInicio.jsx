@@ -15,7 +15,7 @@ const BodyInicio = () => {
         text1={"Aiskely`s Bakes"}
         text2={"Horneamos Delicias"}
       />
-      <section className="body-container">
+      <section className="body-inicio-container">
         <h2 className="title">Nuestras delicias</h2>
         <div className="articles-container">
           <article>

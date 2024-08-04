@@ -18,6 +18,10 @@
   margin-bottom: 1rem;
 }
 
+.contact-cards-container a:last-child {
+  font-family: var(--font-family2);
+}
+
 .card-serv-decoration {
   text-decoration: none;
   color: var(--link-color);

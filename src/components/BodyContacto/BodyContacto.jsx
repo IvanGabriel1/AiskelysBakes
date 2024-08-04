@@ -6,7 +6,7 @@ import ContactForm from "../ContactForm/ContactForm";
 
 const BodyContacto = () => {
   return (
-    <div>
+    <>
       <HeroImage
         img={heroContacto}
         text1={"Contactános!"}
@@ -14,10 +14,15 @@ const BodyContacto = () => {
       />
 
       <div className="contact-background">
+        <h4 className="contact-suggestions">
+          Si tienes alguna sugerencia o pregunta, no dudes en contactarnos a
+          través de nuestro teléfono, email, Instagram, o simplemente completa
+          el siguiente formulario y te responderemos a la brevedad.
+        </h4>
         <ContactForm />
         <ContactoCards />
       </div>
-    </div>
+    </>
   );
 };
 

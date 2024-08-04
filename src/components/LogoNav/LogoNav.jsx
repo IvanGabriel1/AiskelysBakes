@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import logo from "../../assets/Logo.png";
+import logo2 from "../../assets/Logo-removeBg.png";
 import "./logonav.css";
 
 const LogoNav = () => {
@@ -12,7 +12,7 @@ const LogoNav = () => {
         }
         to="/"
       >
-        <img className="logo" src={logo} alt="logo de AiskelysBakes" />
+        <img className="logo" src={logo2} alt="logo de AiskelysBakes" />
       </NavLink>
     </div>
   );

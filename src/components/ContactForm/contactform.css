@@ -57,6 +57,10 @@
   opacity: 0.7;
 }
 
+.form-error {
+  color: var(--error-color);
+}
+
 @media screen and (min-width: 1024px) {
   .contact-form {
     grid-template-columns: repeat(2, 1fr);

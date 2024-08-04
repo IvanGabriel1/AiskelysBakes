@@ -2,6 +2,11 @@ import React from "react";
 import "./contactocards.css";
 
 const ContactoCards = () => {
+  const cardNumeroTel = "(+54) 11-59785291",
+    cardUbicacion = "Villa del Parque, CABA, Buenos Aires",
+    cardMail = "ivangabraun@gmail.com",
+    cardInstagram = "";
+
   return (
     <section>
       <section id="contacto" className="section">
@@ -21,8 +26,8 @@ const ContactoCards = () => {
             </svg>
             <h4>Teléfono</h4>
             <small>
-              <a href="tel:1112341234" className="card-serv-decoration">
-                (+54) 11-59785291
+              <a href={`tel:${cardNumeroTel}`} className="card-serv-decoration">
+                {cardNumeroTel}
               </a>
             </small>
           </div>
@@ -41,7 +46,7 @@ const ContactoCards = () => {
               />
             </svg>
             <h4>Ubicación</h4>
-            <small>Villa del Parque, CABA, Buenos Aires</small>
+            <small>{cardUbicacion}</small>
           </div>
 
           <div className="card-contact">
@@ -60,13 +65,8 @@ const ContactoCards = () => {
 
             <h4>Email</h4>
             <small>
-              {" "}
-              <a
-                href=" mailto:ivangabraun@gmail.com"
-                className="card-serv-decoration"
-              >
-                {" "}
-                ivangabraun@gmail.com
+              <a href={`mailto:${cardMail}`} className="card-serv-decoration">
+                {cardMail}
               </a>
             </small>
           </div>
@@ -95,10 +95,11 @@ const ContactoCards = () => {
 
             <small>
               <a
-                href=" mailto:ivangabraun@gmail.com"
+                href="https://www.instagram.com/"
+                target="_blank"
                 className="card-serv-decoration"
               >
-                ivangabraun@gmail.com
+                Seguínos!
               </a>
             </small>
           </div>

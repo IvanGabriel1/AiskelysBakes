@@ -1,17 +1,17 @@
-.body-inicio-container {
+.body-nosotros-container {
   min-height: 100vh;
 }
 
-.articles-container {
+.articles-nosotros-container {
   display: grid;
   grid-template-columns: 100%;
   gap: 1.5rem;
   align-items: center;
   padding: 2rem 2rem;
-  text-align: left;
+  text-align: center;
 }
 
-.articles-container h2 {
+.articles-nosotros-container h2 {
   min-width: 150px;
   padding-left: 0.5rem;
   text-align: left;
@@ -22,20 +22,26 @@
     rgba(255, 255, 255, 0.91),
     var(--first-alpha50-color) 79%
   );
+  text-align: center;
 }
 
-.articles-container p {
+.articles-nosotros-container p {
   margin-top: 1.25rem;
   text-align: left;
   font-weight: 400;
+  text-align: center;
 }
 
-.articles-container img {
+.articles-nosotros-container img {
   width: clamp(200px, 50%, 300px);
   max-width: 100%;
   height: auto;
   object-fit: cover;
   margin: auto;
+}
+
+.imgNosotros {
+  border-radius: 2rem;
 }
 
 .title {
@@ -47,44 +53,27 @@
   font-size: var(--step-1);
 }
 
-.button-link {
-  color: var(--white-color);
-  background-color: var(--first-color);
-  padding: 0.6rem;
-  margin-bottom: 1rem;
-  border-radius: 1rem;
-  font-size: var(--step--1);
-  white-space: nowrap;
-  display: inline-block;
-}
-
 @media screen and (min-width: 768px) {
-  .articles-container {
+  .articles-nosotros-container {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       "article1 img1"
       "img2 article2";
   }
 
-  .articles-container article:nth-of-type(1) {
+  .articles-nosotros-container article:nth-of-type(1) {
     grid-area: article1;
   }
 
-  .articles-container img:nth-of-type(1) {
+  .articles-nosotros-container img:nth-of-type(1) {
     grid-area: img1;
   }
 
-  .articles-container article:nth-of-type(2) {
+  .articles-nosotros-container article:nth-of-type(2) {
     grid-area: article2;
   }
 
-  .articles-container img:nth-of-type(2) {
+  .articles-nosotros-container img:nth-of-type(2) {
     grid-area: img2;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .navbar-mobile-container {
-    display: none;
   }
 }
