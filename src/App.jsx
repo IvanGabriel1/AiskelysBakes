@@ -5,6 +5,7 @@ import Footer from "./components/Footer/Footer";
 import BodyContacto from "./components/BodyContacto/BodyContacto";
 import BodyInicio from "./components/BodyInicio/BodyInicio";
 import BodyNosotros from "./components/BodyNosotros/BodyNosotros";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/nosotros" element={<BodyNosotros />} />
           <Route path="/productos" element={<h1>Hola Productos</h1>} />
           <Route path="/contacto" element={<BodyContacto />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
       </HashRouter>

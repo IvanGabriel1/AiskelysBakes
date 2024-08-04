@@ -27,11 +27,7 @@ const BodyNosotros = () => {
               sed ipsum reprehenderit!
             </p>
           </article>
-          <img
-            src={imgNosotros}
-            alt="Imagen sobre nosotros"
-            className="imgNosotros"
-          />
+          <img src={imgNosotros} alt="Imagen sobre nosotros" />
 
           <article>
             <h2>Misión</h2>
@@ -43,11 +39,7 @@ const BodyNosotros = () => {
             </p>
           </article>
 
-          <img
-            src={imgMision}
-            alt="Imagen nuestra mision"
-            className="imgNosotros"
-          />
+          <img src={imgMision} alt="Imagen nuestra mision" />
 
           <article>
             <h2>Valores</h2>
@@ -59,11 +51,7 @@ const BodyNosotros = () => {
             </p>
           </article>
 
-          <img
-            src={imgValores}
-            alt="Imagen nuestra mision"
-            className="imgNosotros"
-          />
+          <img src={imgValores} alt="Imagen nuestra mision" />
         </div>
         <FollowUs />
       </div>

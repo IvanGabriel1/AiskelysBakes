@@ -1,0 +1,54 @@
+.pagenotfound-container {
+  margin: auto;
+  width: 80%;
+  height: 90vh;
+  font-family: var(--font-family3);
+}
+
+.pagenotfound {
+  width: 80%;
+  margin: 1rem auto 1rem auto;
+}
+
+.error-text-404 {
+  font-size: var(--step-4);
+}
+
+.error-subtext-404 {
+  font-size: var(--step-1);
+  margin-bottom: 1rem;
+}
+
+.button-home {
+  color: var(--white-color);
+  background-color: var(--first-color);
+  padding: 0.6rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  font-size: var(--step--1);
+  white-space: nowrap;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+}
+
+.img404 {
+  width: clamp(200px, 50%, 300px);
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  margin: auto;
+  border-radius: 2rem;
+}
+
+@media screen and (min-width: 768px) {
+  .pagenotfound-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pagenotfound {
+    width: 50%;
+  }
+}

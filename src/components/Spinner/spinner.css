@@ -1,0 +1,26 @@
+.spinner-container {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.spinner {
+  width: 5vw;
+  height: 5vw;
+  margin: auto;
+  border-radius: 50%;
+  border: 0.5vw solid rgba(0, 0, 0, 0.1);
+  border-left-color: #09f;
+  animation: spinner 1s ease-out infinite;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
