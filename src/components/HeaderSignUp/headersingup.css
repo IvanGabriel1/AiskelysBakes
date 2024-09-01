@@ -1,0 +1,61 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+}
+
+.user-logeado-div {
+  margin-right: 1rem;
+}
+
+.iniciar-sesion {
+  margin-right: 1rem;
+  color: var(--white-color);
+  background-image: linear-gradient(350deg, var(--first-color), #ff8000 79%);
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: var(--step--1);
+  white-space: nowrap;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.change-password-btn {
+  display: block;
+  margin: 0.1rem auto 0.1rem auto;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: var(--step--2);
+  color: var(--first-color);
+}
+
+.change-password-btn:hover {
+  opacity: 0.8;
+}
+
+.singup-btn {
+  color: var(--white-color);
+  background-color: var(--first-color);
+  padding: 0.3rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: var(--step--1);
+  white-space: nowrap;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.singup-btn:hover {
+  opacity: 0.9;
+}
+
+.user-verified {
+  color: var(--correct-color);
+}
+
+.user-no-verified {
+  color: var(--error-color);
+}

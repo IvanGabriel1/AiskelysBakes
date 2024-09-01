@@ -6,11 +6,14 @@ import BodyContacto from "./components/BodyContacto/BodyContacto";
 import BodyInicio from "./components/BodyInicio/BodyInicio";
 import BodyNosotros from "./components/BodyNosotros/BodyNosotros";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
+import HeaderSingUp from "./components/HeaderSignUp/HeaderSingUp";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <>
-      <HashRouter>
+    <HashRouter>
+      <AuthProvider>
+        <HeaderSingUp />
         <NavBar />
         <Routes>
           <Route path="/" element={<BodyInicio />} />
@@ -20,8 +23,8 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
-      </HashRouter>
-    </>
+      </AuthProvider>
+    </HashRouter>
   );
 }
 

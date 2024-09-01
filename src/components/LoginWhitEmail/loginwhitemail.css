@@ -1,0 +1,44 @@
+.loginwhitemail-container h3 {
+  margin-top: 0.5rem;
+  font-size: var(--step--1);
+  font-weight: 400;
+  line-height: 1rem;
+}
+
+.loginwhitemail-container input {
+  display: block;
+  height: 2rem;
+  width: 90%;
+  border: thin solid var(--first-color);
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.loginwhitemail-container button {
+  display: block;
+  margin: auto;
+  height: 2rem;
+  width: 150px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--first-color);
+  border-radius: 2rem;
+  border: 0;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.loginwhitemail-container button:hover {
+  background-color: var(--first-alpha75-color);
+}
+
+.form-error-login {
+  font-size: var(--step--3);
+  color: var(--error-color);
+  line-height: 0.1rem;
+}
