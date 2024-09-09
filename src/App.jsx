@@ -7,7 +7,9 @@ import BodyInicio from "./components/BodyInicio/BodyInicio";
 import BodyNosotros from "./components/BodyNosotros/BodyNosotros";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
 import HeaderSingUp from "./components/HeaderSignUp/HeaderSingUp";
+import BodyProductos from "./components/BodyProductos/BodyProductos";
 import { AuthProvider } from "./context/AuthContext";
+import ProductDetail from "./components/ProductDetail/ProductDetail";
 
 function App() {
   return (
@@ -18,10 +20,12 @@ function App() {
         <Routes>
           <Route path="/" element={<BodyInicio />} />
           <Route path="/nosotros" element={<BodyNosotros />} />
-          <Route path="/productos" element={<h1>Hola Productos</h1>} />
+          <Route path="/productos" element={<BodyProductos />} />
           <Route path="/contacto" element={<BodyContacto />} />
+          <Route path="/item/:id" element={<ProductDetail />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
+
         <Footer />
       </AuthProvider>
     </HashRouter>

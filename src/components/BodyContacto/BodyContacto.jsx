@@ -12,7 +12,7 @@ const BodyContacto = () => {
         text1={"Contactános!"}
         text2={"Estamos a disposición"}
       />
-
+      <h2 className="title">Contacto</h2>
       <div className="contact-background">
         <h4 className="contact-suggestions">
           Si tienes alguna sugerencia o pregunta, no dudes en contactarnos a
