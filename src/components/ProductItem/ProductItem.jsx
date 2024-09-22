@@ -2,15 +2,9 @@ import React from "react";
 import "./productitem.css";
 import { Link } from "react-router-dom";
 
-const ProductItem = ({
-  id,
-  categoria,
-  nombre,
-  img,
-  precioMinorista,
-  precioMayorista,
-  descripcion,
-}) => {
+const ProductItem = ({ id, nombre, img, precioMinorista, precioMayorista }) => {
+  const nombreMayuscula = nombre.toUpperCase();
+
   return (
     <article className="card-product-item">
       <picture className="card-product-picture">
@@ -18,9 +12,13 @@ const ProductItem = ({
       </picture>
 
       <section className="card-product-section">
-        <p className="card-product-categoria">{categoria}</p>
-        <p className="card-product-name">{nombre}</p>
-        <p className="card-product-price">$ {precioMinorista}</p>
+        <p className="card-product-name">{nombreMayuscula}</p>
+        <p className="card-product-price">
+          <b>Minorista: </b>${precioMinorista} usd.-
+        </p>
+        <p className="card-product-price">
+          <b>Mayorista: </b> ${precioMayorista} usd.-
+        </p>
       </section>
 
       <footer className="card-product-footer">

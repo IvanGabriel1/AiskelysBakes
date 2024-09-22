@@ -1,82 +1,60 @@
 import React, { useState } from "react";
 import "./carousel.css";
-import imgCarrousel1 from "../../assets/img-carrousel-1.png";
-import imgCarrousel2 from "../../assets/img-carrousel-2.png";
-import imgCarrousel3 from "../../assets/img-carrousel-3.png";
 
-const Carousel = () => {
-  const [selectedSlide, setSelectedSlide] = useState("slide-1");
+const Carousel = ({ images }) => {
+  const [selectedSlide, setSelectedSlide] = useState(0); // Estado para la slide seleccionada
 
-  const handleChecked = (e) => {
-    setSelectedSlide(e.target.id);
+  // Función para cambiar la slide seleccionada
+  const handleChecked = (index) => {
+    setSelectedSlide(index); // Actualiza el estado al hacer click en el control
   };
 
   return (
-    <section className="carousel-conteiner">
+    <section
+      className="carousel-container"
+      style={{ "--num-slides": images.length }}
+    >
       <article className="carousel">
-        <input
-          type="radio"
-          name="slides"
-          id="slide-1"
-          checked={selectedSlide === "slide-1"}
-          onChange={handleChecked}
-        />
-        <input
-          type="radio"
-          name="slides"
-          id="slide-2"
-          checked={selectedSlide === "slide-2"}
-          onChange={handleChecked}
-        />
-        <input
-          type="radio"
-          name="slides"
-          id="slide-3"
-          checked={selectedSlide === "slide-3"}
-          onChange={handleChecked}
-        />
-        <input
-          type="radio"
-          name="slides"
-          id="slide-4"
-          checked={selectedSlide === "slide-4"}
-          onChange={handleChecked}
-        />
-        <ul className="slides">
-          <li className="slide">
-            <img
-              className="img-carousel"
-              src={imgCarrousel1}
-              alt="imagen 1 del carousel"
-            />
-          </li>
-          <li className="slide">
-            <img
-              className="img-carousel"
-              src={imgCarrousel2}
-              alt="imagen 2 del carousel"
-            />
-          </li>
-          <li className="slide">
-            <img
-              className="img-carousel"
-              src={imgCarrousel3}
-              alt="imagen 3 del carousel"
-            />
-          </li>
-          <li className="slide">
-            <img
-              className="img-carousel"
-              src={imgCarrousel1}
-              alt="imagen 4 del carousel"
-            />
-          </li>
+        {/* Renderiza los inputs para el control de las slides */}
+        {images.map((_, index) => (
+          <input
+            key={`slide-${index}`}
+            type="radio"
+            name="slides"
+            id={`slide-${index}`}
+            checked={selectedSlide === index}
+            onChange={() => handleChecked(index)} // Cambia la slide cuando se selecciona el control
+          />
+        ))}
+
+        {/* Renderiza las imágenes dinámicamente */}
+        <ul
+          className="slides"
+          style={{
+            transform: `translateX(-${(100 / images.length) * selectedSlide}%)`,
+          }}
+        >
+          {images.map((img, index) => (
+            <li key={`slide-${index}`} className="slide">
+              <img
+                className="img-carousel"
+                src={img}
+                alt={`imagen ${index + 1} del carousel`}
+              />
+            </li>
+          ))}
         </ul>
+
+        {/* Renderiza los puntos de navegación dinámicamente */}
         <aside className="slides-nav">
-          <label htmlFor="slide-1" id="dot-1" />
-          <label htmlFor="slide-2" id="dot-2" />
-          <label htmlFor="slide-3" id="dot-3" />
-          <label htmlFor="slide-4" id="dot-4" />
+          {images.map((_, index) => (
+            <label
+              key={`dot-${index}`}
+              htmlFor={`slide-${index}`} // El label se asocia al input con el mismo id
+              onClick={() => handleChecked(index)} // Cambia la slide al hacer click
+              id={`dot-${index}`}
+            />
+          ))}
         </aside>
       </article>
     </section>

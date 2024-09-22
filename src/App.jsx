@@ -24,6 +24,7 @@ function App() {
           <Route path="/contacto" element={<BodyContacto />} />
           <Route path="/item/:id" element={<ProductDetail />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/productos/:categoryId" element={<BodyProductos />} />
         </Routes>
 
         <Footer />

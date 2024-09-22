@@ -64,13 +64,13 @@ const LoginWhitEmail = () => {
         <span className="form-error-login">{error.errorRegex}</span>
       )}
 
-      <button type="submit">Enviar</button>
+      <button type="submit">{registrando ? "Registrarme" : "Ingresar"}</button>
       <h6>
         Si olvidó su contraseña ingrese su email y haga click en el siguiente
         botón para recibir un correo y reestablecer su contraseña:
       </h6>
       <button type="button" onClick={() => handlePasswordReset(email)}>
-        ¿Olvido tu contraseña?
+        Recuperar contraseña
       </button>
     </form>
   );

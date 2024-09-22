@@ -1,0 +1,18 @@
+.aviso-productos {
+  display: inline-block;
+  text-align: center;
+  padding-inline: 1rem;
+  font-size: 0.9rem;
+  color: var(--gray-color);
+  margin-bottom: 1.5rem;
+}
+
+.listGroup {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.5rem;
+  place-items: center;
+  margin: 1rem auto 1rem auto;
+  background-color: white;
+  padding-inline: 1rem;
+}

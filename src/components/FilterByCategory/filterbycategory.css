@@ -1,0 +1,17 @@
+.filter-by-category-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 75%;
+  height: 2.5rem;
+  margin: auto;
+  border: medium solid var(--third-color);
+  border-radius: 0.5rem;
+  background-color: white;
+  font-size: var(--step--1);
+}
+
+.filter-by-category-container * {
+  text-decoration: none;
+  color: var(--first-color);
+}

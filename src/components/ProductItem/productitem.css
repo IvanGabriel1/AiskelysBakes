@@ -1,15 +1,51 @@
 .card-product-item {
-  border: thin solid pink;
+  border: thin solid var(--third-color);
   border-radius: 0.2rem;
   margin: 0.5rem;
   max-width: 350px;
 }
-
+/*
 .card-product-picture-img {
   max-height: 400px;
 }
+*/
+.card-product-categoria {
+  font-weight: 400;
+  color: var(--first-color);
+  font-size: var(--step--2);
+}
 
-.card-product-item p {
-  margin: 0;
-  text-align: center;
+.card-product-name {
+  color: var(--second-color);
+  height: 50px;
+  font-weight: 400;
+  font-size: var(--step--1);
+  line-height: 16px;
+  text-align: left;
+  margin: 0.25rem 0.25rem 1rem 0.25rem;
+  letter-spacing: 0.1em;
+}
+
+.card-product-price {
+  margin-left: 0.25rem;
+  font-size: var(--step--2);
+  line-height: 5px;
+  text-align: left;
+}
+
+.card-product-footer {
+  margin: 0.5rem;
+}
+
+.item-details-btn {
+  font-size: var(--step--2);
+  background-color: var(--third-color);
+  padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+  border-radius: 0.2rem;
+  color: black;
+  text-decoration: none;
+}
+
+.item-details-btn:hover {
+  opacity: 0.8;
 }

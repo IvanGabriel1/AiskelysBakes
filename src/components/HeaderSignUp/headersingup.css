@@ -1,18 +1,27 @@
 .header-container {
-  display: flex;
-  align-items: center;
   width: 100%;
   margin: auto;
 }
 
 .user-logeado-div {
-  margin-right: 1rem;
+  display: block;
+  padding-inline: 1rem;
+  gap: 1rem;
+  background-color: var(--third-color);
+  margin-bottom: 0.5rem;
+}
+
+.user-logeado-div,
+.user-verified,
+.user-no-verified,
+.change-password-btn {
+  flex: 1;
 }
 
 .iniciar-sesion {
-  margin-right: 1rem;
   color: var(--white-color);
-  background-image: linear-gradient(350deg, var(--first-color), #ff8000 79%);
+  margin-bottom: 0.25rem;
+  background-color: var(--first-color);
   padding: 0.5rem;
   border-radius: 1rem;
   border: none;
@@ -24,7 +33,7 @@
 
 .change-password-btn {
   display: block;
-  margin: 0.1rem auto 0.1rem auto;
+  margin: auto;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -46,6 +55,7 @@
   white-space: nowrap;
   display: inline-block;
   cursor: pointer;
+  margin-bottom: 0.25rem;
 }
 
 .singup-btn:hover {
@@ -58,4 +68,16 @@
 
 .user-no-verified {
   color: var(--error-color);
+}
+
+@media screen and (min-width: 500px) {
+  .user-logeado-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .singup-btn {
+    margin-bottom: 0rem;
+  }
 }

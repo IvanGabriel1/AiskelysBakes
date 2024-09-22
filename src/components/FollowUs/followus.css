@@ -57,11 +57,15 @@
   align-self: right;
 }
 
+.follow-link {
+  margin: auto;
+  max-width: 260px;
+}
+
 .follow-a-logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   height: auto;
   text-align: center;
   padding-bottom: 1rem;

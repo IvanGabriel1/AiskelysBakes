@@ -55,24 +55,26 @@ const FollowUs = () => {
         </a>
       </div>
 
-      <a
-        className="follow-a-logo"
-        href="https://www.instagram.com/aiskelybakes/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img
-          className="follow-logo"
-          src={followLogo}
-          alt="logo con navegacion al instagram"
-        />
-        <i>Página principal</i>
-        <img
-          className="follow-logo-insta"
-          src={logoInstagram}
-          alt="logo con navegacion al instagram"
-        />
-      </a>
+      <div className="follow-link">
+        <a
+          className="follow-a-logo"
+          href="https://www.instagram.com/aiskelybakes/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            className="follow-logo"
+            src={followLogo}
+            alt="logo con navegacion al instagram"
+          />
+          <i>Página principal</i>
+          <img
+            className="follow-logo-insta"
+            src={logoInstagram}
+            alt="logo con navegacion al instagram"
+          />
+        </a>
+      </div>
     </section>
   );
 };

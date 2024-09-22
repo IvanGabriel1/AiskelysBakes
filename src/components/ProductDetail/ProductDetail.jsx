@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { db } from "../../config/Firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Spinner from "../Spinner/Spinner";
+import FollowUs from "../FollowUs/FollowUs";
+import Carousel from "../Carousel/Carousel";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -34,26 +36,55 @@ const ProductDetail = () => {
   }, [id]);
 
   return (
-    <div>
+    <div className="item-details-container">
       {loading ? (
         <Spinner />
       ) : (
         <div>
-          {product ? (
+          {product ? ( // Asegurarse de que product no sea null antes de acceder a sus propiedades
             <>
-              <h2>asd</h2>
-              <h2>asd: {product.nombre}</h2>
-              <h1>{product.nombre}</h1>
-              <img src={product.img} alt={product.nombre} />
-              <p>Precio Minorista: ${product.precioMinorista}</p>
-              <p>Precio Mayorista: ${product.precioMayorista}</p>
-              <p>Descripción: {product.descripcion}</p>
+              <p className="prod-detail-prod-nombre">
+                <strong>{product.nombre}</strong>
+              </p>
+
+              <div className="prod-detail-sections-large">
+                <Carousel
+                  images={[product.img, product.img2, product.img3].filter(
+                    Boolean
+                  )}
+                />
+
+                <div className="prod-detail-info-large">
+                  <p className="aviso-productos">
+                    <strong>Condiciones para mayoristas:</strong> A partir de 12
+                    unidades del mismo producto...
+                  </p>
+
+                  <section className="prod-detail-price-section">
+                    <p className="prod-detail-price">
+                      Precio Minorista: ${product.precioMinorista} usd.
+                    </p>
+                    <p className="prod-detail-price">
+                      Precio Mayorista: ${product.precioMayorista} usd.
+                    </p>
+                    <p>Aca: contador + boton de agregar al carrito</p>
+                  </section>
+                </div>
+              </div>
+
+              <section className="item-details-description-section">
+                <p>
+                  <strong>Descripción:</strong>
+                </p>
+                <p className="item-details-description">
+                  {product.descripcion}
+                </p>
+              </section>
             </>
           ) : (
-            <>
-              <p>Producto no encontrado</p>
-            </>
+            <p>Producto no encontrado</p> // Mensaje de error si no hay producto
           )}
+          <FollowUs />
         </div>
       )}
     </div>
