@@ -10,6 +10,7 @@ import HeaderSingUp from "./components/HeaderSignUp/HeaderSingUp";
 import BodyProductos from "./components/BodyProductos/BodyProductos";
 import { AuthProvider } from "./context/AuthContext";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
+import Cart from "./components/Cart/Cart";
 
 function App() {
   return (
@@ -22,11 +23,11 @@ function App() {
           <Route path="/nosotros" element={<BodyNosotros />} />
           <Route path="/productos" element={<BodyProductos />} />
           <Route path="/contacto" element={<BodyContacto />} />
+          <Route path="/carrito" element={<Cart />} />
           <Route path="/item/:id" element={<ProductDetail />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/productos/:categoryId" element={<BodyProductos />} />
         </Routes>
-
         <Footer />
       </AuthProvider>
     </HashRouter>

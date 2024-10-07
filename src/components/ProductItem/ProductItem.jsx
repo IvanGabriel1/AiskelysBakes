@@ -1,9 +1,23 @@
 import React from "react";
 import "./productitem.css";
 import { Link } from "react-router-dom";
+import QuantityButtons from "../QuantityButtons/QuantityButtons";
+import { useSelector } from "react-redux";
+import { selectProductQuantity } from "../../redux/cartSlice";
 
-const ProductItem = ({ id, nombre, img, precioMinorista, precioMayorista }) => {
+const ProductItem = ({
+  id,
+  nombre,
+  img,
+  precioMinorista,
+  precioMayorista,
+  categoria,
+}) => {
   const nombreMayuscula = nombre.toUpperCase();
+
+  //Definir una función selector dentro de tu slice de cart. Esto mejora la claridad y el mantenimiento:
+  const cantidad = useSelector((state) => selectProductQuantity(state, id));
+  //De esta forma, estás reutilizando la lógica del selector en lugar de duplicarla en varios componentes.
 
   return (
     <article className="card-product-item">
@@ -19,8 +33,18 @@ const ProductItem = ({ id, nombre, img, precioMinorista, precioMayorista }) => {
         <p className="card-product-price">
           <b>Mayorista: </b> ${precioMayorista} usd.-
         </p>
+        <p>{categoria}</p>
       </section>
 
+      <QuantityButtons
+        id={id}
+        nombre={nombre}
+        img={img}
+        precioMinorista={precioMinorista}
+        precioMayorista={precioMayorista}
+        cantidad={cantidad}
+        categoria={categoria}
+      />
       <footer className="card-product-footer">
         <Link to={`/item/${id}`} className="item-details-btn">
           Ver detalles

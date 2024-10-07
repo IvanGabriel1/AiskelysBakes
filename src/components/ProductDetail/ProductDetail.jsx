@@ -6,11 +6,15 @@ import { doc, getDoc } from "firebase/firestore";
 import Spinner from "../Spinner/Spinner";
 import FollowUs from "../FollowUs/FollowUs";
 import Carousel from "../Carousel/Carousel";
+import QuantityButtons from "../QuantityButtons/QuantityButtons";
+import { useSelector } from "react-redux";
+import { selectProductQuantity } from "../../redux/cartSlice";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
+  const cantidad = useSelector((state) => selectProductQuantity(state, id));
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -22,7 +26,7 @@ const ProductDetail = () => {
 
         if (response.exists()) {
           console.log("Product data:", response.data());
-          setProduct(response.data());
+          setProduct({ ...response.data(), id: response.id }); //response.data() solo devuelve los campos del documento, no incluye el id del documento.
         } else {
           console.log("No existe el documento");
         }
@@ -67,7 +71,15 @@ const ProductDetail = () => {
                     <p className="prod-detail-price">
                       Precio Mayorista: ${product.precioMayorista} usd.
                     </p>
-                    <p>Aca: contador + boton de agregar al carrito</p>
+                    <QuantityButtons
+                      id={product.id}
+                      nombre={product.nombre}
+                      precioMinorista={product.precioMinorista}
+                      precioMayorista={product.precioMayorista}
+                      cantidad={cantidad}
+                      img={product.img}
+                      categoria={product.categoria}
+                    />
                   </section>
                 </div>
               </div>

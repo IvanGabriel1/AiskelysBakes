@@ -26,23 +26,27 @@ const BodyInicio = () => {
               voluptatum quaerat minus voluptate, provident qui, veritatis,
               atque eius velit unde.
             </p>
-            <Link path="/" className="button-link">
-              Ver Alfajores de Chocolate
+            <Link
+              to={`/productos/alfajor`}
+              path="/productos/alfajor"
+              className="button-link"
+            >
+              Ver Alfajores
             </Link>
           </article>
 
           <img src={imgAlfajor1} alt="alfajores de chocolate" />
 
           <article>
-            <h2>Alfajores de maisena</h2>
+            <h2>Bombones</h2>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
               consectetur quibusdam velit, culpa porro eveniet quaerat quidem
               cum rem harum maiores atque, exercitationem at sit placeat fuga
               sed ipsum reprehenderit!
             </p>
-            <Link path="/" className="button-link">
-              Ver Alfajores de Maisena
+            <Link to={`/productos/bombon`} path="/" className="button-link">
+              Ver Bombones
             </Link>
           </article>
           <img src={imgAlfajor2} alt="alfajores de maisena" />

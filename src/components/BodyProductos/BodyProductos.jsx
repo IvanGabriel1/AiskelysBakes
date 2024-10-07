@@ -12,10 +12,12 @@ import Spinner from "../Spinner/Spinner";
 
 const BodyProductos = () => {
   const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { categoryId } = useParams(); // Captura el parámetro categoryId de la URL
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true);
       let productsQuery = collection(db, "productos");
 
       // Si hay un categoryId, aplica el filtro por categoría
@@ -37,6 +39,7 @@ const BodyProductos = () => {
       }));
 
       setProducts(productsList);
+      setIsLoading(false);
     };
 
     fetchProducts();
@@ -61,15 +64,19 @@ const BodyProductos = () => {
 
       <FilterByCategory />
 
-      <div className="listGroup">
-        {products.length > 0 ? (
-          products.map((product) => (
-            <ProductItem key={product.id} {...product} />
-          ))
-        ) : (
-          <Spinner />
-        )}
-      </div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="listGroup">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <ProductItem key={product.id} {...product} />
+            ))
+          ) : (
+            <Spinner />
+          )}
+        </div>
+      )}
 
       <FollowUs />
     </>

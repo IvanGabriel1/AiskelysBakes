@@ -178,8 +178,8 @@ const AuthProvider = ({ children }) => {
     setRegistrando,
     openModalAuth,
     handlePasswordReset,
-    closeModalAuthFn, // Cambiado el nombre para evitar colisiones
-    closeModalAuthState: closeModalAuth, // Renombrado para claridad
+    closeModalAuthFn,
+    closeModalAuthState: closeModalAuth,
   };
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
