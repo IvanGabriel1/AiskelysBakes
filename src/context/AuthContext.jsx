@@ -81,6 +81,7 @@ const AuthProvider = ({ children }) => {
         const user = userCredential.user;
 
         if (user.emailVerified) {
+          setUserEmailVerified(true);
           Swal.fire({
             position: "center",
             icon: "success",
@@ -89,14 +90,14 @@ const AuthProvider = ({ children }) => {
             timer: 1500,
           });
         } else {
+          setUserEmailVerified(false);
           Swal.fire({
             position: "center",
-            icon: "success",
+            icon: "info",
             title: "Recuerda validar tu correo electronico",
             showConfirmButton: false,
             timer: 3000,
           });
-          setError({ errorVerificacion: "No se ha verificado el correo" });
         }
 
         if (user.emailVerified) {

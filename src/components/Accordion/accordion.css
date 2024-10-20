@@ -1,0 +1,72 @@
+.accordion {
+  margin: 10px 0;
+}
+
+.accordion-button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--white-color);
+  padding: 10px;
+  border: thin solid var(--third-color);
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+}
+
+.accordion-button.open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.accordion-button p {
+  margin: 0;
+  color: var(--first-color);
+}
+
+.accordion-content {
+  max-height: 0; /* Oculta el contenido inicialmente */
+  overflow: hidden; /* Oculta el contenido que desborda */
+  transition: max-height 0.5s ease-in-out; /* Transición para el deslizamiento */
+  background-color: #f1f1f1;
+}
+
+.accordion-option {
+  padding: 5px;
+  max-height: 4rem;
+  background-color: var(--white-color);
+  border-bottom: thin solid var(--third-color);
+  cursor: pointer;
+  font-size: var(--step--2);
+}
+
+.accordion-option:hover {
+  background-color: var(--third-alpha75-color);
+}
+
+.accordion-option:first-child {
+  color: var(--first-color);
+  text-decoration: underline;
+}
+
+.accordion-button svg {
+  width: 2rem;
+  fill: var(--first-alpha75-color);
+}
+
+/* Ajustar este valor según la cantidad de contenido */
+.accordion-content.open {
+  max-height: 600px;
+  border-top: thin solid var(--third-color);
+  border-left: thin solid var(--third-color);
+  border-right: thin solid var(--third-color);
+  border-bottom: 0;
+}
+
+@media screen and (min-width: 500px) {
+  .accordion-option {
+    font-size: var(--step--1);
+  }
+}

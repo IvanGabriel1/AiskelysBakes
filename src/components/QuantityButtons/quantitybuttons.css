@@ -1,0 +1,17 @@
+.quantity-buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+.quantity-buttons-container button {
+  margin: auto 0.2rem;
+  border: medium solid var(--third-color);
+  border-radius: 6px;
+  background-color: transparent;
+  text-align: center;
+  cursor: pointer;
+}
+
+.quantity-buttons-container button:hover {
+  background-color: var(--third-alpha75-color);
+}

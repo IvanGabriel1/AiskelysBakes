@@ -15,6 +15,9 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(false);
   const cantidad = useSelector((state) => selectProductQuantity(state, id));
+  const [isMayorista, setIsMayorista] = useState(false);
+  const [categoriaMayoristaMessage, setCategoriaMayoristaMessage] =
+    useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -39,6 +42,42 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
+  useEffect(() => {
+    if (product && product.categoria) {
+      const categoriaMinuscula = product.categoria.toLowerCase();
+
+      if (categoriaMinuscula === "alfajor" && cantidad >= 12) {
+        setIsMayorista(true);
+      } else if (categoriaMinuscula === "bombon" && cantidad >= 36) {
+        setIsMayorista(true);
+      } else if (categoriaMinuscula === "torta" && cantidad >= 3) {
+        setIsMayorista(true);
+      } else {
+        setIsMayorista(false);
+      }
+    }
+  }, [cantidad]);
+
+  useEffect(() => {
+    if (product && product.categoria) {
+      const categoriaMinuscula = product.categoria.toLowerCase();
+
+      if (categoriaMinuscula === "alfajor") {
+        setCategoriaMayoristaMessage(
+          "Agrega 12 unidades o mas para acceder al precio mayorista."
+        );
+      } else if (categoriaMinuscula === "bombon") {
+        setCategoriaMayoristaMessage(
+          "Agrega 36 unidades o mas para acceder al precio mayorista."
+        );
+      } else if (categoriaMinuscula === "torta") {
+        setCategoriaMayoristaMessage(
+          "Agrega 3 unidades o mas para acceder al precio mayorista."
+        );
+      }
+    }
+  }, [product]);
+
   return (
     <div className="item-details-container">
       {loading ? (
@@ -60,8 +99,8 @@ const ProductDetail = () => {
 
                 <div className="prod-detail-info-large">
                   <p className="aviso-productos">
-                    <strong>Condiciones para mayoristas:</strong> A partir de 12
-                    unidades del mismo producto...
+                    <strong>Condiciones para mayoristas: </strong>
+                    {categoriaMayoristaMessage}
                   </p>
 
                   <section className="prod-detail-price-section">
@@ -80,6 +119,17 @@ const ProductDetail = () => {
                       img={product.img}
                       categoria={product.categoria}
                     />
+                    {isMayorista ? (
+                      <span>
+                        <strong>Mayorista! Total:</strong> $
+                        {(product.precioMayorista * cantidad).toFixed(2)}
+                      </span>
+                    ) : (
+                      <span>
+                        <strong>Minorista! Total:</strong> $
+                        {(product.precioMinorista * cantidad).toFixed(2)}
+                      </span>
+                    )}
                   </section>
                 </div>
               </div>
@@ -94,7 +144,7 @@ const ProductDetail = () => {
               </section>
             </>
           ) : (
-            <p>Producto no encontrado</p> // Mensaje de error si no hay producto
+            <p>Producto no encontrado</p>
           )}
           <FollowUs />
         </div>

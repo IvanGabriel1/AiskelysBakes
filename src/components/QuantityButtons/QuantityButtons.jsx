@@ -34,7 +34,6 @@ const QuantityButtons = ({
 
   return (
     <div className="quantity-buttons-container">
-      <span>Carrito: </span>
       <button onClick={handleRemove}>-</button>
       <output> {cantidad} </output>
       <button onClick={handleAdd}>+</button>

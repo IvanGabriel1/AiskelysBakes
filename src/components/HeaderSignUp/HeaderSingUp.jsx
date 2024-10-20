@@ -31,7 +31,7 @@ const HeaderSingUp = () => {
             setUserEmailVerified(true);
             clearInterval(intervalId); // Detiene el intervalo cuando se verifica
           }
-        }, 6000); // Intervalo de 3 segundos
+        }, 60000); // Intervalo de 3 segundos
 
         return () => clearInterval(intervalId); // Limpieza al desmontar el componente
       } else {
@@ -43,8 +43,7 @@ const HeaderSingUp = () => {
     return () => unsubscribe();
   }, [setUserEmailVerified]);
 
-  // const [isOpenLogin, modalLogin, closeModalLogin] = useModal(false);
-  const [isOpenLogin, closeModalLogin] = useModal(false);
+  const [isOpenLogin, modalLogin, closeModalLogin] = useModal(false);
 
   const handleLogIn = () => {
     openModalAuth();
@@ -53,6 +52,7 @@ const HeaderSingUp = () => {
   const handleLogOut = () => {
     auth.signOut().then(() => {
       setUserLogin(null);
+      setUserEmailVerified(false);
       closeModalLogin();
     });
   };
@@ -97,10 +97,13 @@ const HeaderSingUp = () => {
             </button>
           </div>
         ) : (
-          <button className=" iniciar-sesion" onClick={handleLogIn}>
-            Iniciar Sesión
-          </button>
+          <div>
+            <button className="iniciar-sesion" onClick={handleLogIn}>
+              Iniciar Sesión
+            </button>
+          </div>
         )}
+
         <ModalUserLogin
           isOpenModal={isOpenLogin}
           closeModal={closeModalLogin}

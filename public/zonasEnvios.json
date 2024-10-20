@@ -1,0 +1,36 @@
+{
+  "municipios": {
+    "sinEnvio": {
+      "municipio": "Sin Envio",
+      "precioEnvio": 0
+    },
+    "elParaiso": {
+      "municipio": "El paraiso",
+      "precioEnvio": 2
+    },
+    "laVega": {
+      "municipio": "La vega",
+      "precioEnvio": 3
+    },
+    "libertador": {
+      "municipio": "Libertador",
+      "precioEnvio": 3
+    },
+    "sanJuan": {
+      "municipio": "San Juan",
+      "precioEnvio": 3
+    },
+    "staRosalia": {
+      "municipio": "Santa Rosalía",
+      "precioEnvio": 3
+    },
+    "sucre": {
+      "municipio": "Sucre",
+      "precioEnvio": 3
+    },
+    "elValle": {
+      "municipio": "El Valle",
+      "precioEnvio": 4
+    }
+  }
+}
