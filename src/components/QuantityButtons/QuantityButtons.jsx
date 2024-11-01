@@ -10,6 +10,8 @@ const QuantityButtons = ({
   precioMayorista,
   img,
   categoria,
+  descuento,
+  descuentoMayorista,
 }) => {
   const dispatch = useDispatch();
 
@@ -23,6 +25,8 @@ const QuantityButtons = ({
         precioMayorista,
         img,
         categoria,
+        descuento,
+        descuentoMayorista,
       })
     );
   };

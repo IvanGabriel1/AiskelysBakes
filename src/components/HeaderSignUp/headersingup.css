@@ -1,3 +1,28 @@
+@keyframes avisoHeader {
+  0% {
+    color: var(--third-color);
+  }
+
+  50% {
+    color: black;
+  }
+}
+
+.aviso-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: black;
+  color: var(--third-color);
+  font-weight: bold;
+  font-size: var(--step--2);
+  height: 2rem;
+  min-width: 250px;
+  text-wrap: nowrap;
+  margin-bottom: 0.5rem;
+  animation: avisoHeader 2s ease-out infinite;
+}
+
 .header-container {
   width: 100%;
   margin: auto;

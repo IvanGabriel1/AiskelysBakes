@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import "./loginwhitemail.css";
 import AuthContext from "../../context/AuthContext";
@@ -16,6 +16,14 @@ const LoginWhitEmail = () => {
     handlePasswordReset,
   } = useContext(AuthContext);
 
+  // <h3>
+  //   {registrando
+  //     ? "Si ya tienes cuenta, haz clic en `Iniciar Sesión`"
+  //     : "Si no tienes cuenta, haz clic en `Registrarme`"}
+  // </h3>
+  // <button type="button" onClick={() => setRegistrando(!registrando)}>
+  //   {registrando ? "Iniciar Sesión" : "Registrarme"}
+  // </button>
   return (
     <form onSubmit={handleAuthentication} className="loginwhitemail-container">
       <h3>
@@ -23,10 +31,22 @@ const LoginWhitEmail = () => {
           ? "Si ya tienes cuenta, haz clic en `Iniciar Sesión`"
           : "Si no tienes cuenta, haz clic en `Registrarme`"}
       </h3>
-      <button type="button" onClick={() => setRegistrando(!registrando)}>
-        {registrando ? "Iniciar Sesión" : "Registrarme"}
-      </button>
-      <h4>{registrando ? "Registrando:" : "Inicio de sesión:"}</h4>
+      <div className="toggle-btn-container">
+        <button
+          type="button"
+          className={`toggle-btn ${registrando ? "" : "selected"}`}
+          onClick={() => setRegistrando(false)}
+        >
+          Ingresar
+        </button>
+        <button
+          type="button"
+          className={`toggle-btn ${registrando ? "selected" : ""}`}
+          onClick={() => setRegistrando(true)}
+        >
+          Registrarme
+        </button>
+      </div>
       <input
         type="email"
         name="email"
@@ -64,12 +84,19 @@ const LoginWhitEmail = () => {
         <span className="form-error-login">{error.errorRegex}</span>
       )}
 
-      <button type="submit">{registrando ? "Registrarme" : "Ingresar"}</button>
-      <h6>
-        Si olvidó su contraseña ingrese su email y haga click en el siguiente
-        botón para recibir un correo y reestablecer su contraseña:
-      </h6>
-      <button type="button" onClick={() => handlePasswordReset(email)}>
+      <button className="btn-loginwhitemail" type="submit">
+        {registrando ? "Registrarme" : "Ingresar"}
+      </button>
+
+      <p className="p-recuperar">
+        Ingresa tu email y haz clic para restablecer tu contraseña:
+      </p>
+
+      <button
+        className="btn-loginwhitemail-recuperar"
+        type="button"
+        onClick={() => handlePasswordReset(email)}
+      >
         Recuperar contraseña
       </button>
     </form>

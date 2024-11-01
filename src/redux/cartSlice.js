@@ -9,7 +9,8 @@ const cartSlice = createSlice({
     //el action tiene el nombre de la accion. y el payload el valor que le está pegando a la data.
     agregarProducto: (state, action) => {
       const productoExistente = state.items.find(
-        (item) => item.id === action.payload.id // Asegúrate de que action.payload.id tenga un valor
+        (item) => item.id === action.payload.id, // Asegúrate de que action.payload.id tenga un valor
+        console.log(action.payload)
       );
 
       if (productoExistente) {

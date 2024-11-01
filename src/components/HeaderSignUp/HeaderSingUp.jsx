@@ -14,6 +14,8 @@ const HeaderSingUp = () => {
   const [userLogin, setUserLogin] = useState(null);
   const [userMail, setUserMail] = useState(null);
 
+  const [isOpenLogin, modalLogin, closeModalLogin] = useModal(false);
+
   const { openModalAuth, userEmailVerified, setUserEmailVerified } =
     useContext(AuthContext);
 
@@ -43,8 +45,6 @@ const HeaderSingUp = () => {
     return () => unsubscribe();
   }, [setUserEmailVerified]);
 
-  const [isOpenLogin, modalLogin, closeModalLogin] = useModal(false);
-
   const handleLogIn = () => {
     openModalAuth();
   };
@@ -67,7 +67,11 @@ const HeaderSingUp = () => {
   return (
     <header className="header">
       <div className="header-container">
-        <LogoNav />
+        <div className="aviso-header">
+          <p>Envios gratis a partir de $100!</p>
+        </div>
+
+        {/* <LogoNav /> */}
 
         {userLogin ? (
           <div className="user-logeado-div">

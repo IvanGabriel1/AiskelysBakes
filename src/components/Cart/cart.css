@@ -105,7 +105,8 @@
   font-weight: 500;
 }
 
-.cart-summary span {
+.cart-summary-subtotal,
+.cart-summary-total {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -141,6 +142,10 @@
   color: var(--first-color);
   font-size: var(--step--2);
   text-decoration: underline;
+}
+
+.envio-gratis-logrado {
+  color: var(--correct-color);
 }
 /*  */
 

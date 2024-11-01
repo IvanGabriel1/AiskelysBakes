@@ -3,7 +3,39 @@
   border-radius: 0.2rem;
   margin: 0.5rem;
   max-width: 350px;
+  height: 100%;
 }
+
+.card-product-picture {
+  position: relative;
+  display: inline-block;
+}
+
+.card-product-picture-img {
+  width: 100%;
+  height: auto;
+}
+
+.card-product-picture span {
+  position: absolute;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.card-product-picture-spanmayorista {
+  font-size: var(--step--3);
+  top: 0.5rem;
+  left: 10px;
+}
+
+.card-product-picture-span {
+  font-size: var(--step--3);
+  bottom: 0.5rem;
+  left: 10px;
+}
+
 /*
 .card-product-picture-img {
   max-height: 400px;
@@ -29,8 +61,8 @@
 .card-product-price {
   margin-left: 0.25rem;
   font-size: var(--step--2);
-  line-height: 5px;
   text-align: left;
+  min-height: 2rem;
 }
 
 .card-product-footer {

@@ -14,6 +14,10 @@ const Cart = () => {
   const [zonasData, setZonasData] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [zonaShippingCost, setZonaShippingCost] = useState("");
+  const cart = useSelector((state) => state.cart);
+  const envioGratis = 100;
+
+  // Ahora puedes utilizar `cart` en tu componente
 
   useEffect(() => {
     if (items.length > 0) {
@@ -51,10 +55,13 @@ const Cart = () => {
           product.cantidad >= 36) ||
         (product.categoria.toLowerCase() === "torta" && product.cantidad >= 3);
 
-      const sumaTotal = isMayorista
-        ? product.precioMayorista * product.cantidad
-        : product.precioMinorista * product.cantidad;
+      // Aplica el descuento adecuado si existe
+      const precioAplicable = isMayorista
+        ? product.precioMayorista *
+          (1 - (product.descuentoMayorista || 0) / 100) // Aplica descuento mayorista si existe
+        : product.precioMinorista * (1 - (product.descuento || 0) / 100); // Aplica descuento minorista si existe
 
+      const sumaTotal = precioAplicable * product.cantidad;
       return acc + sumaTotal;
     }, 0);
   };
@@ -81,7 +88,10 @@ const Cart = () => {
     setZonaShippingCost(zona);
   };
 
-  const sumaFinal = calcularSubtotal() + shippingCost;
+  const sumaFinal =
+    calcularSubtotal() >= envioGratis
+      ? calcularSubtotal()
+      : calcularSubtotal() + shippingCost;
 
   return (
     <div className="cart-component-container">
@@ -138,9 +148,31 @@ const Cart = () => {
                     </p>
 
                     <div className="cart-product-quantity">
-                      <p>Precio Minorista: ${product.precioMinorista}</p>
+                      {product.descuento ? (
+                        <p>
+                          Precio Minorista: $ <s>{product.precioMinorista}</s> /{" "}
+                          {product.precioMinorista -
+                            product.precioMinorista *
+                              (product.descuento / 100).toFixed(2)}{" "}
+                          usd.
+                        </p>
+                      ) : (
+                        <p>Precio Minorista: ${product.precioMinorista} usd.</p>
+                      )}
 
-                      <p>Precio Mayorista: ${product.precioMayorista}</p>
+                      {product.descuentoMayorista ? (
+                        <p>
+                          Precio Mayorista: $ <s>{product.precioMayorista}</s>/{" "}
+                          {(
+                            product.precioMayorista -
+                            product.precioMayorista *
+                              (product.descuentoMayorista / 100)
+                          ).toFixed(2)}{" "}
+                          usd.
+                        </p>
+                      ) : (
+                        <p>Precio Mayorista: ${product.precioMayorista} usd.</p>
+                      )}
 
                       <QuantityButtons
                         id={product.id}
@@ -150,16 +182,22 @@ const Cart = () => {
                         cantidad={product.cantidad}
                         img={product.img}
                         categoria={product.categoria}
+                        descuento={product.descuento}
+                        descuentoMayorista={product.descuentoMayorista}
                       />
 
                       <span className="cart-item-total">
                         <strong>Total: </strong>$
                         {isMayorista
                           ? (
-                              product.precioMayorista * product.cantidad
+                              product.precioMayorista *
+                              (1 - (product.descuentoMayorista || 0) / 100) *
+                              product.cantidad
                             ).toFixed(2)
                           : (
-                              product.precioMinorista * product.cantidad
+                              product.precioMinorista *
+                              (1 - (product.descuento || 0) / 100) *
+                              product.cantidad
                             ).toFixed(2)}
                       </span>
                     </div>
@@ -175,11 +213,23 @@ const Cart = () => {
               );
             })}
           </ul>
+
           <section className="cart-summary">
             <h3>Totales del carrito</h3>
             <span className="cart-summary-subtotal">
               Subtotal: ${calcularSubtotal().toFixed(2)}
             </span>
+
+            <p className="cart-summary-p-envio">
+              Envio gratis a partir de $ {envioGratis}!
+            </p>
+
+            {calcularSubtotal() >= envioGratis ? (
+              <span className="envio-gratis-logrado">🎊Envio Gratis!🎊</span>
+            ) : (
+              ""
+            )}
+
             <p className="cart-summary-p-envio">Calcular el costo de envio:</p>
             <Accordion
               title="Seleccione una zona"
@@ -191,7 +241,9 @@ const Cart = () => {
                 {zonaShippingCost} - $ {shippingCost}
               </p>
             ) : null}
-            <span className="cart-summary-total">Total: ${sumaFinal}</span>
+            <span className="cart-summary-total">
+              Total: ${sumaFinal.toFixed(2)}
+            </span>
           </section>
         </section>
       )}

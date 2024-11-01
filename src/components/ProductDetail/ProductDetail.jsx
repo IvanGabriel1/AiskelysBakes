@@ -84,7 +84,7 @@ const ProductDetail = () => {
         <Spinner />
       ) : (
         <div>
-          {product ? ( // Asegurarse de que product no sea null antes de acceder a sus propiedades
+          {product ? (
             <>
               <p className="prod-detail-prod-nombre">
                 <strong>{product.nombre}</strong>
@@ -104,12 +104,35 @@ const ProductDetail = () => {
                   </p>
 
                   <section className="prod-detail-price-section">
-                    <p className="prod-detail-price">
-                      Precio Minorista: ${product.precioMinorista} usd.
-                    </p>
-                    <p className="prod-detail-price">
-                      Precio Mayorista: ${product.precioMayorista} usd.
-                    </p>
+                    {product.descuento ? (
+                      <p className="prod-detail-price">
+                        Precio Minorista: $ <s>{product.precioMinorista}</s> /{" "}
+                        {product.precioMinorista -
+                          product.precioMinorista *
+                            (product.descuento / 100).toFixed(2)}{" "}
+                        usd.
+                      </p>
+                    ) : (
+                      <p className="prod-detail-price">
+                        Precio Minorista: ${product.precioMinorista} usd.
+                      </p>
+                    )}
+
+                    {product.descuentoMayorista ? (
+                      <p className="prod-detail-price">
+                        Precio Mayorista: $ <s>{product.precioMayorista}</s> /{" "}
+                        {(
+                          product.precioMayorista -
+                          product.precioMayorista *
+                            (product.descuentoMayorista / 100)
+                        ).toFixed(2)}{" "}
+                        usd.
+                      </p>
+                    ) : (
+                      <p className="prod-detail-price">
+                        Precio Mayorista: ${product.precioMayorista} usd.
+                      </p>
+                    )}
                     <QuantityButtons
                       id={product.id}
                       nombre={product.nombre}
@@ -118,16 +141,32 @@ const ProductDetail = () => {
                       cantidad={cantidad}
                       img={product.img}
                       categoria={product.categoria}
+                      descuento={product.descuento}
+                      descuentoMayorista={product.descuentoMayorista}
                     />
                     {isMayorista ? (
                       <span>
-                        <strong>Mayorista! Total:</strong> $
-                        {(product.precioMayorista * cantidad).toFixed(2)}
+                        <strong>Mayorista! Total:</strong>
+                        {product.descuentoMayorista
+                          ? (
+                              (product.precioMayorista -
+                                product.precioMayorista *
+                                  (product.descuentoMayorista / 100)) *
+                              cantidad
+                            ).toFixed(2)
+                          : (product.precioMayorista * cantidad).toFixed(2)}
                       </span>
                     ) : (
                       <span>
                         <strong>Minorista! Total:</strong> $
-                        {(product.precioMinorista * cantidad).toFixed(2)}
+                        {product.descuento
+                          ? (
+                              (product.precioMinorista -
+                                product.precioMinorista *
+                                  (product.descuento / 100)) *
+                              cantidad
+                            ).toFixed(2)
+                          : (product.precioMinorista * cantidad).toFixed(2)}
                       </span>
                     )}
                   </section>
