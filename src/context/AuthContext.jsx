@@ -166,6 +166,36 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const resendVerificationMail = async () => {
+    const user = auth.currentUser;
+
+    if (user) {
+      await sendEmailVerification(user);
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Por favor verifica tu correo",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      await user.reload();
+      setUserEmailVerified(user.emailVerified);
+    } else {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "No hay un usuario logueado",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+
+    await user.reload();
+    setUserEmailVerified(user.emailVerified);
+  };
+
   const data = {
     handleAuthentication,
     registrando,
@@ -181,6 +211,7 @@ const AuthProvider = ({ children }) => {
     handlePasswordReset,
     closeModalAuthFn,
     closeModalAuthState: closeModalAuth,
+    resendVerificationMail,
   };
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;

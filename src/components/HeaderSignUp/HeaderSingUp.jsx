@@ -16,8 +16,12 @@ const HeaderSingUp = () => {
 
   const [isOpenLogin, modalLogin, closeModalLogin] = useModal(false);
 
-  const { openModalAuth, userEmailVerified, setUserEmailVerified } =
-    useContext(AuthContext);
+  const {
+    openModalAuth,
+    userEmailVerified,
+    setUserEmailVerified,
+    resendVerificationMail,
+  } = useContext(AuthContext);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -86,9 +90,14 @@ const HeaderSingUp = () => {
             {userEmailVerified ? (
               <h5 className="user-verified">Usuario verificado.</h5>
             ) : (
-              <h5 className="user-no-verified">
-                Verifique su usuario desde su correo electronico.
-              </h5>
+              <div>
+                <h5 className="user-no-verified">
+                  Verifique su usuario desde su correo electronico.
+                </h5>
+                <button onClick={() => resendVerificationMail()}>
+                  Reenviar mail
+                </button>
+              </div>
             )}
             <button
               className="change-password-btn"

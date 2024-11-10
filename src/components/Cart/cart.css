@@ -87,6 +87,25 @@
   margin: 0.5rem;
 }
 
+/* Btn vaciar carrito */
+
+.btn-empty-cart {
+  color: var(--white-color);
+  background-color: var(--error-color);
+  padding: 0.3rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: var(--step--1);
+  white-space: nowrap;
+  display: inline-block;
+  cursor: pointer;
+  margin-bottom: 0.25rem;
+}
+
+.btn-empty-cart:hover {
+  opacity: 0.5;
+}
+
 /* Cart Summary: */
 .cart-summary {
   display: flex;

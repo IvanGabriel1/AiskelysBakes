@@ -5,7 +5,9 @@ import {
   saveCartInLocalStorage,
 } from "../localStorage";
 
-const preloadedState = loadCartFromLocalStorage();
+const preloadedState = {
+  cart: loadCartFromLocalStorage(),
+};
 
 const store = configureStore({
   reducer: {
@@ -14,8 +16,9 @@ const store = configureStore({
   preloadedState,
 });
 
+// Suscribirse a los cambios del store para guardar el carrito en localStorage
 store.subscribe(() => {
-  saveCartInLocalStorage(store.getState().cart);
+  saveCartInLocalStorage(store.getState());
 });
 
 export default store;

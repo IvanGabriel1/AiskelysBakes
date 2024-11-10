@@ -9,20 +9,20 @@ const cartSlice = createSlice({
     //el action tiene el nombre de la accion. y el payload el valor que le está pegando a la data.
     agregarProducto: (state, action) => {
       const productoExistente = state.items.find(
-        (item) => item.id === action.payload.id, // Asegúrate de que action.payload.id tenga un valor
-        console.log(action.payload)
+        (item) => item.id === action.payload.id // Asegúrate de que action.payload.id tenga un valor
       );
 
       if (productoExistente) {
         productoExistente.cantidad += 1;
+        console.log(productoExistente.cantidad);
       } else {
         state.items.push({ ...action.payload, cantidad: 1 });
-        console.log(state.items); // Para ver los productos que se están agregando
       }
     },
 
     quitarProducto: (state, action) => {
       const product = state.items.find((item) => item.id === action.payload.id);
+      console.log("asd", action.payload);
 
       if (product) {
         if (product.cantidad > 1) {
@@ -44,6 +44,7 @@ const cartSlice = createSlice({
       const productoAQuitar = state.items.find(
         (item) => item.id === action.payload.id
       );
+      console.log(productoAQuitar);
 
       if (productoAQuitar) {
         state.items = state.items.filter(
@@ -51,6 +52,10 @@ const cartSlice = createSlice({
         );
         productoAQuitar.cantidad = 0;
       }
+    },
+
+    vaciarCarrito: (state) => {
+      state.items = [];
     },
   },
 });
@@ -60,7 +65,11 @@ export const selectProductQuantity = (state, productId) => {
   return productInCart ? productInCart.cantidad : 0;
 };
 
-export const { agregarProducto, quitarProducto, retirarItemCarrito } =
-  cartSlice.actions;
+export const {
+  agregarProducto,
+  quitarProducto,
+  retirarItemCarrito,
+  vaciarCarrito,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

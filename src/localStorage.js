@@ -1,23 +1,22 @@
 export const saveCartInLocalStorage = (state) => {
   try {
-    const estadoSerial = JSON.stringify(state);
-    localStorage.setItem("cart", estadoSerial);
+    const estadoSerializado = JSON.stringify(state.cart); // Guardar solo el estado del carrito
+    localStorage.setItem("cart", estadoSerializado);
   } catch (error) {
-    console.error("No se pudo guardar el estado en localStorage", error);
+    console.error("No se pudo guardar el estado en localStorage:", error);
   }
 };
 
+// Cargar el carrito desde localStorage
 export const loadCartFromLocalStorage = () => {
   try {
-    const estadoSerial = localStorage.getItem("cart");
-    if (estadoSerial === null) {
-      return undefined; // Si no hay nada en localStorage, devolvemos `undefined` para usar el estado inicial
+    const estadoSerializado = localStorage.getItem("cart");
+    if (estadoSerializado === null) {
+      return { items: [] }; // Retornar un estado inicial vacío si no hay nada en localStorage
     }
-    return {
-      cart: JSON.parse(estadoSerial), // Asegurarnos de que el estado cargado esté bajo la clave 'cart'
-    };
+    return JSON.parse(estadoSerializado);
   } catch (error) {
     console.error("No se pudo cargar el estado desde localStorage:", error);
-    return undefined;
+    return { items: [] }; // En caso de error, retornar un estado inicial vacío
   }
 };
