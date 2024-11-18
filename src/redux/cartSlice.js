@@ -57,6 +57,10 @@ const cartSlice = createSlice({
     vaciarCarrito: (state) => {
       state.items = [];
     },
+
+    actualizarProductosEnCarrito(state, action) {
+      state.items = action.payload;
+    },
   },
 });
 
@@ -70,6 +74,7 @@ export const {
   quitarProducto,
   retirarItemCarrito,
   vaciarCarrito,
+  actualizarProductosEnCarrito,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -135,10 +135,9 @@
   color: white;
   height: 2rem;
 }
+
 .cart-summary-total {
   font-weight: 600;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
 }
 
 .cart-summary-subtotal {
@@ -166,6 +165,18 @@
 .envio-gratis-logrado {
   color: var(--correct-color);
 }
+
+.btn-go-to-pay {
+  color: var(--white-color);
+  background-color: var(--first-color);
+  padding: 0.5rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: var(--step--1);
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
 /*  */
 
 @media screen and (min-width: 500px) {

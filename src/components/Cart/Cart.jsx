@@ -1,11 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
-import { retirarItemCarrito, vaciarCarrito } from "../../redux/cartSlice";
+import {
+  agregarProducto,
+  retirarItemCarrito,
+  actualizarProductosEnCarrito,
+  vaciarCarrito,
+} from "../../redux/cartSlice";
 import Swal from "sweetalert2";
 import QuantityButtons from "../QuantityButtons/QuantityButtons";
 import { Link } from "react-router-dom";
 import Accordion from "../Accordion/Accordion";
+import AuthContext from "../../context/AuthContext";
+import { auth, db } from "../../config/Firebase";
+import { collection, getDocs } from "firebase/firestore";
+// import { getProductsFromFirebase } from "../firebase";
 
 const Cart = () => {
   const items = useSelector((state) => state.cart.items);
@@ -14,8 +23,12 @@ const Cart = () => {
   const [zonasData, setZonasData] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [zonaShippingCost, setZonaShippingCost] = useState("");
+  // const [avisoCambioPrecios, setAvisoCambioPrecios] = useState(false);
   const cart = useSelector((state) => state.cart);
   const envioGratis = 100;
+  const compraMinima = 20;
+
+  const { userEmailVerified } = useContext(AuthContext);
 
   // Ahora puedes utilizar `cart` en tu componente
 
@@ -45,6 +58,55 @@ const Cart = () => {
       .catch((error) => console.error("Error al cargar zonas:", error));
     console.log(zonasData);
   }, []);
+
+  useEffect(() => {
+    const sincronizarProductosCarrito = async () => {
+      try {
+        const productosRef = collection(db, "productos");
+        const snapshot = await getDocs(productosRef);
+        const firebaseProductos = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // Actualiza los productos sólo si hay cambios
+        const productosActualizados = items.map((item) => {
+          const productoFirebase = firebaseProductos.find(
+            (prod) => prod.id === item.id
+          );
+
+          if (productoFirebase) {
+            return {
+              ...item,
+              precioMinorista: productoFirebase.precioMinorista,
+              precioMayorista: productoFirebase.precioMayorista,
+              descuento: productoFirebase.descuento || 0,
+              descuentoMayorista: productoFirebase.descuentoMayorista || 0,
+            };
+          }
+
+          return item;
+        });
+
+        // Compara los productos actuales con los nuevos para evitar actualizaciones innecesarias
+        if (JSON.stringify(productosActualizados) !== JSON.stringify(items)) {
+          dispatch(actualizarProductosEnCarrito(productosActualizados));
+          Swal.fire({
+            title: "Carrito actualizado",
+            text: "Los productos en el carrito han sido modificados.",
+            icon: "warning", //info / warning
+            confirmButtonText: "Aceptar",
+            timer: 3000,
+            timerProgressBar: true,
+          });
+        }
+      } catch (error) {
+        console.error("Error al sincronizar productos del carrito:", error);
+      }
+    };
+
+    sincronizarProductosCarrito();
+  }, [items, dispatch]);
 
   const calcularSubtotal = () => {
     return items.reduce((acc, product) => {
@@ -111,9 +173,59 @@ const Cart = () => {
       ? calcularSubtotal()
       : calcularSubtotal() + shippingCost;
 
+  //btn Ir a pagar:
+  const handlePay = async () => {
+    const user = auth.currentUser;
+
+    if (sumaFinal < compraMinima) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "El monto de la compra es menor al monto mínimo",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return; // Salir de la función si no cumple el mínimo de compra
+    }
+
+    if (!user) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Debes iniciar sesión para continuar",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      return;
+    }
+
+    await user.reload();
+
+    if (!user.emailVerified) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Tienes que validar el email primero",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return;
+    }
+
+    console.log(
+      "El usuario está logueado, con email verificado, y el monto cumple con el mínimo. OK"
+    );
+  };
+
   return (
     <div className="cart-component-container">
       <h2 className="title">Carrito de compras</h2>
+      {/* {avisoCambioPrecios ? (
+        <h5>Algunos productos actualizaron sus condiciones</h5>
+      ) : (
+        " "
+      )} */}
       {items.length === 0 ? (
         <article>
           <h2>No tienes productos en el carrito</h2>
@@ -278,6 +390,10 @@ const Cart = () => {
             <span className="cart-summary-total">
               Total: ${sumaFinal.toFixed(2)}
             </span>
+
+            <button className="btn-go-to-pay" onClick={() => handlePay()}>
+              Ir a Pagar
+            </button>
           </section>
         </section>
       )}
