@@ -169,12 +169,33 @@
 .btn-go-to-pay {
   color: var(--white-color);
   background-color: var(--first-color);
-  padding: 0.5rem;
   border-radius: 1rem;
   border: none;
   font-size: var(--step--1);
   cursor: pointer;
   margin: 0.5rem;
+  height: 2.5rem;
+  width: 10rem;
+}
+
+.btn-go-to-pay-spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: auto;
+  border-radius: 50%;
+  border: 0.5vw solid rgba(0, 0, 0, 0.1);
+  border-left-color: var(--white-color);
+  animation: spinnerBtnPay 1s ease-out infinite;
+}
+
+@keyframes spinnerBtnPay {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /*  */

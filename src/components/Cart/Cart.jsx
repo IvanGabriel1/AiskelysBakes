@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  agregarProducto,
   retirarItemCarrito,
   actualizarProductosEnCarrito,
   vaciarCarrito,
@@ -14,17 +13,21 @@ import Accordion from "../Accordion/Accordion";
 import AuthContext from "../../context/AuthContext";
 import { auth, db } from "../../config/Firebase";
 import { collection, getDocs } from "firebase/firestore";
-// import { getProductsFromFirebase } from "../firebase";
+import { useModal } from "../../hooks/useModal";
+import ModalPay from "../ModalPay/ModalPay";
 
 const Cart = () => {
   const items = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [isMayorista, setIsMayorista] = useState(false);
   const [zonasData, setZonasData] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [zonaShippingCost, setZonaShippingCost] = useState("");
-  // const [avisoCambioPrecios, setAvisoCambioPrecios] = useState(false);
   const cart = useSelector((state) => state.cart);
+
+  const [isOpenModalPay, openModalPay, closeModalPay] = useModal(false);
+
   const envioGratis = 100;
   const compraMinima = 20;
 
@@ -59,54 +62,67 @@ const Cart = () => {
     console.log(zonasData);
   }, []);
 
+  //Aviso Por el momento solo aceptamos pagos por transferencia:
   useEffect(() => {
-    const sincronizarProductosCarrito = async () => {
-      try {
-        const productosRef = collection(db, "productos");
-        const snapshot = await getDocs(productosRef);
-        const firebaseProductos = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+    Swal.fire({
+      title: "Forma de pago",
+      text: "Por el momento solo aceptamos pagos por transferencia",
+      icon: "info",
+      confirmButtonText: "Aceptar",
+      timer: 6000,
+      timerProgressBar: true,
+    });
+  }, []);
 
-        // Actualiza los productos sólo si hay cambios
-        const productosActualizados = items.map((item) => {
-          const productoFirebase = firebaseProductos.find(
-            (prod) => prod.id === item.id
-          );
+  // Funcion actualiza productos con el carrito
+  const sincronizarProductosCarrito = async () => {
+    try {
+      const productosRef = collection(db, "productos");
+      const snapshot = await getDocs(productosRef);
+      const firebaseProductos = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-          if (productoFirebase) {
-            return {
-              ...item,
-              precioMinorista: productoFirebase.precioMinorista,
-              precioMayorista: productoFirebase.precioMayorista,
-              descuento: productoFirebase.descuento || 0,
-              descuentoMayorista: productoFirebase.descuentoMayorista || 0,
-            };
-          }
+      // Actualiza los productos sólo si hay cambios
+      const productosActualizados = items.map((item) => {
+        const productoFirebase = firebaseProductos.find(
+          (prod) => prod.id === item.id
+        );
 
-          return item;
-        });
-
-        // Compara los productos actuales con los nuevos para evitar actualizaciones innecesarias
-        if (JSON.stringify(productosActualizados) !== JSON.stringify(items)) {
-          dispatch(actualizarProductosEnCarrito(productosActualizados));
-          Swal.fire({
-            title: "Carrito actualizado",
-            text: "Los productos en el carrito han sido modificados.",
-            icon: "warning", //info / warning
-            confirmButtonText: "Aceptar",
-            timer: 3000,
-            timerProgressBar: true,
-          });
+        if (productoFirebase) {
+          return {
+            ...item,
+            precioMinorista: productoFirebase.precioMinorista,
+            precioMayorista: productoFirebase.precioMayorista,
+            descuento: productoFirebase.descuento || 0,
+            descuentoMayorista: productoFirebase.descuentoMayorista || 0,
+          };
         }
-      } catch (error) {
-        console.error("Error al sincronizar productos del carrito:", error);
-      }
-    };
 
+        return item;
+      });
+
+      // Compara los productos actuales con los nuevos para evitar actualizaciones innecesarias
+      if (JSON.stringify(productosActualizados) !== JSON.stringify(items)) {
+        dispatch(actualizarProductosEnCarrito(productosActualizados));
+        Swal.fire({
+          title: "Carrito actualizado",
+          text: "Se ha actualizado el carrito",
+          icon: "info", //info / warning
+          confirmButtonText: "Aceptar",
+          timer: 2000,
+          timerProgressBar: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error al sincronizar productos del carrito:", error);
+    }
+  };
+  // Ejecutamos funcion actualiza productos:
+  useEffect(() => {
     sincronizarProductosCarrito();
-  }, [items, dispatch]);
+  }, [items]);
 
   const calcularSubtotal = () => {
     return items.reduce((acc, product) => {
@@ -175,8 +191,18 @@ const Cart = () => {
 
   //btn Ir a pagar:
   const handlePay = async () => {
+    setLoading(true);
+    // Verifica sincronización antes de continuar
+    const sincronizacionExitosa = await sincronizarProductosCarrito();
+    if (sincronizacionExitosa) {
+      // Antes estaba (!sincronizacionExitosa)
+      setLoading(false);
+      return;
+    }
+
     const user = auth.currentUser;
 
+    // Validaciones de usuario y montos
     if (sumaFinal < compraMinima) {
       Swal.fire({
         position: "center",
@@ -185,7 +211,8 @@ const Cart = () => {
         showConfirmButton: false,
         timer: 2000,
       });
-      return; // Salir de la función si no cumple el mínimo de compra
+      setLoading(false);
+      return;
     }
 
     if (!user) {
@@ -196,7 +223,7 @@ const Cart = () => {
         showConfirmButton: false,
         timer: 2000,
       });
-
+      setLoading(false);
       return;
     }
 
@@ -210,22 +237,21 @@ const Cart = () => {
         showConfirmButton: false,
         timer: 2000,
       });
+      setLoading(false);
       return;
     }
 
-    console.log(
-      "El usuario está logueado, con email verificado, y el monto cumple con el mínimo. OK"
-    );
+    setLoading(false);
+    console.log("Pago permitido. Proceder con el flujo de pago.");
+
+    openModalPay();
+    // Lógica para realizar el pago (pendiente de implementar)
   };
 
   return (
     <div className="cart-component-container">
       <h2 className="title">Carrito de compras</h2>
-      {/* {avisoCambioPrecios ? (
-        <h5>Algunos productos actualizaron sus condiciones</h5>
-      ) : (
-        " "
-      )} */}
+      {compraMinima ? <h5>La compra minima es de $ {compraMinima}.-</h5> : " "}
       {items.length === 0 ? (
         <article>
           <h2>No tienes productos en el carrito</h2>
@@ -392,9 +418,17 @@ const Cart = () => {
             </span>
 
             <button className="btn-go-to-pay" onClick={() => handlePay()}>
-              Ir a Pagar
+              {loading ? (
+                <div className="btn-go-to-pay-spinner" />
+              ) : (
+                "Ir a pagar"
+              )}
             </button>
           </section>
+
+          {isOpenModalPay ? (
+            <ModalPay closeModal={closeModalPay} sumaFinal={sumaFinal} />
+          ) : null}
         </section>
       )}
     </div>
