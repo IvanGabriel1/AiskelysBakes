@@ -4,9 +4,9 @@ import Swal from "sweetalert2";
 import "./contactform.css";
 
 const initialForm = {
-  name: "",
-  email: "",
-  comments: "",
+  from_name: "",
+  email_id: "",
+  message: "",
 };
 
 const validationsForm = (form) => {
@@ -15,22 +15,23 @@ const validationsForm = (form) => {
   let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
   let regexComments = /^.{1,255}$/;
 
-  if (!form.name.trim()) {
-    errors.name = "El campo de nombre es requerido";
-  } else if (!regexName.test(form.name.trim())) {
-    errors.name = "El campo `Nombre` solo acepta letras y espacios en blanco";
+  if (!form.from_name.trim()) {
+    errors.from_name = "El campo de nombre es requerido";
+  } else if (!regexName.test(form.from_name.trim())) {
+    errors.from_name =
+      "El campo `Nombre` solo acepta letras y espacios en blanco";
   }
 
-  if (!form.email.trim()) {
-    errors.email = "El campo Email es requerido";
-  } else if (!regexEmail.test(form.email.trim())) {
-    errors.email = "El campo `Email` es incorrecto";
+  if (!form.email_id.trim()) {
+    errors.email_id = "El campo Email es requerido";
+  } else if (!regexEmail.test(form.email_id.trim())) {
+    errors.email_id = "El campo `Email` es incorrecto";
   }
 
-  if (!form.comments.trim()) {
-    errors.comments = "El campo `Comentarios` es requerido";
-  } else if (!regexComments.test(form.comments.trim())) {
-    errors.comments =
+  if (!form.message.trim()) {
+    errors.message = "El campo `Comentarios` es requerido";
+  } else if (!regexComments.test(form.message.trim())) {
+    errors.message =
       "El campo `Comentarios` no debe exceder los 255 caracteres";
   }
 
@@ -50,16 +51,21 @@ const ContactForm = () => {
     });
   };
 
-  const service = "service_mfmpscg";
+  const service = "service_contact";
   const templateID = "template_1jyyg2h";
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const validationErrors = validationsForm(form);
     setErrors(validationErrors);
 
+    console.log(validationErrors); // Para depurar
+
     if (Object.keys(validationErrors).length === 0) {
       setIsSubmitting(true);
+
+      console.log(form); // Para verificar los valores antes de enviarlos
 
       emailjs
         .sendForm(service, templateID, formRef.current, "WYVJMvEJlHQIHxScZ")
@@ -74,6 +80,7 @@ const ContactForm = () => {
               timer: 1500,
             });
             setForm(initialForm);
+            setErrors({}); // Limpiar errores al enviar
             setTimeout(() => setIsSubmitting(false), 1500);
           },
           (error) => {
@@ -89,43 +96,54 @@ const ContactForm = () => {
 
   return (
     <>
-      <form ref={formRef} className="contact-form" onSubmit={handleSubmit}>
+      <form
+        ref={formRef}
+        className="contact-form"
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <input
           className="btn-form"
           type="text"
-          name="name"
+          name="from_name"
+          id="from_name"
           placeholder="Ingresá tu nombre *"
           onChange={handleChange}
-          value={form.name}
+          value={form.from_name}
           required
         />
-        {errors.name && <span className="form-error">{errors.name}</span>}
+        {errors.from_name && (
+          <span className="form-error">{errors.from_name}</span>
+        )}
         <input
           className="btn-form"
           type="email"
-          name="email"
+          name="email_id"
+          id="email_id"
           placeholder="Ingresá tu email *"
           onChange={handleChange}
-          value={form.email}
+          value={form.email_id}
           required
         />
-        {errors.email && <span className="form-error">{errors.email}</span>}
+        {errors.email_id && (
+          <span className="form-error">{errors.email_id}</span>
+        )}
         <textarea
-          name="comments"
+          name="message"
+          id="message"
           cols="50"
           rows="10"
           placeholder="Dejáme tus comentarios"
           onChange={handleChange}
-          value={form.comments}
+          value={form.message}
           required
         />
-        {errors.comments && (
-          <span className="form-error">{errors.comments}</span>
-        )}
+        {errors.message && <span className="form-error">{errors.message}</span>}
         <input
           type="submit"
           className="btn-enviar"
           value="ENVIAR"
+          id="button"
           disabled={isSubmitting}
         />
       </form>

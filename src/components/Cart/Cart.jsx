@@ -119,6 +119,7 @@ const Cart = () => {
       console.error("Error al sincronizar productos del carrito:", error);
     }
   };
+
   // Ejecutamos funcion actualiza productos:
   useEffect(() => {
     sincronizarProductosCarrito();
