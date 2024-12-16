@@ -4,10 +4,12 @@ import {
   signInWithEmailAndPassword,
   sendEmailVerification,
   sendPasswordResetEmail,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { createContext, useState } from "react";
-import appFirebase from "../config/Firebase";
+import { createContext, useEffect, useState } from "react";
+import appFirebase, { db } from "../config/Firebase";
 import Swal from "sweetalert2";
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
 
 const auth = getAuth(appFirebase);
 
@@ -18,6 +20,9 @@ const AuthProvider = ({ children }) => {
   const [registrando, setRegistrando] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [telephone, setTelephone] = useState(""); //asdasdas
+  const [nombre, setNombre] = useState(""); //asdasdas
+  const [apellido, setApellido] = useState(""); //asdasdas
   const [error, setError] = useState({});
   const [closeModalAuth, setCloseModalAuth] = useState(false);
 
@@ -27,13 +32,56 @@ const AuthProvider = ({ children }) => {
 
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user && user.emailVerified) {
+        try {
+          // Verificar si el usuario ya tiene datos guardados
+          const userDocRef = doc(db, "users", user.uid);
+          const userSnapshot = await getDoc(userDocRef);
+          const additionalUserInfo = JSON.parse(
+            localStorage.getItem("additionalUserInfo")
+          );
+
+          if (!userSnapshot.exists()) {
+            console.log("Datos que intentas guardar:", {
+              mail: user.email,
+              telefono: user.telephone,
+              nombre: user.nombre,
+              apellido: user.apellido,
+              emailVerified: true,
+            });
+            // Guardar los datos del usuario en Firestore
+            await setDoc(userDocRef, {
+              mail: user.email,
+              telefono:
+                additionalUserInfo?.telephone || "Teléfono no proporcionado",
+              nombre: additionalUserInfo?.nombre || "Nombre no proporcionado",
+              apellido:
+                additionalUserInfo?.apellido || "Apellido no proporcionado",
+              emailVerified: true,
+            });
+
+            localStorage.removeItem("additionalUserInfo");
+
+            console.log("Datos guardados exitosamente en Firestore");
+          }
+        } catch (error) {
+          console.error("Error al guardar los datos del usuario: ", error);
+        }
+      }
+    });
+
+    return () => unsubscribe(); // Limpia el listener cuando el componente se desmonta
+  }, []);
+
   /* estraido de LoginWhitEmail:*/
 
   const handleAuthentication = async (e) => {
     e.preventDefault();
     let errorsLogin = {};
 
-    // Validación
+    // Validaciónes de los input
     if (!email.trim()) {
       errorsLogin.email = "El campo Email es requerido";
     } else if (!regexEmail.test(email.trim())) {
@@ -46,6 +94,32 @@ const AuthProvider = ({ children }) => {
       errorsLogin.password = "La contraseña debe tener 6 o más caracteres";
     }
 
+    if (registrando) {
+      if (!telephone.trim()) {
+        errorsLogin.telephone = "El campo `Telefono` es requerido";
+      } else if (telephone.length < 10) {
+        errorsLogin.telephone = "El teléfono debe tener al menos 10 dígitos";
+      }
+    }
+
+    if (registrando) {
+      if (!nombre.trim()) {
+        errorsLogin.nombre = "El campo `Nombre` es requerido";
+      } else if (/\d/.test(nombre)) {
+        // Verifica si contiene números
+        errorsLogin.nombre = "El campo `Nombre` no debe contener números";
+      }
+    }
+
+    if (registrando) {
+      if (!apellido.trim()) {
+        errorsLogin.apellido = "El campo `Apellido` es requerido";
+      } else if (/\d/.test(apellido)) {
+        // Verifica si contiene números
+        errorsLogin.apellido = "El campo `Apellido` no debe contener números";
+      }
+    }
+
     // Si hay errores, actualiza el estado y detén la ejecución.
     if (Object.keys(errorsLogin).length > 0) {
       setError(errorsLogin);
@@ -55,12 +129,46 @@ const AuthProvider = ({ children }) => {
     try {
       if (registrando) {
         // Registro de usuario
+        // const userCredential = await createUserWithEmailAndPassword(
+        //   auth,
+        //   email,
+        //   password
+        // );
+        // const user = userCredential.user;
+
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
           password
         );
         const user = userCredential.user;
+
+        // Almacenar datos adicionales en localStorage o contexto temporal
+        localStorage.setItem(
+          "additionalUserInfo",
+          JSON.stringify({ nombre, apellido, telephone })
+        );
+
+        /**/
+
+        // const usersCollection = collection(db, "users");
+
+        // try {
+        //   await addDoc(usersCollection, {
+        //     mail: email,
+        //     telefono: telephone,
+        //     nombre: nombre,
+        //     apellido: apellido,
+        //   });
+        // } catch (firestoreError) {
+        //   console.error("Error al guardar en Firestore: ", firestoreError);
+        //   setError({
+        //     errorGeneral:
+        //       "Error al guardar en la base de datos. Intenta de nuevo.",
+        //   });
+        // }
+
+        /**/
 
         await sendEmailVerification(user);
 
@@ -110,12 +218,29 @@ const AuthProvider = ({ children }) => {
       setError({});
       setEmail("");
       setPassword("");
+      setTelephone("");
+      setNombre("");
+      setApellido("");
       setCloseModalAuth(false);
     } catch (error) {
       if (registrando) {
-        setError({
-          errorGeneral: "Error al registrar el usuario. Intenta de nuevo.",
-        });
+        if (error.code === "auth/email-already-in-use") {
+          setError({
+            errorGeneral: "El correo ya está en uso. Por favor utiliza otro.",
+          });
+        } else if (error.code === "auth/invalid-email") {
+          setError({
+            errorGeneral: "El correo proporcionado no es válido.",
+          });
+        } else if (error.code === "auth/weak-password") {
+          setError({
+            errorGeneral: "La contraseña debe tener al menos 6 caracteres.",
+          });
+        } else {
+          setError({
+            errorGeneral: "Error al registrar el usuario. Intenta de nuevo.",
+          });
+        }
       } else {
         if (error.code === "auth/user-not-found") {
           setError({
@@ -131,6 +256,26 @@ const AuthProvider = ({ children }) => {
       }
     }
   };
+
+  /* Funcion para agregar los datos del usuario en database coleccion "users" */
+
+  // const addDataColUsers = async () => {
+  //   const usersCollection = collection(db, "users");
+
+  //   try {
+  //     await addDoc(usersCollection, {
+  //       mail: email,
+  //       telefono: telephone,
+  //       nombre: nombre,
+  //       apellido: apellido,
+  //     });
+  //   } catch (firestoreError) {
+  //     console.error("Error al guardar en Firestore: ", firestoreError);
+  //     setError({
+  //       errorGeneral: "Error al guardar en la base de datos. Intenta de nuevo.",
+  //     });
+  //   }
+  // };
 
   /*  */
   const handlePasswordReset = async (email) => {
@@ -207,6 +352,12 @@ const AuthProvider = ({ children }) => {
     setEmail,
     setPassword,
     setRegistrando,
+    setTelephone,
+    telephone,
+    setNombre,
+    nombre,
+    setApellido,
+    apellido,
     openModalAuth,
     handlePasswordReset,
     closeModalAuthFn,

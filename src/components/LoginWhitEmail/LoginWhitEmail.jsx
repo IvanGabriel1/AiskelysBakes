@@ -8,6 +8,12 @@ const LoginWhitEmail = () => {
     handleAuthentication,
     registrando,
     email,
+    setTelephone,
+    telephone,
+    setNombre,
+    nombre,
+    setApellido,
+    apellido,
     error,
     password,
     setEmail,
@@ -57,6 +63,58 @@ const LoginWhitEmail = () => {
       />
 
       {error.email && <span className="form-error-login">{error.email}</span>}
+
+      {registrando ? (
+        <input
+          type="number"
+          name="telephone"
+          id="telephone"
+          value={telephone}
+          placeholder="Telefono"
+          onChange={(e) => setTelephone(e.target.value)}
+        />
+      ) : null}
+
+      {registrando
+        ? error.telephone && (
+            <span className="form-error-login">{error.telephone}</span>
+          )
+        : null}
+
+      {registrando ? (
+        <input
+          type="text"
+          name="nombre"
+          id="nombre"
+          value={nombre}
+          placeholder="Nombre"
+          onChange={(e) => setNombre(e.target.value)}
+        />
+      ) : null}
+
+      {registrando
+        ? error.nombre && (
+            <span className="form-error-login">{error.nombre}</span>
+          )
+        : null}
+
+      {registrando ? (
+        <input
+          type="text"
+          name="apellido"
+          id="apellido"
+          value={apellido}
+          placeholder="Apellido"
+          onChange={(e) => setApellido(e.target.value)}
+        />
+      ) : null}
+
+      {registrando
+        ? error.apellido && (
+            <span className="form-error-login">{error.apellido}</span>
+          )
+        : null}
+
       <input
         type="password"
         name="password"
@@ -88,17 +146,21 @@ const LoginWhitEmail = () => {
         {registrando ? "Registrarme" : "Ingresar"}
       </button>
 
-      <p className="p-recuperar">
-        Ingresa tu email y haz clic para restablecer tu contraseña:
-      </p>
+      {registrando ? null : (
+        <div>
+          <p className="p-recuperar">
+            Ingresa tu email y haz clic para restablecer tu contraseña:
+          </p>
 
-      <button
-        className="btn-loginwhitemail-recuperar"
-        type="button"
-        onClick={() => handlePasswordReset(email)}
-      >
-        Recuperar contraseña
-      </button>
+          <button
+            className="btn-loginwhitemail-recuperar"
+            type="button"
+            onClick={() => handlePasswordReset(email)}
+          >
+            Recuperar contraseña
+          </button>
+        </div>
+      )}
     </form>
   );
 };

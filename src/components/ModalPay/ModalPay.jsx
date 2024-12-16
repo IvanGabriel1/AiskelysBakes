@@ -1,11 +1,18 @@
 import React, { useContext, useState } from "react";
 import "./modalpay.css";
 import FormTransferencia from "../FormTransferencia/FormTransferencia";
-import AuthContext from "../../context/AuthContext";
+//import AuthContext from "../../context/AuthContext";
 
-const ModalPay = ({ closeModal, sumaFinal }) => {
+const ModalPay = ({
+  closeModal,
+  sumaFinal,
+  userEmailVerified,
+  telefono,
+  nombre,
+  apellido,
+}) => {
   const [optionPaySelected, setOptionSelected] = useState("transferencia");
-  const { email } = useContext(AuthContext);
+  //const { email } = useContext(AuthContext);
 
   const handlePaymentMethod = (valor) => {
     setOptionSelected(valor);
@@ -38,7 +45,13 @@ const ModalPay = ({ closeModal, sumaFinal }) => {
         </section>
 
         {optionPaySelected === "transferencia" ? (
-          <FormTransferencia email={email} />
+          <FormTransferencia
+            sumaFinal={sumaFinal}
+            userEmailVerified={userEmailVerified}
+            telefono={telefono}
+            nombre={nombre}
+            apellido={apellido}
+          />
         ) : null}
       </div>
     </div>

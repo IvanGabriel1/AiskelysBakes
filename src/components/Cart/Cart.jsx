@@ -12,9 +12,10 @@ import { Link } from "react-router-dom";
 import Accordion from "../Accordion/Accordion";
 import AuthContext from "../../context/AuthContext";
 import { auth, db } from "../../config/Firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, where, query } from "firebase/firestore";
 import { useModal } from "../../hooks/useModal";
 import ModalPay from "../ModalPay/ModalPay";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Cart = () => {
   const items = useSelector((state) => state.cart.items);
@@ -24,16 +25,19 @@ const Cart = () => {
   const [zonasData, setZonasData] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [zonaShippingCost, setZonaShippingCost] = useState("");
-  const cart = useSelector((state) => state.cart);
+  const [userData, setUserData] = useState({
+    telefono: "",
+    nombre: "",
+    apellido: "",
+  });
+  //const cart = useSelector((state) => state.cart);
 
   const [isOpenModalPay, openModalPay, closeModalPay] = useModal(false);
 
   const envioGratis = 100;
   const compraMinima = 20;
 
-  const { userEmailVerified } = useContext(AuthContext);
-
-  // Ahora puedes utilizar `cart` en tu componente
+  const { userEmailVerified, email } = useContext(AuthContext);
 
   useEffect(() => {
     if (items.length > 0) {
@@ -72,6 +76,62 @@ const Cart = () => {
       timer: 6000,
       timerProgressBar: true,
     });
+  }, []);
+
+  //obtener datos de firebase para el envio del mail:
+
+  const getAuthenticatedUserEmail = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      return user.email;
+    } else {
+      console.log("No hay ningún usuario autenticado.");
+      return null;
+    }
+  };
+  const getDataFromFirebase = async (email) => {
+    if (!email) {
+      console.error("Email no disponible.");
+      return null;
+    }
+
+    const userCollection = collection(db, "users");
+
+    try {
+      const busqueda = query(userCollection, where("mail", "==", email));
+      const queryBusqueda = await getDocs(busqueda);
+
+      if (!queryBusqueda.empty) {
+        const userDoc = queryBusqueda.docs[0];
+        const { telefono, nombre, apellido } = userDoc.data();
+        setUserData({ telefono, nombre, apellido });
+        console.log(
+          "Teléfono:",
+          telefono,
+          "Nombre:",
+          nombre,
+          "Apellido:",
+          apellido
+        );
+        return { telefono, nombre, apellido };
+      } else {
+        console.log("No se encontró ningún usuario con ese mail.");
+        return null;
+      }
+    } catch (err) {
+      console.error("Error al obtener los datos del usuario:", err);
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    const email = getAuthenticatedUserEmail();
+
+    if (email) {
+      getDataFromFirebase(email);
+    }
   }, []);
 
   // Funcion actualiza productos con el carrito
@@ -428,7 +488,14 @@ const Cart = () => {
           </section>
 
           {isOpenModalPay ? (
-            <ModalPay closeModal={closeModalPay} sumaFinal={sumaFinal} />
+            <ModalPay
+              closeModal={closeModalPay}
+              sumaFinal={sumaFinal}
+              userEmailVerified={userEmailVerified}
+              telefono={userData.telefono}
+              nombre={userData.nombre}
+              apellido={userData.apellido}
+            />
           ) : null}
         </section>
       )}
