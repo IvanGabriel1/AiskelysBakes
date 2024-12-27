@@ -1,5 +1,8 @@
 .body-nosotros-container {
   min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 .articles-nosotros-container {
@@ -43,7 +46,7 @@
 
 .title {
   padding-top: 1rem;
-  font-family: "Playwrite AR", cursive;
+  font-family: var(--font-family2);
   text-decoration: underline;
   font-style: italic;
   font-weight: 400;

@@ -40,5 +40,5 @@
   font-size: 1.5rem;
   margin: 0;
   font-style: italic;
-  font-family: "Playwrite AR", cursive;
+  font-family: var(--font-family2);
 }

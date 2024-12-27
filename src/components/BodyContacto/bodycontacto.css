@@ -1,7 +1,38 @@
+.body-contacto-container {
+  background-image: url("../../assets/fondo-contacto-2.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+.body-contact-content {
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.contact-background {
+  text-align: center;
+}
+
 .contact-suggestions {
-  color: var(--first-color);
+  color: var(--white-color);
   font-weight: 400;
-  margin: 2rem;
+  margin: 1rem;
   font-style: italic;
   font-size: var(--step--2);
+}
+
+@media screen and (min-width: 500px) {
+  .body-contacto-container {
+    padding: 2rem;
+  }
 }

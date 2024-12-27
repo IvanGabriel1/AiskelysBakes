@@ -1,3 +1,23 @@
+@keyframes tel {
+  10%,
+  90% {
+    transform: translate(-1px, 0px);
+  }
+  20%,
+  80% {
+    transform: translate(2px, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate(-4px, 0);
+  }
+  40%,
+  60% {
+    transform: translate(4px, 0);
+  }
+}
+
 @keyframes avisoHeader {
   0% {
     color: var(--third-color);
@@ -19,13 +39,17 @@
   height: 2rem;
   min-width: 250px;
   text-wrap: nowrap;
-  margin-bottom: 0.5rem;
   animation: avisoHeader 2s ease-out infinite;
 }
 
 .header-container {
   width: 100%;
   margin: auto;
+}
+
+.section-header {
+  background-color: lightblue;
+  height: 2rem;
 }
 
 .user-logeado-div {
@@ -44,16 +68,23 @@
 }
 
 .iniciar-sesion {
-  color: var(--white-color);
-  margin-bottom: 0.25rem;
-  background-color: var(--first-color);
-  padding: 0.5rem;
   border-radius: 1rem;
+  background-color: transparent;
   border: none;
+  color: black;
   font-size: var(--step--1);
   white-space: nowrap;
   display: inline-block;
   cursor: pointer;
+  height: 2rem;
+}
+
+.iniciar-sesion:hover {
+  opacity: 0.5;
+}
+
+.iniciar-sesion-lg {
+  display: none;
 }
 
 .change-password-btn {
@@ -95,6 +126,20 @@
   color: var(--error-color);
 }
 
+.card-serv-decoration-tel {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.card-serv-decoration-tel:hover {
+  animation: tel 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate(0, 0);
+}
+
+.iniciar-sesion-extra-lg {
+  display: none;
+}
+
 @media screen and (min-width: 500px) {
   .user-logeado-div {
     display: flex;
@@ -104,5 +149,45 @@
 
   .singup-btn {
     margin-bottom: 0rem;
+  }
+
+  .iniciar-sesion-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .iniciar-sesion-lg {
+    display: inline-block;
+    font-size: 0.8rem;
+  }
+
+  .iniciar-sesion-lg a {
+    color: black;
+  }
+
+  .iniciar-sesion-lg a:hover {
+    opacity: 0.5;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .iniciar-sesion-lg {
+    display: none;
+  }
+
+  .iniciar-sesion-extra-lg {
+    display: inline-block;
+    align-items: center;
+    margin: center;
+  }
+
+  .iniciar-sesion-extra-lg a {
+    margin-left: 1rem;
+    color: black;
+  }
+
+  .iniciar-sesion-extra-lg a:hover {
+    opacity: 0.5;
   }
 }
