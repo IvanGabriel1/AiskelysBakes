@@ -44,7 +44,7 @@ const BodyProductos = () => {
     };
 
     fetchProducts();
-  }, [categoryId]); // Dependencia para volver a cargar los productos al cambiar de categoría
+  }, [categoryId]);
 
   return (
     <>

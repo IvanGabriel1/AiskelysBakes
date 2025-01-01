@@ -48,22 +48,26 @@
 }
 
 .section-header {
-  background-color: lightblue;
-  height: 2rem;
+  background-color: var(--second-color);
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .user-logeado-div {
   display: block;
-  padding-inline: 1rem;
-  gap: 1rem;
-  background-color: var(--third-color);
-  margin-bottom: 0.5rem;
+  height: 100%;
+  margin: auto;
+  padding: 1rem;
+  background-color: var(--second-color);
 }
 
 .user-logeado-div,
 .user-verified,
 .user-no-verified,
-.change-password-btn {
+.change-password-btn,
+.btn-resend-emailverified {
   flex: 1;
 }
 
@@ -72,41 +76,54 @@
   background-color: transparent;
   border: none;
   color: black;
-  font-size: var(--step--1);
+  font-size: var(--step--2);
   white-space: nowrap;
   display: inline-block;
   cursor: pointer;
-  height: 2rem;
 }
 
-.iniciar-sesion:hover {
-  opacity: 0.5;
+.iniciar-sesion-hover {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.iniciar-sesion:hover .iniciar-sesion-hover {
+  visibility: visible;
+  opacity: 1;
 }
 
 .iniciar-sesion-lg {
   display: none;
 }
 
-.change-password-btn {
+.change-password-btn,
+.btn-resend-emailverified {
   display: block;
   margin: auto;
   border: none;
   background-color: transparent;
+  text-decoration: underline;
   cursor: pointer;
   font-size: var(--step--2);
   color: var(--first-color);
+  max-width: 200px;
 }
 
-.change-password-btn:hover {
+.btn-resend-emailverified {
+  color: var(--error-color);
+}
+
+.change-password-btn:hover,
+.btn-resend-emailverified:hover {
   opacity: 0.8;
 }
 
 .singup-btn {
-  color: var(--white-color);
-  background-color: var(--first-color);
-  padding: 0.3rem;
+  color: var(--first-color);
+  background-color: transparent;
   border-radius: 1rem;
-  border: none;
+  border: thin solid var(--first-color);
   font-size: var(--step--1);
   white-space: nowrap;
   display: inline-block;
@@ -115,7 +132,7 @@
 }
 
 .singup-btn:hover {
-  opacity: 0.9;
+  opacity: 0.7;
 }
 
 .user-verified {
@@ -124,6 +141,8 @@
 
 .user-no-verified {
   color: var(--error-color);
+  font-weight: 400;
+  font-size: var(--step--3);
 }
 
 .card-serv-decoration-tel {
@@ -141,20 +160,11 @@
 }
 
 @media screen and (min-width: 500px) {
-  .user-logeado-div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .singup-btn {
-    margin-bottom: 0rem;
-  }
-
   .iniciar-sesion-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    background-color: var(--second-color);
   }
 
   .iniciar-sesion-lg {
@@ -172,6 +182,41 @@
 }
 
 @media screen and (min-width: 768px) {
+  .user-no-verified-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+  }
+
+  .user-no-verified {
+    line-height: 0.8rem;
+  }
+
+  .section-header {
+    height: 2.5rem;
+  }
+
+  .user-logeado-div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 2.5rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .user-verified,
+  .btn-resend-emailverified,
+  .change-password-btn {
+    max-width: 200px;
+    margin: 0;
+  }
+
+  .user-logeado-div h5:first-child {
+    max-width: 250px;
+  }
+
   .iniciar-sesion-lg {
     display: none;
   }
@@ -182,12 +227,64 @@
     margin: center;
   }
 
+  .iniciar-sesion-extra-lg a:first-child {
+    margin-left: 0rem;
+  }
+
   .iniciar-sesion-extra-lg a {
     margin-left: 1rem;
     color: black;
+    font-size: var(--step--3);
   }
 
   .iniciar-sesion-extra-lg a:hover {
     opacity: 0.5;
+  }
+
+  .iniciar-sesion-extra-lg a:last-child {
+    margin-left: 0.5rem;
+  }
+
+  .card-serv-decoration svg {
+    vertical-align: middle; /* Asegura el posicionamiento en línea */
+  }
+
+  .card-serv-decoration-email {
+    text-decoration: none;
+  }
+
+  .card-serv-decoration-email-span2 {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .card-serv-decoration-email:hover .card-serv-decoration-email-span2 {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .card-serv-decoration-instagram {
+    text-decoration: none;
+
+    transition: all 0.3s ease;
+  }
+
+  .card-serv-decoration-instagram:hover {
+    background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .iniciar-sesion-extra-lg a:first-child {
+    margin-left: auto;
+  }
+
+  .iniciar-sesion-extra-lg a {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: var(--step--2);
   }
 }

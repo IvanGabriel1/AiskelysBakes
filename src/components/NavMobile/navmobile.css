@@ -23,9 +23,18 @@
   height: 40px;
 }
 
-.logo-navbar-mobile {
-  width: 40px;
-  margin: 10px 0 auto 1rem;
+.active-link,
+.disabled-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-svg-mobile {
+  width: 2rem;
+  height: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .navbar-hamburguer,

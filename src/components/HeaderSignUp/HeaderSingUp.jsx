@@ -75,8 +75,6 @@ const HeaderSingUp = () => {
           <p>Envios gratis a partir de $100!</p>
         </div>
 
-        {/* <LogoNav /> */}
-
         <section className="section-header">
           {userLogin ? (
             <div className="user-logeado-div">
@@ -91,11 +89,15 @@ const HeaderSingUp = () => {
               {userEmailVerified ? (
                 <h5 className="user-verified">Usuario verificado.</h5>
               ) : (
-                <div>
+                <div className="user-no-verified-container">
                   <h5 className="user-no-verified">
                     Verifique su usuario desde su correo electronico.
                   </h5>
-                  <button onClick={() => resendVerificationMail()}>
+
+                  <button
+                    className="btn-resend-emailverified"
+                    onClick={() => resendVerificationMail()}
+                  >
                     Reenviar mail
                   </button>
                 </div>
@@ -113,13 +115,15 @@ const HeaderSingUp = () => {
           ) : (
             <div className="iniciar-sesion-container">
               <button className="iniciar-sesion" onClick={handleLogIn}>
-                🙋‍♀️ Ingresar 🙋‍♂️
+                <span className="iniciar-sesion-hover">🙋‍♀️</span>
+                <u>Ingresar con usuario</u>
+                <span className="iniciar-sesion-hover">🙋‍♂️</span>
               </button>
 
               <section className="iniciar-sesion-lg">
                 <a
                   href={`tel: (+54) 11-59785291`}
-                  className="card-serv-decoration"
+                  className="card-serv-decoration-tel"
                 >
                   📞 (+54) 11-59785291
                 </a>
@@ -134,15 +138,17 @@ const HeaderSingUp = () => {
                 </a>
                 <a
                   href={`mailto: ivangabraun@gmail.com`}
-                  className="card-serv-decoration"
+                  className="card-serv-decoration-email"
                 >
-                  ✉️ ivangabraun@gmail.com
+                  <span className="card-serv-decoration-email-span1">✉️ </span>
+                  ivangabraun@gmail.com
+                  <span className="card-serv-decoration-email-span2"> 📩</span>
                 </a>
 
                 <a
                   href="https://instagram.com"
                   target="_blank"
-                  className="card-serv-decoration"
+                  className="card-serv-decoration-instagram"
                 >
                   <svg
                     width="18"

@@ -5,6 +5,7 @@ import imgMision from "../../assets/MisionNosotrosImg.jpeg";
 import imgNosotros from "../../assets/Nosotros-Img.jpeg";
 import imgValores from "../../assets/ValoresNosotrosImg.jpeg";
 import FollowUs from "../FollowUs/FollowUs";
+import NavBar from "../NavBar/NavBar";
 
 const BodyNosotros = () => {
   return (

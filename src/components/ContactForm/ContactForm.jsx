@@ -7,6 +7,7 @@ const initialForm = {
   from_name: "",
   email_id: "",
   message: "",
+  telephone: "",
 };
 
 const validationsForm = (form) => {
@@ -14,16 +15,17 @@ const validationsForm = (form) => {
   let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
   let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
   let regexComments = /^.{1,255}$/;
+  let regexPhone = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/;
 
   if (!form.from_name.trim()) {
-    errors.from_name = "El campo de nombre es requerido";
+    errors.from_name = "El campo de `Nombre` es requerido";
   } else if (!regexName.test(form.from_name.trim())) {
     errors.from_name =
       "El campo `Nombre` solo acepta letras y espacios en blanco";
   }
 
   if (!form.email_id.trim()) {
-    errors.email_id = "El campo Email es requerido";
+    errors.email_id = "El campo `Email` es requerido";
   } else if (!regexEmail.test(form.email_id.trim())) {
     errors.email_id = "El campo `Email` es incorrecto";
   }
@@ -33,6 +35,12 @@ const validationsForm = (form) => {
   } else if (!regexComments.test(form.message.trim())) {
     errors.message =
       "El campo `Comentarios` no debe exceder los 255 caracteres";
+  }
+
+  if (!form.telephone.trim()) {
+    errors.telephone = "El campo `Telefono` es requerido";
+  } else if (!regexPhone.test(form.telephone.trim())) {
+    errors.telephone = "El campo `Telefono` tiene que contener numeros";
   }
 
   return errors;
@@ -52,7 +60,7 @@ const ContactForm = () => {
   };
 
   const service = "service_contact";
-  const templateID = "template_1jyyg2h";
+  const templateID = "template_w5tiu2j";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,6 +122,19 @@ const ContactForm = () => {
         />
         {errors.from_name && (
           <span className="form-error">{errors.from_name}</span>
+        )}
+        <input
+          className="btn-form"
+          type="text"
+          name="telephone"
+          id="telephone"
+          placeholder="Ingresá tu telefono *"
+          onChange={handleChange}
+          value={form.telephone}
+          required
+        />
+        {errors.telephone && (
+          <span className="form-error">{errors.telephone}</span>
         )}
         <input
           className="btn-form"

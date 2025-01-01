@@ -1,6 +1,6 @@
 .contact-form {
   width: 85vw;
-  margin-top: 3rem;
+  margin-top: 0rem;
   /* box-shadow: var(--box-shadow-white); */
   /* background-color: var(--white-color); */
   display: grid;
@@ -62,16 +62,23 @@
 }
 
 .form-error {
-  color: var(--error-color);
-  font-size: 12px;
-  margin-top: 5px;
-  display: block;
+  color: white;
+  font-size: var(--step--3);
+  margin-left: 1rem;
 }
 
 @media screen and (min-width: 1024px) {
   .contact-form {
     grid-template-columns: repeat(2, 1fr);
     max-width: 750px;
+  }
+
+  .btn-form {
+    grid-column: span 2;
+  }
+
+  .form-error {
+    grid-column: span 2;
   }
 
   .contact-form > textarea {

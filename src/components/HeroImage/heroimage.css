@@ -1,13 +1,13 @@
 .hero-image-content {
   position: relative;
   width: 100%;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 100px);
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: white;
-  overflow: hidden;
+  pointer-events: none;
 }
 
 .hero-image {

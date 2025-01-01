@@ -11,28 +11,26 @@ const ContactoCards = () => {
     <section>
       <section id="contacto" className="section">
         <article className="contact-cards-container">
-          <div className="card-contact">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21.2007 1.05698L16.732 0.0257271C16.2464 -0.0859916 15.748 0.167524 15.5503 0.622993L13.4878 5.43549C13.3074 5.85659 13.4277 6.35073 13.7843 6.63862L16.3882 8.76987C14.8413 12.0656 12.1386 14.807 8.77415 16.3839L6.6429 13.78C6.35071 13.4234 5.86087 13.3031 5.43977 13.4835L0.627273 15.546C0.167507 15.748 -0.0860087 16.2464 0.02571 16.732L1.05696 21.2007C1.16438 21.6648 1.57688 21.9999 2.06243 21.9999C13.0667 21.9999 21.9999 13.0839 21.9999 2.06245C21.9999 1.5812 21.6691 1.1644 21.2007 1.05698Z"
-                fill="#ffffff"
-              />
-            </svg>
-            <h4>Teléfono</h4>
-            <small>
-              <a href={`tel:${cardNumeroTel}`} className="card-serv-decoration">
-                {cardNumeroTel}
-              </a>
-            </small>
-          </div>
+          <a href={`tel:${cardNumeroTel}`} className="card-serv-decoration">
+            <div className="card-contact">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.2007 1.05698L16.732 0.0257271C16.2464 -0.0859916 15.748 0.167524 15.5503 0.622993L13.4878 5.43549C13.3074 5.85659 13.4277 6.35073 13.7843 6.63862L16.3882 8.76987C14.8413 12.0656 12.1386 14.807 8.77415 16.3839L6.6429 13.78C6.35071 13.4234 5.86087 13.3031 5.43977 13.4835L0.627273 15.546C0.167507 15.748 -0.0860087 16.2464 0.02571 16.732L1.05696 21.2007C1.16438 21.6648 1.57688 21.9999 2.06243 21.9999C13.0667 21.9999 21.9999 13.0839 21.9999 2.06245C21.9999 1.5812 21.6691 1.1644 21.2007 1.05698Z"
+                  fill="#ffffff"
+                />
+              </svg>
+              <h4>Teléfono</h4>
+              <small>{cardNumeroTel}</small>
+            </div>
+          </a>
 
-          <div className="card-contact">
+          <div className="card-contact no-events">
             <svg
               width="24"
               height="22"
@@ -49,34 +47,32 @@ const ContactoCards = () => {
             <small>{cardUbicacion}</small>
           </div>
 
-          <div className="card-contact">
-            <svg
-              width="22"
-              height="18"
-              viewBox="0 0 22 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21.5832 5.94375C21.7508 5.79844 22 5.93437 22 6.16406V15.75C22 16.9922 21.0762 18 19.9375 18H2.0625C0.923828 18 0 16.9922 0 15.75V6.16875C0 5.93438 0.244922 5.80312 0.416797 5.94844C1.3793 6.76406 2.65547 7.8 7.03828 11.2734C7.94492 11.9953 9.47461 13.5141 11 13.5047C12.534 13.5188 14.0937 11.9672 14.966 11.2734C19.3488 7.8 20.6207 6.75938 21.5832 5.94375ZM11 12C11.9969 12.0188 13.432 10.6313 14.1539 10.0594C19.8559 5.54531 20.2898 5.15156 21.6047 4.02656C21.8539 3.81562 22 3.4875 22 3.14062V2.25C22 1.00781 21.0762 0 19.9375 0H2.0625C0.923828 0 0 1.00781 0 2.25V3.14062C0 3.4875 0.146094 3.81094 0.395312 4.02656C1.71016 5.14687 2.14414 5.54531 7.84609 10.0594C8.56797 10.6313 10.0031 12.0188 11 12Z"
-                fill="#FFFFFF"
-              />
-            </svg>
+          <a href={`mailto:${cardMail}`} className="card-serv-decoration">
+            <div className="card-contact">
+              <svg
+                width="22"
+                height="18"
+                viewBox="0 0 22 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M21.5832 5.94375C21.7508 5.79844 22 5.93437 22 6.16406V15.75C22 16.9922 21.0762 18 19.9375 18H2.0625C0.923828 18 0 16.9922 0 15.75V6.16875C0 5.93438 0.244922 5.80312 0.416797 5.94844C1.3793 6.76406 2.65547 7.8 7.03828 11.2734C7.94492 11.9953 9.47461 13.5141 11 13.5047C12.534 13.5188 14.0937 11.9672 14.966 11.2734C19.3488 7.8 20.6207 6.75938 21.5832 5.94375ZM11 12C11.9969 12.0188 13.432 10.6313 14.1539 10.0594C19.8559 5.54531 20.2898 5.15156 21.6047 4.02656C21.8539 3.81562 22 3.4875 22 3.14062V2.25C22 1.00781 21.0762 0 19.9375 0H2.0625C0.923828 0 0 1.00781 0 2.25V3.14062C0 3.4875 0.146094 3.81094 0.395312 4.02656C1.71016 5.14687 2.14414 5.54531 7.84609 10.0594C8.56797 10.6313 10.0031 12.0188 11 12Z"
+                  fill="#FFFFFF"
+                />
+              </svg>
 
-            <h4>Email</h4>
-            <small>
-              <a href={`mailto:${cardMail}`} className="card-serv-decoration">
-                {cardMail}
-              </a>
-            </small>
-          </div>
+              <h4>Email</h4>
+              <small>{cardMail}</small>
+            </div>
+          </a>
 
-          <div className="card-contact">
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              className="card-serv-decoration"
-            >
+          <a
+            href="https://www.instagram.com/"
+            target="_blank"
+            className="card-serv-decoration"
+          >
+            <div className="card-contact">
               <svg
                 width="22"
                 height="22"
@@ -89,20 +85,12 @@ const ContactoCards = () => {
                   fill="#FFFFFF"
                 />
               </svg>
-            </a>
 
-            <h4>Instagram</h4>
+              <h4>Instagram</h4>
 
-            <small>
-              <a
-                href="https://www.instagram.com/"
-                target="_blank"
-                className="card-serv-decoration"
-              >
-                Seguínos!
-              </a>
-            </small>
-          </div>
+              <small>Seguínos!</small>
+            </div>
+          </a>
         </article>
       </section>
     </section>
