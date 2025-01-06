@@ -54,32 +54,39 @@ const BodyProductos = () => {
         text2={"Postres de calidad"}
       />
 
-      <h2 className="title">Nuestros Productos</h2>
+      <div className="body-product-container">
+        <h2 className="title">Nuestros Productos</h2>
 
-      <p className="aviso-productos">
-        <strong>Condiciones para mayoristas:</strong> A partir de 12 unidades
-        del mismo producto o 24 en el caso de bombones, se aplicará el precio
-        mayorista. Para cantidades menores, se cobrará a precio minorista. Los
-        pedidos deben realizarse con un mínimo de 7 días de anticipación.
-      </p>
+        <p className="aviso-productos">
+          <strong>
+            <u>Condiciones para mayoristas</u>
+          </strong>
+          <strong>
+            Cantidad por categoría: Alfajores 12 un. | Bombones 24 un. | Tortas
+            3 un.
+          </strong>
+          Para cantidades menores, se cobrará a precio minorista. Los pedidos
+          deben realizarse con un mínimo de 7 días de anticipación.
+        </p>
 
-      <FilterByCategory />
+        <FilterByCategory />
 
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="listGroup">
-          {products.length > 0 ? (
-            products.map((product) => (
-              <ProductItem key={product.id} {...product} />
-            ))
-          ) : (
-            <Spinner />
-          )}
-        </div>
-      )}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className="listGroup">
+            {products.length > 0 ? (
+              products.map((product) => (
+                <ProductItem key={product.id} {...product} />
+              ))
+            ) : (
+              <Spinner />
+            )}
+          </div>
+        )}
 
-      <FollowUs />
+        <FollowUs />
+      </div>
     </>
   );
 };

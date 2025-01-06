@@ -1,37 +1,38 @@
 .follow-container {
-  min-height: 100vh;
   width: 100%;
+  max-width: 1024px;
+  margin: auto;
 }
 
 .follow-container h2 {
-  padding-top: 1rem;
   margin-bottom: 1rem;
   text-decoration: underline;
-  font-family: "Playwrite AR", cursive;
+  font-family: var(--font-family2);
   font-style: italic;
   font-weight: 400;
   font-size: var(--step-1);
 }
 
-.follow-articles-container {
+/* .follow-articles-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
 
 .follow-a {
-  display: block;
-  width: 80%;
-  max-width: 250px;
-  height: 300px;
-  margin: 0 auto 2rem;
-  padding: 0.5rem;
+  display: inline-block;
+  min-width: 150px;
+  max-width: 300px;
+  width: 50%;
+  height: 200px;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem;
   border-radius: 2rem;
   text-align: center;
   box-sizing: border-box;
   text-decoration: none;
   color: inherit;
-  transition: background-color 0.3s;
+  transition: background-color 1s;
 }
 
 .follow-a:hover {
@@ -91,24 +92,28 @@
   margin-left: 0.5rem;
 }
 
+@media screen and (min-width: 400px) {
+  .follow-a {
+    height: 300px;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .follow-articles-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   .follow-a {
     width: 80%;
     max-width: 300px;
-    height: 350px;
-    margin: 1rem;
+    height: 300px;
   }
 }
 
 @media screen and (min-width: 1024px) {
   .follow-a {
-    margin: 2rem;
     height: 400px;
   }
 }

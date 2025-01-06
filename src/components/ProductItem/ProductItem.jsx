@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./productitem.css";
 import { Link } from "react-router-dom";
 import QuantityButtons from "../QuantityButtons/QuantityButtons";
@@ -57,30 +57,35 @@ const ProductItem = ({
 
       <section className="card-product-section">
         <p className="card-product-name">{nombreMayuscula}</p>
-        <p>{categoria}</p>
 
-        {descuento ? (
-          <div className="card-product-price conDescuento">
-            <b>Minorista: </b> <s>${precioMinorista}</s>/
-            {precioMinorista - precioMinorista * (descuento / 100)} usd.-
-          </div>
-        ) : (
-          <p className="card-product-price">
-            <b>Minorista: </b>${precioMinorista} usd.-
-          </p>
-        )}
+        <div className="card-product-price-container">
+          {descuento ? (
+            <div className="card-product-price conDescuento">
+              <b>
+                Minorista: $ <s>{precioMinorista}</s> /
+                {precioMinorista - precioMinorista * (descuento / 100)} usd.-
+              </b>
+            </div>
+          ) : (
+            <p className="card-product-price">
+              <b>Minorista: ${precioMinorista} usd.-</b>
+            </p>
+          )}
 
-        {descuentoMayorista ? (
-          <div className="card-product-price conDescuento">
-            <b>Mayorista: </b> <s>${precioMayorista}</s>/
-            {precioMayorista - precioMayorista * (descuentoMayorista / 100)}
-            usd.-
-          </div>
-        ) : (
-          <p className="card-product-price">
-            <b>Mayorista: </b>${precioMayorista} usd.-
-          </p>
-        )}
+          {descuentoMayorista ? (
+            <div className="card-product-price conDescuento">
+              <b>
+                Mayorista: $ <s>{precioMayorista}</s> /
+                {precioMayorista - precioMayorista * (descuentoMayorista / 100)}
+                {` `} usd.-
+              </b>
+            </div>
+          ) : (
+            <p className="card-product-price">
+              <b>Mayorista: ${precioMayorista} usd.-</b>
+            </p>
+          )}
+        </div>
       </section>
 
       <QuantityButtons
@@ -96,25 +101,37 @@ const ProductItem = ({
       />
 
       {isMayorista ? (
-        <span>
-          <strong>Mayorista! Total:</strong>
-          {descuentoMayorista
-            ? (
-                (precioMayorista -
-                  precioMayorista * (descuentoMayorista / 100)) *
-                cantidad
-              ).toFixed(2)
-            : (precioMayorista * cantidad).toFixed(2)}
+        <span className="card-product-total">
+          <strong className="card-product-total-strong-mayorista">
+            Mayorista!
+          </strong>
+          <br />
+          <span className="card-product-monto-final">
+            Total: $
+            {descuentoMayorista
+              ? (
+                  (precioMayorista -
+                    precioMayorista * (descuentoMayorista / 100)) *
+                  cantidad
+                ).toFixed(2)
+              : (precioMayorista * cantidad).toFixed(2)}
+          </span>
         </span>
       ) : (
-        <span>
-          <strong>Minorista! Total:</strong> $
-          {descuento
-            ? (
-                (precioMinorista - precioMinorista * (descuento / 100)) *
-                cantidad
-              ).toFixed(2)
-            : (precioMinorista * cantidad).toFixed(2)}
+        <span className="card-product-total">
+          <strong className="card-product-total-strong-minorista">
+            Minorista
+          </strong>
+          <br />
+          <span className="card-product-monto-final">
+            Total: $
+            {descuento
+              ? (
+                  (precioMinorista - precioMinorista * (descuento / 100)) *
+                  cantidad
+                ).toFixed(2)
+              : (precioMinorista * cantidad).toFixed(2)}
+          </span>
         </span>
       )}
 

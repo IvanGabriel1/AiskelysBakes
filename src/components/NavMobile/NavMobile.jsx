@@ -46,8 +46,7 @@ const NavMobile = () => {
           to=""
           onClick={handleCloseMenu}
         >
-          {/* <img className="logo" src={logoMobile} alt="logo de AiskelysBakes" /> */}
-
+      
           <svg
             fill="#c0c0c0"
             height="800px"

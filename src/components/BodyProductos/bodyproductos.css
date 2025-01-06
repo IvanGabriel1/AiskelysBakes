@@ -1,10 +1,19 @@
-.aviso-productos {
-  display: inline-block;
+.body-product-container {
   text-align: center;
-  padding-inline: 1rem;
-  font-size: 0.9rem;
+  width: 100%;
+  max-width: 1024px;
+  margin: auto;
+}
+
+.aviso-productos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin: 1rem auto;
+  font-size: 0.8rem;
   color: var(--gray-color);
-  margin-bottom: 1.5rem;
 }
 
 .listGroup {
@@ -19,4 +28,13 @@
   background-color: white;
   padding-inline: 1rem;
   padding: 0.5rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .aviso-productos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }

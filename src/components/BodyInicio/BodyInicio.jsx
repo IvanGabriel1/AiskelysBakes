@@ -2,7 +2,8 @@ import React from "react";
 import "./bodyinicio.css";
 import { Link } from "react-router-dom";
 import imgAlfajor1 from "../../assets/alfajores-chocolate.png";
-import imgAlfajor2 from "../../assets/alfajor-maicena-2.png";
+import imgBombon from "../../assets/bombones-sinfondo.png";
+import imgTorta from "../../assets/tortas-decorada.png";
 import HeroImage from "../HeroImage/HeroImage";
 import heroImage2 from "../../assets/hero-image2.jpg";
 import FollowUs from "../FollowUs/FollowUs";
@@ -17,39 +18,38 @@ const BodyInicio = () => {
       />
       <section className="body-inicio-container">
         <h2 className="title">Nuestras delicias</h2>
+
         <div className="articles-container">
-          <article>
-            <h2>Alfajores de chocolate</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-              suscipit cumque eos quia. Sequi, officia! Error ipsam hic nihil
-              voluptatum quaerat minus voluptate, provident qui, veritatis,
-              atque eius velit unde.
-            </p>
-            <Link
-              to={`/productos/alfajor`}
-              path="/productos/alfajor"
-              className="button-link"
-            >
-              Ver Alfajores
-            </Link>
-          </article>
+          <Link
+            to={`/productos/alfajor`}
+            path="/productos/alfajor"
+            className="button-link"
+          >
+            <div className="body-producto-shade">
+              <article className="body-producto-article">
+                <img src={imgAlfajor1} alt="alfajores de chocolate" />
+                <h2>ALFAJORES</h2>
+              </article>
+            </div>
+          </Link>
 
-          <img src={imgAlfajor1} alt="alfajores de chocolate" />
+          <Link to={`/productos/bombon`} path="/" className="button-link">
+            <div className="body-producto-shade">
+              <article className="body-producto-article">
+                <img src={imgBombon} alt="alfajores de maisena" />
+                <h2>BOMBONES</h2>
+              </article>
+            </div>
+          </Link>
 
-          <article>
-            <h2>Bombones</h2>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-              consectetur quibusdam velit, culpa porro eveniet quaerat quidem
-              cum rem harum maiores atque, exercitationem at sit placeat fuga
-              sed ipsum reprehenderit!
-            </p>
-            <Link to={`/productos/bombon`} path="/" className="button-link">
-              Ver Bombones
-            </Link>
-          </article>
-          <img src={imgAlfajor2} alt="alfajores de maisena" />
+          <Link to={`/productos/torta`} path="/" className="button-link">
+            <div className="body-producto-shade">
+              <article className="body-producto-article">
+                <img src={imgTorta} alt="alfajores de maisena" />
+                <h2>TORTAS</h2>
+              </article>
+            </div>
+          </Link>
         </div>
       </section>
       <FollowUs />

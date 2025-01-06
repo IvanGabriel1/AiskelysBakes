@@ -13,24 +13,24 @@ const FilterByCategory = () => {
     <div className="filter-by-category-container">
       <NavLink
         to={`/productos`}
-        className={({ isActive }) => (isActive ? "ActiveOption" : "Option")}
+        className={({ isActive }) => (isActive ? "active-option" : "option")}
       >
         Todo
       </NavLink>
       <NavLink
-        className={({ isActive }) => (isActive ? "ActiveOption" : "Option")}
+        className={({ isActive }) => (isActive ? "active-option" : "option")}
         to={`/productos/alfajor`}
       >
         Alfajores
       </NavLink>
       <NavLink
-        className={({ isActive }) => (isActive ? "ActiveOption" : "Option")}
+        className={({ isActive }) => (isActive ? "active-option" : "option")}
         to={`/productos/bombon`}
       >
         Bombones
       </NavLink>
       <NavLink
-        className={({ isActive }) => (isActive ? "ActiveOption" : "Option")}
+        className={({ isActive }) => (isActive ? "active-option" : "option")}
         to={`/productos/torta`}
       >
         Tortas
