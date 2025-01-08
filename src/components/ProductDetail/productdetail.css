@@ -5,69 +5,120 @@
 
 .prod-detail-prod-nombre {
   font-family: var(--font-family1);
-  font-size: var(--step--2);
+  font-size: var(--step-1);
+  font-weight: 200;
   padding-left: 1rem;
   padding-right: 1rem;
-  color: var(--gray-color);
+  color: var(--first-color);
+}
+
+.prod-detail-info-large {
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .prod-detail-price-section {
   width: 100%;
-  min-width: 300px;
-  height: 8rem;
   border-top: thin solid black;
   border-bottom: thin solid black;
-  background-color: var(--first-alpha75-color);
+  background-color: var(--second-alpha75-color);
   text-align: start;
+  margin-bottom: 1rem;
 }
 
 .prod-detail-price {
-  font-size: var(--step-0);
+  font-size: var(--step--2);
   margin: 0;
+  font-weight: 500;
   padding-top: 0.2rem;
-  padding-left: 1rem;
-  color: var(--second-color);
+  text-align: center;
+  color: #000;
+}
+
+.prod-detail-total-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.prod-detail-total-precio-mayorista {
+  color: var(--first-color);
+}
+
+.prod-detail-total-precio-final {
+  font-weight: 600;
+  font-size: var(--step--3);
+}
+
+.item-details-description-section {
+  margin: 1rem auto;
+}
+
+.item-details-description-section strong {
+  color: var(--first-color);
+  text-decoration: underline;
 }
 
 @media screen and (min-width: 500px) {
   .prod-detail-price-section {
     text-align: center;
   }
+
+  .prod-detail-info-large {
+    max-width: 400px;
+    text-align: center;
+    margin: auto;
+  }
 }
 
 @media screen and (min-width: 768px) {
-  .item-details-info {
-    text-align: left;
-  }
 }
 
 @media screen and (min-width: 1024px) {
-  .prod-detail-price-section {
-    width: 400px;
-  }
-
   .prod-detail-sections-large {
     display: grid;
-    grid-template-columns: 60% 40%;
-    gap: 16px;
+    grid-template-columns: 35% 45%;
+    grid-template-rows: 300px 150px;
+    gap: 1rem;
+    max-width: 1024px;
+    min-height: 0vh;
+    margin: 1rem auto;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--box-shadow);
   }
 
   .prod-detail-price-section {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
+    width: 100%;
+    margin: auto;
+    grid-column: span 2;
   }
 
-  .item-details-description-section {
-    margin-top: 20px;
+  .carousel-container {
+    width: 280px;
+    margin: auto;
   }
 
   .aviso-productos {
     text-align: start;
     padding: 0;
+    margin: 0;
   }
 
   .prod-detail-info-large {
     margin: auto;
+  }
+
+  .item-details-description-section {
+    margin: auto;
+  }
+
+  .item-details-description {
+    line-height: 0.9rem;
+    font-size: var(--step--3);
   }
 }

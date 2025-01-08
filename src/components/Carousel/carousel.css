@@ -1,7 +1,8 @@
 .carousel {
   overflow-x: hidden;
-  width: 100%;
-  max-width: 500px;
+  width: 90%;
+  max-width: 250px;
+
   margin: auto;
 }
 
