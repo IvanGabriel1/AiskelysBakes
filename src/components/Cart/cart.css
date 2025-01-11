@@ -1,5 +1,34 @@
 .cart-component-container {
   min-height: 100vh;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+}
+
+.cart-component-container h5 {
+  margin: 1rem auto;
+}
+
+.cart-container {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cart-emptycart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+  min-height: 300px;
+  max-width: 1024px;
+  height: 80vh;
+}
+
+.cart-emptycart h2 {
+  margin: 2rem;
+  font-size: var(--step--1);
 }
 
 .cart-btn-link-productos {
@@ -10,15 +39,26 @@
   margin: 0;
   color: rgb(255, 0, 0);
   font-size: var(--step--3);
+  line-height: 0.8rem;
 }
 
 .cart-delete-btn {
-  border-color: var(--error-color);
   border-radius: 1rem;
-  background-color: var(--error-color);
   cursor: pointer;
-  margin-bottom: 0.25rem;
-  color: var(--white-color);
+  border: thin solid var(--error-color);
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--error-color);
+  font-size: 1rem;
+  position: absolute;
+  background-color: transparent;
+  top: 4px;
+  right: 4px;
+}
+
+.cart-delete-btn:hover {
+  opacity: 0.7;
+  background-color: #ff000050;
 }
 
 .cart-ul {
@@ -28,78 +68,87 @@
 }
 
 .cart-item {
-  margin: 0.5rem;
+  border-radius: 0.2rem;
+  margin: auto;
+  max-width: 250px;
+  height: 100%;
 }
 
 .cart-item-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  border: thin solid var(--third-color);
-  border-radius: 0.6rem;
   background-color: white;
-  margin: 0.5rem auto;
   max-width: 350px;
   box-shadow: var(--box-shadow);
+  margin-bottom: 1rem;
+  border-radius: 0.2rem;
 }
 
 .cart-item img {
-  width: 30vw;
-  min-width: 80px;
-  max-width: 130px;
-  border-radius: 0.25rem;
+  width: 100%;
+  height: auto;
+  border-radius: 0.2rem 0.2rem 0 0;
 }
 
 .cart-item-total {
-  display: block;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  background-color: var(--first-alpha50-color);
-  border-radius: 0.5rem;
-  width: 100%;
+  font-weight: 500;
+  font-size: var(--step--3);
+  margin: 0.25rem;
 }
 
 .cart-item-total p {
   display: inline;
 }
 
+.card-product-price-container {
+  width: 100%;
+}
+
 .cart-product-quantity {
   text-align: center;
   align-self: center;
   margin: auto;
+  width: 100%;
 }
 
 .cart-product-quantity p {
-  font-size: var(--step--2);
-  margin: 0;
+  margin-left: 0.25rem;
+  font-size: var(--step--3);
+  text-align: center;
 }
 
 .cart-product-nombre {
-  font-size: var(--step--2);
-  font-family: var(--font-family2);
-  font-weight: 450;
-  word-break: break-word;
-  min-width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--first-color);
+  height: 3rem;
+  font-weight: 600;
+  font-size: var(--step--3);
+  line-height: 16px;
+  text-align: center;
+  padding: 0.25rem;
+  letter-spacing: 0.1em;
 }
 
 .item-details-btn {
-  margin: 0.5rem;
+  margin-bottom: 0.5rem;
 }
-
 /* Btn vaciar carrito */
 
 .btn-empty-cart {
   color: var(--white-color);
   background-color: var(--error-color);
-  padding: 0.3rem;
   border-radius: 1rem;
   border: none;
   font-size: var(--step--1);
-  white-space: nowrap;
-  display: inline-block;
   cursor: pointer;
-  margin-bottom: 0.25rem;
+  margin: 0.5rem;
+  height: 2.5rem;
+  width: 10rem;
 }
 
 .btn-empty-cart:hover {
@@ -115,7 +164,7 @@
   border: thin solid var(--third-color);
   border-radius: 0.6rem;
   background-color: white;
-  margin: 1rem auto;
+  margin: 1rem 0;
   max-width: 350px;
 }
 
@@ -208,15 +257,20 @@
   }
 
   .cart-summary {
-    margin: 0.5rem 1rem;
+    margin: 0 1rem;
     position: sticky;
     top: 1rem;
+  }
+
+  .cart-emptycart h2 {
+    font-size: var(--step-1);
   }
 }
 
 @media screen and (min-width: 768px) {
   .cart-container {
     grid-template-columns: 65% 1fr;
+    margin: auto 0 auto 1rem;
   }
 
   .cart-ul {
@@ -233,12 +287,17 @@
 
 @media screen and (min-width: 1024px) {
   .cart-container {
+    max-width: 1200px;
     grid-template-columns: 70% 1fr;
   }
 
   .cart-summary {
-    margin: 0.5rem 1rem;
+    margin: 0 1rem;
     position: sticky;
     top: 4rem;
+  }
+
+  .btn-empty-cart {
+    grid-column: span 3;
   }
 }

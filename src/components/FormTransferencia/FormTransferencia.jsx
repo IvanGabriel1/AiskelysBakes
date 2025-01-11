@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./formtransferencia.css";
 import { send } from "emailjs-com";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../config/Firebase";
 import { doc, getDoc } from "firebase/firestore";
+import Swal from "sweetalert2";
+import { vaciarCarrito } from "../../redux/cartSlice";
 
 const FormTransferencia = ({
   sumaFinal,
@@ -12,10 +14,12 @@ const FormTransferencia = ({
   telefono,
   nombre,
   apellido,
+  closeModalPay,
 }) => {
   const [loading, setLoading] = useState(false);
-  // const [userPhone, setUserPhone] = useState("");
+
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   //------------
 
@@ -75,23 +79,6 @@ const FormTransferencia = ({
     if (!telefono) return console.warn("No hay telefono");
     if (!nombre) return console.warn("No hay nombre");
     if (!apellido) return console.warn("No hay apellido");
-
-    // setLoading(true);
-
-    // const cartContent = cart.items
-    //   .map((item) => {
-    //     const fullProduct = product?.find((p) => p.id === item.id);
-    //     return `
-    //   ${item.categoria}
-    //   ${item.nombre} -
-    //   ${fullProduct?.descripcion || "Sin descripción"}
-    //   (Cantidad: ${item.cantidad})
-    //   <img src="${item.img}" alt="${
-    //       item.nombre
-    //     }" style="max-width: 200px; height: auto;" /><br>
-    // `;
-    //   })
-    //   .join("\n");
 
     const cartContent = `
   <div style="font-family: Arial, sans-serif; color: #333; margin: 20px;">
@@ -176,7 +163,6 @@ const FormTransferencia = ({
         templateParams,
         "WYVJMvEJlHQIHxScZ"
       );
-      alert("Correo enviado correctamente");
 
       console.log("Email enviado al:", userMail);
       console.log("telefono:", telefono);
@@ -186,6 +172,13 @@ const FormTransferencia = ({
       console.error("El Correo NO pudo ser enviado", error);
       alert("Hubo un problema al enviar el correo.");
     } finally {
+      closeModalPay(true);
+      dispatch(vaciarCarrito());
+      Swal.fire({
+        icon: "success",
+        title: "Pedido enviado",
+        text: "Revisa tu bandeja de entrada.",
+      });
       setLoading(false);
     }
 
@@ -206,13 +199,19 @@ const FormTransferencia = ({
   };
 
   return (
-    <article>
+    <article className="form-transferencia-container">
       <h3>Transferencia:</h3>
       <p>
         Haz click en enviar y te mandaremos un correo electrónico con los datos
         bancarios para que puedas realizar la transferencia. Luego nos mandas el
         comprobante de transferencia por mail o WhatsApp y coordinamos la
         entrega.
+      </p>
+
+      <p>
+        <strong>
+          Los pedidos deben realizarse con un mínimo de 7 días de anticipación.
+        </strong>
       </p>
       <button onClick={enviarMailFormTransferencia} disabled={loading}>
         {loading ? "Enviando..." : "Enviar"}

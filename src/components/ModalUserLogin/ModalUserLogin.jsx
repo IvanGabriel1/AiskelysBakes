@@ -14,7 +14,7 @@ const ModalUserLogin = () => {
   return (
     <article
       className={`modal-login ${closeModalAuthState ? `is-open` : ``}`}
-      // onClick={closeModalAuthFn}
+      onClick={closeModalAuthFn}
     >
       <div className="modal-login-container" onClick={handleModalClick}>
         <button className="close-modal-login" onClick={closeModalAuthFn}>

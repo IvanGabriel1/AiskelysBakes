@@ -10,6 +10,7 @@ const ModalPay = ({
   telefono,
   nombre,
   apellido,
+  closeModalPay,
 }) => {
   const [optionPaySelected, setOptionSelected] = useState("transferencia");
   //const { email } = useContext(AuthContext);
@@ -51,6 +52,7 @@ const ModalPay = ({
             telefono={telefono}
             nombre={nombre}
             apellido={apellido}
+            closeModalPay={closeModalPay}
           />
         ) : null}
       </div>

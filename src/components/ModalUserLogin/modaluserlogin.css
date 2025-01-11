@@ -44,7 +44,7 @@
   height: 1.75rem;
   border-radius: 0.5rem;
   border: none;
-  background-color: var(--first-alpha50-color);
+  background-color: var(--first-color);
   cursor: pointer;
 }
 

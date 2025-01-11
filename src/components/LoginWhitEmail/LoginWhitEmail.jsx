@@ -22,14 +22,6 @@ const LoginWhitEmail = () => {
     handlePasswordReset,
   } = useContext(AuthContext);
 
-  // <h3>
-  //   {registrando
-  //     ? "Si ya tienes cuenta, haz clic en `Iniciar Sesión`"
-  //     : "Si no tienes cuenta, haz clic en `Registrarme`"}
-  // </h3>
-  // <button type="button" onClick={() => setRegistrando(!registrando)}>
-  //   {registrando ? "Iniciar Sesión" : "Registrarme"}
-  // </button>
   return (
     <form onSubmit={handleAuthentication} className="loginwhitemail-container">
       <h3>

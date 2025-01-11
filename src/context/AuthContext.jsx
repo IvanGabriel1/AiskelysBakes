@@ -97,8 +97,8 @@ const AuthProvider = ({ children }) => {
     if (registrando) {
       if (!telephone.trim()) {
         errorsLogin.telephone = "El campo `Telefono` es requerido";
-      } else if (telephone.length < 10) {
-        errorsLogin.telephone = "El teléfono debe tener al menos 10 dígitos";
+      } else if (telephone.length < 8) {
+        errorsLogin.telephone = "El teléfono debe tener al menos 8 dígitos";
       }
     }
 
@@ -257,27 +257,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  /* Funcion para agregar los datos del usuario en database coleccion "users" */
-
-  // const addDataColUsers = async () => {
-  //   const usersCollection = collection(db, "users");
-
-  //   try {
-  //     await addDoc(usersCollection, {
-  //       mail: email,
-  //       telefono: telephone,
-  //       nombre: nombre,
-  //       apellido: apellido,
-  //     });
-  //   } catch (firestoreError) {
-  //     console.error("Error al guardar en Firestore: ", firestoreError);
-  //     setError({
-  //       errorGeneral: "Error al guardar en la base de datos. Intenta de nuevo.",
-  //     });
-  //   }
-  // };
-
-  /*  */
   const handlePasswordReset = async (email) => {
     try {
       await sendPasswordResetEmail(auth, email);

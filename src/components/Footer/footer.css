@@ -6,7 +6,7 @@
     var(--first-alpha75-color) 0%
   ); */
   background-color: var(--first-alpha75-color);
-  display: flex;
+  width: 100%;
 }
 
 .footer-p {

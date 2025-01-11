@@ -58,6 +58,16 @@
   background-color: var(--first-alpha75-color);
 }
 
+.loginwhitemail-container input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.loginwhitemail-container input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .form-error-login {
   font-size: var(--step--3);
   color: var(--error-color);

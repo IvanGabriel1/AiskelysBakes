@@ -312,9 +312,8 @@ const Cart = () => {
   return (
     <div className="cart-component-container">
       <h2 className="title">Carrito de compras</h2>
-      {compraMinima ? <h5>La compra minima es de $ {compraMinima}.-</h5> : " "}
       {items.length === 0 ? (
-        <article>
+        <article className="cart-emptycart">
           <h2>No tienes productos en el carrito</h2>
           <Link
             to={"/productos"}
@@ -325,80 +324,112 @@ const Cart = () => {
           </Link>
         </article>
       ) : (
-        <section className="cart-container">
-          <div>
-            <ul className="cart-ul">
-              {items.map((product) => {
-                const categoriaMinuscula = product.categoria.toLowerCase();
-                const isMayorista =
-                  (categoriaMinuscula === "alfajor" &&
-                    product.cantidad >= 12) ||
-                  (categoriaMinuscula === "bombon" && product.cantidad >= 36) ||
-                  (categoriaMinuscula === "torta" && product.cantidad >= 3);
+        <>
+          {compraMinima ? (
+            <h5>La compra minima es de $ {compraMinima}.-</h5>
+          ) : (
+            " "
+          )}
+          <section className="cart-container">
+            <div>
+              <ul className="cart-ul">
+                {items.map((product) => {
+                  const categoriaMinuscula = product.categoria.toLowerCase();
+                  const isMayorista =
+                    (categoriaMinuscula === "alfajor" &&
+                      product.cantidad >= 12) ||
+                    (categoriaMinuscula === "bombon" &&
+                      product.cantidad >= 36) ||
+                    (categoriaMinuscula === "torta" && product.cantidad >= 3);
 
-                const cantidadPorCategoria =
-                  categoriaMinuscula === "alfajor"
-                    ? "Precio mayorista a partir de 12 unidades"
-                    : categoriaMinuscula === "bombon"
-                    ? "Precio mayorista a partir de 36 unidades"
-                    : categoriaMinuscula === "torta"
-                    ? "Precio mayorista a partir de 3 unidades"
-                    : "Sin precio por mayorista";
+                  const cantidadPorCategoria =
+                    categoriaMinuscula === "alfajor"
+                      ? "Precio mayorista a partir de 12 unidades"
+                      : categoriaMinuscula === "bombon"
+                      ? "Precio mayorista a partir de 36 unidades"
+                      : categoriaMinuscula === "torta"
+                      ? "Precio mayorista a partir de 3 unidades"
+                      : "Sin precio por mayorista";
 
-                return (
-                  <li className="cart-item" key={product.id}>
-                    <div className="cart-item-container">
-                      <span className="cart-product-nombre">
-                        {product.nombre}
-                      </span>
-                      <img
-                        className="card-product-picture-img"
-                        src={product.img}
-                        alt={product.nombre}
-                      />
-                      <Link
-                        to={`/item/${product.id}`}
-                        className="item-details-btn"
-                      >
-                        Ver detalles
-                      </Link>
-                      <p className="cart-cantidad-por-categoria">
-                        {cantidadPorCategoria}
-                      </p>
+                  return (
+                    <li className="cart-item" key={product.id}>
+                      <div className="cart-item-container">
+                        {/* <img
+                          className="card-product-picture-img"
+                          src={product.img}
+                          alt={product.nombre}
+                        /> */}
+                        <picture className="card-product-picture">
+                          <img
+                            className="card-product-picture-img"
+                            src={product.img}
+                            alt={product.nombre}
+                          />
+                          {product.descuentoMayorista ? (
+                            <span className="card-product-picture-spanmayorista">
+                              Mayorista: -{product.descuentoMayorista}%
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                          {product.descuento ? (
+                            <span className="card-product-picture-span">
+                              Minorista: -{product.descuento}%
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                        </picture>
 
-                      <div className="cart-product-quantity">
-                        {product.descuento ? (
-                          <p>
-                            Precio Minorista: $ <s>{product.precioMinorista}</s>{" "}
-                            /{" "}
-                            {product.precioMinorista -
-                              product.precioMinorista *
-                                (product.descuento / 100).toFixed(2)}{" "}
-                            usd.
-                          </p>
-                        ) : (
-                          <p>
-                            Precio Minorista: ${product.precioMinorista} usd.
-                          </p>
-                        )}
+                        <span className="cart-product-nombre">
+                          {product.nombre}
+                        </span>
 
-                        {product.descuentoMayorista ? (
-                          <p>
-                            Precio Mayorista: $ <s>{product.precioMayorista}</s>
-                            /{" "}
-                            {(
-                              product.precioMayorista -
-                              product.precioMayorista *
-                                (product.descuentoMayorista / 100)
-                            ).toFixed(2)}{" "}
-                            usd.
-                          </p>
-                        ) : (
-                          <p>
-                            Precio Mayorista: ${product.precioMayorista} usd.
-                          </p>
-                        )}
+                        <p className="cart-cantidad-por-categoria">
+                          {cantidadPorCategoria}
+                        </p>
 
+                        <div className="card-product-price-container">
+                          <div className="cart-product-quantity">
+                            {product.descuento ? (
+                              <strong>
+                                <p>
+                                  Minorista: $<s>{product.precioMinorista}</s> /{" "}
+                                  {product.precioMinorista -
+                                    product.precioMinorista *
+                                      (product.descuento / 100).toFixed(2)}{" "}
+                                  usd.-
+                                </p>
+                              </strong>
+                            ) : (
+                              <strong>
+                                <p>
+                                  Minorista: ${product.precioMinorista} usd.-
+                                </p>
+                              </strong>
+                            )}
+
+                            {product.descuentoMayorista ? (
+                              <p>
+                                <strong>
+                                  Mayorista: $ <s>{product.precioMayorista}</s>/{" "}
+                                  {(
+                                    product.precioMayorista -
+                                    product.precioMayorista *
+                                      (product.descuentoMayorista / 100)
+                                  ).toFixed(2)}{" "}
+                                  usd.-
+                                </strong>
+                              </p>
+                            ) : (
+                              <p>
+                                <strong>
+                                  Mayorista: ${product.precioMayorista} usd.-
+                                </strong>
+                              </p>
+                            )}
+                          </div>
+                        </div>
                         <QuantityButtons
                           id={product.id}
                           nombre={product.nombre}
@@ -412,7 +443,7 @@ const Cart = () => {
                         />
 
                         <span className="cart-item-total">
-                          <strong>Total: </strong>$
+                          Total: $
                           {isMayorista
                             ? (
                                 product.precioMayorista *
@@ -425,79 +456,89 @@ const Cart = () => {
                                 product.cantidad
                               ).toFixed(2)}
                         </span>
+
+                        <Link
+                          to={`/item/${product.id}`}
+                          className="item-details-btn"
+                        >
+                          Ver detalles
+                        </Link>
+
+                        <button
+                          className="cart-delete-btn"
+                          onClick={() => handleSacarItem(product.id)}
+                        >
+                          X
+                        </button>
                       </div>
+                    </li>
+                  );
+                })}
+              </ul>
 
-                      <button
-                        className="cart-delete-btn"
-                        onClick={() => handleSacarItem(product.id)}
-                      >
-                        X
-                      </button>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+              <button
+                className="btn-empty-cart"
+                onClick={() => handleVaciarCarrito()}
+              >
+                Vaciar Carrito
+              </button>
+            </div>
 
-            <button
-              className="btn-empty-cart"
-              onClick={() => handleVaciarCarrito()}
-            >
-              Vaciar Carrito
-            </button>
-          </div>
+            <section className="cart-summary">
+              <h3>Totales del carrito</h3>
+              <span className="cart-summary-subtotal">
+                Subtotal: ${calcularSubtotal().toFixed(2)}
+              </span>
 
-          <section className="cart-summary">
-            <h3>Totales del carrito</h3>
-            <span className="cart-summary-subtotal">
-              Subtotal: ${calcularSubtotal().toFixed(2)}
-            </span>
-
-            <p className="cart-summary-p-envio">
-              Envio gratis a partir de $ {envioGratis}!
-            </p>
-
-            {calcularSubtotal() >= envioGratis ? (
-              <span className="envio-gratis-logrado">🎊Envio Gratis!🎊</span>
-            ) : (
-              ""
-            )}
-
-            <p className="cart-summary-p-envio">Calcular el costo de envio:</p>
-            <Accordion
-              title="Seleccione una zona"
-              options={zonasData}
-              onSelectShippingCost={handleSelectShippingCost}
-            />
-            {zonaShippingCost ? (
-              <p className="cart-summary-confirm-shipping">
-                {zonaShippingCost} - $ {shippingCost}
+              <p className="cart-summary-p-envio">
+                Envio gratis a partir de $ {envioGratis}!
               </p>
-            ) : null}
-            <span className="cart-summary-total">
-              Total: ${sumaFinal.toFixed(2)}
-            </span>
 
-            <button className="btn-go-to-pay" onClick={() => handlePay()}>
-              {loading ? (
-                <div className="btn-go-to-pay-spinner" />
+              {calcularSubtotal() >= envioGratis ? (
+                <span className="envio-gratis-logrado">🎊Envio Gratis!🎊</span>
               ) : (
-                "Ir a pagar"
+                ""
               )}
-            </button>
-          </section>
 
-          {isOpenModalPay ? (
-            <ModalPay
-              closeModal={closeModalPay}
-              sumaFinal={sumaFinal}
-              userEmailVerified={userEmailVerified}
-              telefono={userData.telefono}
-              nombre={userData.nombre}
-              apellido={userData.apellido}
-            />
-          ) : null}
-        </section>
+              <p className="cart-summary-p-envio">
+                Calcular el costo de envio:
+              </p>
+              <Accordion
+                title="Seleccione una zona"
+                options={zonasData}
+                onSelectShippingCost={handleSelectShippingCost}
+              />
+              {zonaShippingCost ? (
+                <p className="cart-summary-confirm-shipping">
+                  {zonaShippingCost} - $ {shippingCost}
+                </p>
+              ) : null}
+              <span className="cart-summary-total">
+                Total: ${sumaFinal.toFixed(2)}
+              </span>
+
+              <button className="btn-go-to-pay" onClick={() => handlePay()}>
+                {loading ? (
+                  <div className="btn-go-to-pay-spinner" />
+                ) : (
+                  "Continuar"
+                )}
+              </button>
+            </section>
+
+            {isOpenModalPay ? (
+              <ModalPay
+                closeModal={closeModalPay}
+                sumaFinal={sumaFinal}
+                userEmailVerified={userEmailVerified}
+                telefono={userData.telefono}
+                nombre={userData.nombre}
+                apellido={userData.apellido}
+                closeModalPay={closeModalPay}
+              />
+            ) : null}
+          </section>
+        </>
       )}
     </div>
   );
