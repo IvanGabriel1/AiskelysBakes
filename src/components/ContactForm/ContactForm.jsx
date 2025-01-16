@@ -68,12 +68,12 @@ const ContactForm = () => {
     const validationErrors = validationsForm(form);
     setErrors(validationErrors);
 
-    console.log(validationErrors); // Para depurar
+    // console.log(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
       setIsSubmitting(true);
 
-      console.log(form); // Para verificar los valores antes de enviarlos
+      //  console.log(form);
 
       emailjs
         .sendForm(service, templateID, formRef.current, "WYVJMvEJlHQIHxScZ")

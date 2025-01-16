@@ -81,16 +81,29 @@ const FormTransferencia = ({
     if (!apellido) return console.warn("No hay apellido");
 
     const cartContent = `
-  <div style="font-family: Arial, sans-serif; color: #333; margin: 20px;">
+  <div style="display: inline-block, font-family: Arial, sans-serif; color: #333; margin: auto;  ">
     <h2 style="text-align: center; color: #4CAF50;">Resumen de Pedido - ${new Date().toLocaleString()}</h2>
-    <p style="font-size: 16px;">Gracias por recibir un pedido. A continuación se detallan los productos solicitados:</p>
+     <p className="aviso-productos">
+          <strong>
+            <u>Condiciones para mayoristas</u>
+          </strong>
+          <strong>
+            Cantidad por categoría: Alfajores 12 un. | Bombones 24 un. | Tortas
+            3 un.
+          </strong>
+          Para cantidades menores, se cobrará a precio minorista. Los pedidos
+          deben realizarse con un mínimo de 7 días de anticipación.
+        </p>
+    <p style="font-size: 16px;"> A continuación se detallan los productos solicitados:</p>
     <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
       <thead>
         <tr style="background-color: #f2f2f2; text-align: left;">
           <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Producto</th>
           <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Descripción</th>
           <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Cantidad</th>
-          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Precio Unitario</th>
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Precio Minorista</th>
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Precio Mayorista</th>
+          <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Precio Aplicado</th>
           <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">Imagen</th>
         </tr>
       </thead>
@@ -100,6 +113,17 @@ const FormTransferencia = ({
             const fullProduct = Array.isArray(product)
               ? product.find((p) => p.id === item.id)
               : null;
+
+            // Lógica para determinar el precio aplicado
+            const precioAplicado =
+              (item.categoria.toLowerCase() === "alfajor" &&
+                item.cantidad >= 12) ||
+              (item.categoria.toLowerCase() === "bombon" &&
+                item.cantidad >= 36) ||
+              (item.categoria.toLowerCase() === "torta" && item.cantidad >= 3)
+                ? `$${item.precioMayorista}`
+                : `$${item.precioMinorista}`;
+
             return `
               <tr>
                 <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${
@@ -112,8 +136,17 @@ const FormTransferencia = ({
                   item.cantidad
                 }</td>
                 <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
-                  $${(item.precio * item.cantidad).toFixed(2)}
+                  $${item.precioMinorista}
                 </td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+                  $${item.precioMayorista}
+                </td>
+
+ <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
+                  ${precioAplicado}
+                </td>
+
+
                 <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
                   <img src="${item.img}" alt="${
               item.nombre
@@ -164,10 +197,10 @@ const FormTransferencia = ({
         "WYVJMvEJlHQIHxScZ"
       );
 
-      console.log("Email enviado al:", userMail);
-      console.log("telefono:", telefono);
-      console.log("nombre:", nombre);
-      console.log("apellido:", apellido);
+      // console.log("Email enviado al:", userMail);
+      // console.log("telefono:", telefono);
+      // console.log("nombre:", nombre);
+      // console.log("apellido:", apellido);
     } catch (error) {
       console.error("El Correo NO pudo ser enviado", error);
       alert("Hubo un problema al enviar el correo.");
@@ -186,7 +219,7 @@ const FormTransferencia = ({
     try {
       await send(
         "service_contact",
-        "template_w5tiu2j",
+        "template_1jyyg2h",
         templateParamsToUser,
         "WYVJMvEJlHQIHxScZ"
       );

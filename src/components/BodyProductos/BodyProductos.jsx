@@ -38,7 +38,7 @@ const BodyProductos = () => {
         ...doc.data(),
       }));
 
-      console.log(productsQuery);
+      // console.log(productsQuery);
       setProducts(productsList);
       setIsLoading(false);
     };

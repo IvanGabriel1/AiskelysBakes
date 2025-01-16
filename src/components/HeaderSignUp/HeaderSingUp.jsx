@@ -22,7 +22,7 @@ const HeaderSingUp = () => {
     setUserEmailVerified,
     resendVerificationMail,
   } = useContext(AuthContext);
-
+  /*
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -48,6 +48,39 @@ const HeaderSingUp = () => {
 
     return () => unsubscribe();
   }, [setUserEmailVerified]);
+*/
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setUserLogin(user);
+        setUserMail(user.email);
+        setUserEmailVerified(user.emailVerified);
+
+        try {
+          // Recargar información del usuario solo cuando sea necesario
+          await user.reload();
+          if (user.emailVerified) {
+            setUserEmailVerified(true);
+          }
+        } catch (error) {
+          // console.error("Error al recargar el usuario:", error);
+          if (error.code === "auth/user-token-expired") {
+            // Manejo específico del error de token expirado
+            // console.log(
+            //   "El token del usuario ha caducado. Inicia sesión nuevamente."
+            // );
+            setUserLogin(null);
+          }
+        }
+      } else {
+        setUserLogin(null);
+        setUserEmailVerified(false);
+      }
+    });
+
+    return () => unsubscribe(); // Limpieza del listener
+  }, []);
 
   const handleLogIn = () => {
     openModalAuth();

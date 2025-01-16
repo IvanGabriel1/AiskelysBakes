@@ -5,6 +5,7 @@ import {
   sendEmailVerification,
   sendPasswordResetEmail,
   onAuthStateChanged,
+  updateProfile,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import appFirebase, { db } from "../config/Firebase";
@@ -142,6 +143,11 @@ const AuthProvider = ({ children }) => {
           password
         );
         const user = userCredential.user;
+
+        await updateProfile(user, {
+          displayName: `${nombre} ${apellido}`, // Nombre y apellido para displayName
+        });
+        console.log("Nombre del usuario actualizado correctamente.");
 
         // Almacenar datos adicionales en localStorage o contexto temporal
         localStorage.setItem(
@@ -290,23 +296,41 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // const resendVerificationMail = async () => {
+  //   const user = auth.currentUser;
+
+  //   if (user) {
+  //     await sendEmailVerification(user);
+
+  //     Swal.fire({
+  //       position: "center",
+  //       icon: "success",
+  //       title: "Por favor verifica tu correo",
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //     });
+
+  //     await user.reload();
+  //     setUserEmailVerified(user.emailVerified);
+  //   } else {
+  //     Swal.fire({
+  //       position: "center",
+  //       icon: "error",
+  //       title: "No hay un usuario logueado",
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //     });
+  //   }
+
+  //   await user.reload();
+  //   setUserEmailVerified(user.emailVerified);
+  // };
+
   const resendVerificationMail = async () => {
     const user = auth.currentUser;
 
-    if (user) {
-      await sendEmailVerification(user);
-
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Por favor verifica tu correo",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-
-      await user.reload();
-      setUserEmailVerified(user.emailVerified);
-    } else {
+    if (!user) {
+      // Usuario no autenticado
       Swal.fire({
         position: "center",
         icon: "error",
@@ -314,10 +338,41 @@ const AuthProvider = ({ children }) => {
         showConfirmButton: false,
         timer: 2000,
       });
+      return;
     }
 
-    await user.reload();
-    setUserEmailVerified(user.emailVerified);
+    try {
+      // Enviar correo de verificación
+      await sendEmailVerification(user);
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Correo de verificación enviado",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+
+      // Recargar información del usuario
+      await user.reload();
+      setUserEmailVerified(user.emailVerified);
+    } catch (error) {
+      console.error("Error al enviar el correo de verificación:", error);
+
+      let errorMessage = "Error al reenviar el correo de verificación.";
+      if (error.code === "auth/too-many-requests") {
+        errorMessage =
+          "Has realizado demasiadas solicitudes. Por favor, intenta de nuevo más tarde.";
+      }
+
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: errorMessage,
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
   };
 
   const data = {

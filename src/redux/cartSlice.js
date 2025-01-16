@@ -14,7 +14,7 @@ const cartSlice = createSlice({
 
       if (productoExistente) {
         productoExistente.cantidad += 1;
-        console.log(productoExistente.cantidad);
+        // console.log(productoExistente.cantidad);
       } else {
         state.items.push({ ...action.payload, cantidad: 1 });
       }
@@ -22,7 +22,7 @@ const cartSlice = createSlice({
 
     quitarProducto: (state, action) => {
       const product = state.items.find((item) => item.id === action.payload.id);
-      console.log("asd", action.payload);
+      //console.log("asd", action.payload);
 
       if (product) {
         if (product.cantidad > 1) {

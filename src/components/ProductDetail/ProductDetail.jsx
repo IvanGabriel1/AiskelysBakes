@@ -22,13 +22,13 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
-      console.log("Fetching product with ID:", id);
+      // console.log("Fetching product with ID:", id);
       try {
         const productRef = doc(db, "productos", id);
         const response = await getDoc(productRef);
 
         if (response.exists()) {
-          console.log("Product data:", response.data());
+          // console.log("Product data:", response.data());
           setProduct({ ...response.data(), id: response.id }); //response.data() solo devuelve los campos del documento, no incluye el id del documento.
         } else {
           console.log("No existe el documento");

@@ -19,7 +19,7 @@ const QuantityButtons = ({
   const location = useLocation();
 
   const handleAdd = () => {
-    console.log("Agregando producto con ID:", id);
+    // console.log("Agregando producto con ID:", id);
     dispatch(
       agregarProducto({
         id,
@@ -50,7 +50,7 @@ const QuantityButtons = ({
         }
       });
     } else {
-      console.log("Quitando producto con ID:", id);
+      // console.log("Quitando producto con ID:", id);
       dispatch(quitarProducto({ id }));
     }
   };

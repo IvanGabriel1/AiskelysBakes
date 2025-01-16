@@ -15,7 +15,7 @@ import { auth, db } from "../../config/Firebase";
 import { collection, getDocs, where, query } from "firebase/firestore";
 import { useModal } from "../../hooks/useModal";
 import ModalPay from "../ModalPay/ModalPay";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 const Cart = () => {
   const items = useSelector((state) => state.cart.items);
@@ -63,7 +63,7 @@ const Cart = () => {
       .then((response) => response.json())
       .then((data) => setZonasData(Object.values(data.municipios)))
       .catch((error) => console.error("Error al cargar zonas:", error));
-    console.log(zonasData);
+    // console.log(zonasData);
   }, []);
 
   //Aviso Por el momento solo aceptamos pagos por transferencia:
@@ -91,6 +91,7 @@ const Cart = () => {
       return null;
     }
   };
+
   const getDataFromFirebase = async (email) => {
     if (!email) {
       console.error("Email no disponible.");
@@ -107,6 +108,9 @@ const Cart = () => {
         const userDoc = queryBusqueda.docs[0];
         const { telefono, nombre, apellido } = userDoc.data();
         setUserData({ telefono, nombre, apellido });
+
+        localStorage.setItem("userData", JSON.stringify(userData)); // Prueba
+
         console.log(
           "Teléfono:",
           telefono,
@@ -125,6 +129,14 @@ const Cart = () => {
       throw err;
     }
   };
+
+  // Recupera datos de localStorage al cargar el componente
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
 
   useEffect(() => {
     const email = getAuthenticatedUserEmail();
@@ -206,7 +218,7 @@ const Cart = () => {
   };
 
   const handleSacarItem = (id) => {
-    console.log(id);
+    // console.log(id);
     Swal.fire({
       title: "¿Estás seguro?",
       text: "¡Se eliminará el producto del carrito!",
@@ -303,7 +315,7 @@ const Cart = () => {
     }
 
     setLoading(false);
-    console.log("Pago permitido. Proceder con el flujo de pago.");
+    // console.log("Pago permitido. Proceder con el flujo de pago.");
 
     openModalPay();
     // Lógica para realizar el pago (pendiente de implementar)
