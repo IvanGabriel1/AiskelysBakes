@@ -149,6 +149,7 @@
   margin: 0.5rem;
   height: 2.5rem;
   width: 10rem;
+  font-family: var(--font-family2);
 }
 
 .btn-empty-cart:hover {
@@ -225,6 +226,7 @@
   margin: 0.5rem;
   height: 2.5rem;
   width: 10rem;
+  font-family: var(--font-family2);
 }
 
 .btn-go-to-pay-spinner {

@@ -77,7 +77,10 @@ const ProductItem = ({
             <div className="card-product-price conDescuento">
               <b>
                 Mayorista: $ <s>{precioMayorista}</s> /
-                {precioMayorista - precioMayorista * (descuentoMayorista / 100)}
+                {(
+                  precioMayorista -
+                  precioMayorista * (descuentoMayorista / 100)
+                ).toFixed(2)}
                 {` `} usd.-
               </b>
             </div>
@@ -132,7 +135,7 @@ const ProductItem = ({
                   (precioMinorista - precioMinorista * (descuento / 100)) *
                   cantidad
                 ).toFixed(2)
-              : (precioMinorista * cantidad).toFixed(2)}
+              : (precioMayorista * cantidad).toFixed(2)}
           </span>
         </span>
       )}

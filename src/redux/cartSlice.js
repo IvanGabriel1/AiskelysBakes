@@ -27,14 +27,11 @@ const cartSlice = createSlice({
       if (product) {
         if (product.cantidad > 1) {
           product.cantidad -= 1;
-          console.log(product.cantidad);
         } else if (product.cantidad === 1) {
-          console.log(product.cantidad);
           state.items = state.items.filter(
             (item) => item.id !== action.payload.id
           );
         } else {
-          console.log(product.cantidad);
           return;
         }
       }
