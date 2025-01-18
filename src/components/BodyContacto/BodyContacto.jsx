@@ -1,3 +1,4 @@
+import React from "react";
 import "./bodycontacto.css";
 import ContactoCards from "../ContactoCards/ContactoCards";
 import heroContacto from "../../assets/HeroContacto.jpeg";
@@ -8,12 +9,6 @@ import NavBar from "../NavBar/NavBar";
 const BodyContacto = () => {
   return (
     <>
-      {/* <HeroImage
-        img={heroContacto}
-        text1={"Contactános!"}
-        text2={"Estamos a disposición"}
-      /> */}
-
       <div className="body-contacto-container">
         <div className="body-contact-content">
           <h2 className="title title-form">FORMULARIO DE CONTACTO</h2>

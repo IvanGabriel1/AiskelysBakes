@@ -27,7 +27,7 @@ const BodyInicio = () => {
           >
             <div className="body-producto-shade">
               <article className="body-producto-article">
-                <img src={imgAlfajor1} alt="alfajores de chocolate" />
+                <img src={imgAlfajor1} alt="alfajores" />
                 <h2>ALFAJORES</h2>
               </article>
             </div>
@@ -36,7 +36,7 @@ const BodyInicio = () => {
           <Link to={`/productos/bombon`} path="/" className="button-link">
             <div className="body-producto-shade">
               <article className="body-producto-article">
-                <img src={imgBombon} alt="alfajores de maisena" />
+                <img src={imgBombon} alt="Bombones" />
                 <h2>BOMBONES</h2>
               </article>
             </div>
@@ -45,7 +45,7 @@ const BodyInicio = () => {
           <Link to={`/productos/torta`} path="/" className="button-link">
             <div className="body-producto-shade">
               <article className="body-producto-article">
-                <img src={imgTorta} alt="alfajores de maisena" />
+                <img src={imgTorta} alt="Tortas" />
                 <h2>TORTAS</h2>
               </article>
             </div>

@@ -9,8 +9,9 @@
 .card-product-picture {
   position: relative;
   display: inline-block;
-  width: 100%; /* Puedes ajustar el tamaño */
-  aspect-ratio: 1 / 1; /* Mantén proporción 1:1 */
+  width: 100%;
+  height: 220px;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
 }
 

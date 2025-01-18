@@ -1,3 +1,4 @@
+import React from "react";
 import "./bodynosotros.css";
 import heroNosotros from "../../assets/hero-nosotros.jpeg";
 import HeroImage from "../HeroImage/HeroImage";

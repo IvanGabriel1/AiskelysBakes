@@ -1,3 +1,4 @@
+import React from "react";
 import { useContext, useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";

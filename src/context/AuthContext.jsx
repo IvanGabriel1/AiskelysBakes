@@ -7,6 +7,7 @@ import {
   onAuthStateChanged,
   updateProfile,
 } from "firebase/auth";
+import React from "react";
 import { createContext, useEffect, useState } from "react";
 import appFirebase, { db } from "../config/Firebase";
 import Swal from "sweetalert2";

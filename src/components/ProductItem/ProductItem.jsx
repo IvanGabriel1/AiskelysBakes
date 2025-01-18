@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import React from "react";
 import "./productitem.css";
 import { Link } from "react-router-dom";
 import QuantityButtons from "../QuantityButtons/QuantityButtons";

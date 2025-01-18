@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import "./modalpay.css";
 import FormTransferencia from "../FormTransferencia/FormTransferencia";
 //import AuthContext from "../../context/AuthContext";

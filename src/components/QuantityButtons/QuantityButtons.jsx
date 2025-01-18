@@ -1,3 +1,4 @@
+import React from "react";
 import "./quantitybuttons.css";
 import { useDispatch } from "react-redux";
 import { agregarProducto, quitarProducto } from "../../redux/cartSlice";
