@@ -14,6 +14,7 @@ const ProductItem = ({
   categoria,
   descuento,
   descuentoMayorista,
+  descripcion,
 }) => {
   const [isMayorista, setIsMayorista] = useState(false);
   const nombreMayuscula = nombre.toUpperCase();
@@ -98,6 +99,7 @@ const ProductItem = ({
         categoria={categoria}
         descuento={descuento}
         descuentoMayorista={descuentoMayorista}
+        descripcion={descripcion}
       />
 
       {isMayorista ? (

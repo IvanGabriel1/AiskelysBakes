@@ -15,6 +15,10 @@ const FormTransferencia = ({
   nombre,
   apellido,
   closeModalPay,
+  zonaShippingCost,
+  shippingCost,
+  envioGratisAplicado,
+  varSubTotal,
 }) => {
   const [loading, setLoading] = useState(false);
 
@@ -80,6 +84,10 @@ const FormTransferencia = ({
     if (!nombre) return console.warn("No hay nombre");
     if (!apellido) return console.warn("No hay apellido");
 
+    const envioAplicado = envioGratisAplicado
+      ? ` Envio gratis: ${zonaShippingCost}`
+      : ` Costo de envio: $${shippingCost} - ${zonaShippingCost}`;
+
     const cartContent = `
   <div style="display: inline-block, font-family: Arial, sans-serif; color: #333; margin: auto;  ">
     <h2 style="text-align: center; color: #4CAF50;">Resumen de Pedido - ${new Date().toLocaleString()}</h2>
@@ -126,15 +134,11 @@ const FormTransferencia = ({
 
             return `
               <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${
-                  item.nombre
-                }</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.nombre}</td>
                 <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
-                  ${fullProduct?.descripcion || "Sin descripción"}
+                   ${item.descripcion}
                 </td>
-                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${
-                  item.cantidad
-                }</td>
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">${item.cantidad}</td>
                 <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
                   $${item.precioMinorista}
                 </td>
@@ -148,9 +152,7 @@ const FormTransferencia = ({
 
 
                 <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
-                  <img src="${item.img}" alt="${
-              item.nombre
-            }" style="max-width: 100px; height: auto; border-radius: 5px;" />
+                  <img src="${item.img}" alt="${item.nombre}" style="max-width: 100px; height: auto; border-radius: 5px;" />
                 </td>
               </tr>
             `;
@@ -158,9 +160,16 @@ const FormTransferencia = ({
           .join("")}
       </tbody>
     </table>
-    <div style="margin-top: 20px; text-align: right;">
-      <h3 style="color: #4CAF50;">Total: $${sumaFinal.toFixed(2)}</h3>
-    </div>
+
+<div style="margin-top: 20px; text-align: right;" >
+  <span style=" color: #4CAF50; display: block; text-align: right;">Subtotal: ${varSubTotal}</span>
+  <br/>
+<span style=" color: #4CAF50; display: block; text-align: right;"> ${envioAplicado}</span>
+  <h3 style=" color: #4CAF50; display: block; text-align: right; ">Total: ${sumaFinal.toFixed(
+    2
+  )}</h3>
+</div>
+
     <p style="text-align: center; color: #666; font-size: 14px;">
       Este es un resumen del pedido recibido. Si tienes alguna pregunta o duda, no dudes en contactarnos. Gracias por elegirnos.
     </p>
@@ -186,6 +195,9 @@ const FormTransferencia = ({
       cart_content: cartContent,
       monto_total: sumaFinal,
       user_email: userMail,
+      user_phone: telefono,
+      user_name: nombre,
+      user_lastname: apellido,
     };
 
     //Mail al comercio:

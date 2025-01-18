@@ -33,49 +33,95 @@ const AuthProvider = ({ children }) => {
 
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  //     if (user && user.emailVerified) {
+  //       try {
+  //         // Verificar si el usuario ya tiene datos guardados
+  //         const userDocRef = doc(db, "users", user.uid);
+  //         const userSnapshot = await getDoc(userDocRef);
+  //         const additionalUserInfo = JSON.parse(
+  //           localStorage.getItem("additionalUserInfo")
+  //         );
+
+  //         if (!userSnapshot.exists()) {
+  //           console.log("Datos que intentas guardar:", {
+  //             mail: user.email,
+  //             telefono: user.telephone,
+  //             nombre: user.nombre,
+  //             apellido: user.apellido,
+  //             emailVerified: true,
+  //           });
+  //           // Guardar los datos del usuario en Firestore
+  //           await setDoc(userDocRef, {
+  //             mail: user.email,
+  //             telefono:
+  //               additionalUserInfo?.telephone || "Teléfono no proporcionado",
+  //             nombre: additionalUserInfo?.nombre || "Nombre no proporcionado",
+  //             apellido:
+  //               additionalUserInfo?.apellido || "Apellido no proporcionado",
+  //             emailVerified: true,
+  //           });
+
+  //           localStorage.removeItem("additionalUserInfo");
+
+  //           console.log("Datos guardados exitosamente en Firestore");
+  //         }
+  //       } catch (error) {
+  //         console.error("Error al guardar los datos del usuario: ", error);
+  //       }
+  //     }
+  //   });
+
+  //   return () => unsubscribe(); // Limpia el listener cuando el componente se desmonta
+  // }, []);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user && user.emailVerified) {
+      if (user) {
         try {
-          // Verificar si el usuario ya tiene datos guardados
-          const userDocRef = doc(db, "users", user.uid);
-          const userSnapshot = await getDoc(userDocRef);
-          const additionalUserInfo = JSON.parse(
-            localStorage.getItem("additionalUserInfo")
-          );
+          // Recarga la información del usuario
+          await user.reload();
+          const isVerified = user.emailVerified;
 
-          if (!userSnapshot.exists()) {
-            console.log("Datos que intentas guardar:", {
-              mail: user.email,
-              telefono: user.telephone,
-              nombre: user.nombre,
-              apellido: user.apellido,
-              emailVerified: true,
-            });
-            // Guardar los datos del usuario en Firestore
-            await setDoc(userDocRef, {
-              mail: user.email,
-              telefono:
-                additionalUserInfo?.telephone || "Teléfono no proporcionado",
-              nombre: additionalUserInfo?.nombre || "Nombre no proporcionado",
-              apellido:
-                additionalUserInfo?.apellido || "Apellido no proporcionado",
-              emailVerified: true,
-            });
+          // Actualiza el estado
+          setUserEmailVerified(isVerified);
 
-            localStorage.removeItem("additionalUserInfo");
+          // Si está verificado, guarda en Firestore si es necesario
+          if (isVerified) {
+            const userDocRef = doc(db, "users", user.uid);
+            const userSnapshot = await getDoc(userDocRef);
 
-            console.log("Datos guardados exitosamente en Firestore");
+            if (!userSnapshot.exists()) {
+              const additionalUserInfo = JSON.parse(
+                localStorage.getItem("additionalUserInfo")
+              );
+              await setDoc(userDocRef, {
+                mail: user.email,
+                telefono:
+                  additionalUserInfo?.telephone || "Teléfono no proporcionado",
+                nombre: additionalUserInfo?.nombre || "Nombre no proporcionado",
+                apellido:
+                  additionalUserInfo?.apellido || "Apellido no proporcionado",
+                emailVerified: true,
+              });
+
+              localStorage.removeItem("additionalUserInfo");
+            }
           }
         } catch (error) {
-          console.error("Error al guardar los datos del usuario: ", error);
+          console.error(
+            "Error al recargar el usuario o actualizar los datos: ",
+            error
+          );
         }
+      } else {
+        setUserEmailVerified(false); // Usuario no autenticado
       }
     });
 
-    return () => unsubscribe(); // Limpia el listener cuando el componente se desmonta
+    return () => unsubscribe();
   }, []);
-
   /* estraido de LoginWhitEmail:*/
 
   const handleAuthentication = async (e) => {
@@ -129,14 +175,6 @@ const AuthProvider = ({ children }) => {
 
     try {
       if (registrando) {
-        // Registro de usuario
-        // const userCredential = await createUserWithEmailAndPassword(
-        //   auth,
-        //   email,
-        //   password
-        // );
-        // const user = userCredential.user;
-
         const userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
@@ -154,27 +192,6 @@ const AuthProvider = ({ children }) => {
           "additionalUserInfo",
           JSON.stringify({ nombre, apellido, telephone })
         );
-
-        /**/
-
-        // const usersCollection = collection(db, "users");
-
-        // try {
-        //   await addDoc(usersCollection, {
-        //     mail: email,
-        //     telefono: telephone,
-        //     nombre: nombre,
-        //     apellido: apellido,
-        //   });
-        // } catch (firestoreError) {
-        //   console.error("Error al guardar en Firestore: ", firestoreError);
-        //   setError({
-        //     errorGeneral:
-        //       "Error al guardar en la base de datos. Intenta de nuevo.",
-        //   });
-        // }
-
-        /**/
 
         await sendEmailVerification(user);
 
@@ -299,20 +316,8 @@ const AuthProvider = ({ children }) => {
   // const resendVerificationMail = async () => {
   //   const user = auth.currentUser;
 
-  //   if (user) {
-  //     await sendEmailVerification(user);
-
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "success",
-  //       title: "Por favor verifica tu correo",
-  //       showConfirmButton: false,
-  //       timer: 2000,
-  //     });
-
-  //     await user.reload();
-  //     setUserEmailVerified(user.emailVerified);
-  //   } else {
+  //   if (!user) {
+  //     // Usuario no autenticado
   //     Swal.fire({
   //       position: "center",
   //       icon: "error",
@@ -320,17 +325,47 @@ const AuthProvider = ({ children }) => {
   //       showConfirmButton: false,
   //       timer: 2000,
   //     });
+  //     return;
   //   }
 
-  //   await user.reload();
-  //   setUserEmailVerified(user.emailVerified);
+  //   try {
+  //     // Enviar correo de verificación
+  //     await sendEmailVerification(user);
+
+  //     Swal.fire({
+  //       position: "center",
+  //       icon: "success",
+  //       title: "Correo de verificación enviado",
+  //       showConfirmButton: false,
+  //       timer: 2000,
+  //     });
+
+  //     // Recargar información del usuario
+  //     await user.reload();
+  //     setUserEmailVerified(user.emailVerified);
+  //   } catch (error) {
+  //     console.error("Error al enviar el correo de verificación:", error);
+
+  //     let errorMessage = "Error al reenviar el correo de verificación.";
+  //     if (error.code === "auth/too-many-requests") {
+  //       errorMessage =
+  //         "Has realizado demasiadas solicitudes. Por favor, intenta de nuevo más tarde.";
+  //     }
+
+  //     Swal.fire({
+  //       position: "center",
+  //       icon: "error",
+  //       title: errorMessage,
+  //       showConfirmButton: false,
+  //       timer: 3000,
+  //     });
+  //   }
   // };
 
   const resendVerificationMail = async () => {
     const user = auth.currentUser;
 
     if (!user) {
-      // Usuario no autenticado
       Swal.fire({
         position: "center",
         icon: "error",
@@ -342,9 +377,7 @@ const AuthProvider = ({ children }) => {
     }
 
     try {
-      // Enviar correo de verificación
       await sendEmailVerification(user);
-
       Swal.fire({
         position: "center",
         icon: "success",
@@ -353,24 +386,17 @@ const AuthProvider = ({ children }) => {
         timer: 2000,
       });
 
-      // Recargar información del usuario
+      // Recarga el estado del usuario
       await user.reload();
       setUserEmailVerified(user.emailVerified);
     } catch (error) {
-      console.error("Error al enviar el correo de verificación:", error);
-
-      let errorMessage = "Error al reenviar el correo de verificación.";
-      if (error.code === "auth/too-many-requests") {
-        errorMessage =
-          "Has realizado demasiadas solicitudes. Por favor, intenta de nuevo más tarde.";
-      }
-
+      console.error("Error al reenviar el correo de verificación:", error);
       Swal.fire({
         position: "center",
         icon: "error",
-        title: errorMessage,
+        title: "Error al enviar el correo de verificación.",
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
       });
     }
   };

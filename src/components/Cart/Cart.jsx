@@ -262,13 +262,16 @@ const Cart = () => {
       ? calcularSubtotal()
       : calcularSubtotal() + shippingCost;
 
+  const envioGratisAplicado = calcularSubtotal() >= envioGratis ? true : false;
+
+  const varSubTotal = calcularSubtotal();
+
   //btn Ir a pagar:
   const handlePay = async () => {
     setLoading(true);
     // Verifica sincronización antes de continuar
     const sincronizacionExitosa = await sincronizarProductosCarrito();
     if (sincronizacionExitosa) {
-      // Antes estaba (!sincronizacionExitosa)
       setLoading(false);
       return;
     }
@@ -452,6 +455,7 @@ const Cart = () => {
                           categoria={product.categoria}
                           descuento={product.descuento}
                           descuentoMayorista={product.descuentoMayorista}
+                          descripcion={product.descripcion}
                         />
 
                         <span className="cart-item-total">
@@ -547,6 +551,10 @@ const Cart = () => {
                 nombre={userData.nombre}
                 apellido={userData.apellido}
                 closeModalPay={closeModalPay}
+                zonaShippingCost={zonaShippingCost}
+                shippingCost={shippingCost}
+                envioGratisAplicado={envioGratisAplicado}
+                varSubTotal={varSubTotal}
               />
             ) : null}
           </section>

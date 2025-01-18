@@ -11,6 +11,10 @@ const ModalPay = ({
   nombre,
   apellido,
   closeModalPay,
+  zonaShippingCost,
+  shippingCost,
+  envioGratisAplicado,
+  varSubTotal,
 }) => {
   const [optionPaySelected, setOptionSelected] = useState("transferencia");
   //const { email } = useContext(AuthContext);
@@ -53,6 +57,10 @@ const ModalPay = ({
             nombre={nombre}
             apellido={apellido}
             closeModalPay={closeModalPay}
+            zonaShippingCost={zonaShippingCost}
+            shippingCost={shippingCost}
+            envioGratisAplicado={envioGratisAplicado}
+            varSubTotal={varSubTotal}
           />
         ) : null}
       </div>

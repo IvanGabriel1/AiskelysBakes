@@ -14,6 +14,7 @@ const QuantityButtons = ({
   categoria,
   descuento,
   descuentoMayorista,
+  descripcion,
 }) => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -31,6 +32,7 @@ const QuantityButtons = ({
         descuento,
         descuentoMayorista,
         cantidad,
+        descripcion,
       })
     );
   };

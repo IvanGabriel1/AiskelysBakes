@@ -22,33 +22,6 @@ const HeaderSingUp = () => {
     setUserEmailVerified,
     resendVerificationMail,
   } = useContext(AuthContext);
-  /*
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserLogin(user);
-        setUserMail(user.email);
-        setUserEmailVerified(user.emailVerified);
-
-        // Verificar cada cierto tiempo si el usuario ha verificado su correo
-        const intervalId = setInterval(async () => {
-          await user.reload(); // Recarga la información del usuario
-          if (user.emailVerified) {
-            setUserEmailVerified(true);
-            clearInterval(intervalId); // Detiene el intervalo cuando se verifica
-          }
-        }, 60000); // Intervalo de 3 segundos
-
-        return () => clearInterval(intervalId); // Limpieza al desmontar el componente
-      } else {
-        setUserLogin(null);
-        setUserEmailVerified(false);
-      }
-    });
-
-    return () => unsubscribe();
-  }, [setUserEmailVerified]);
-*/
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
