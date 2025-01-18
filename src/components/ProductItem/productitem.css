@@ -2,6 +2,7 @@
   border: thin solid var(--third-color);
   border-radius: 0.2rem;
   margin: 0.5rem;
+  width: 95%;
   max-width: 250px;
   height: 100%;
 }
