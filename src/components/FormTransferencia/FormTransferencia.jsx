@@ -11,15 +11,14 @@ import { vaciarCarrito } from "../../redux/cartSlice";
 const FormTransferencia = ({
   sumaFinal,
   userEmailVerified,
-  telefono,
-  nombre,
-  apellido,
   closeModalPay,
   zonaShippingCost,
   shippingCost,
   envioGratisAplicado,
   varSubTotal,
+  userData,
 }) => {
+  const { telefono, nombre, apellido } = userData;
   const [loading, setLoading] = useState(false);
 
   const cart = useSelector((state) => state.cart);

@@ -17,6 +17,7 @@ import { collection, getDocs, where, query } from "firebase/firestore";
 import { useModal } from "../../hooks/useModal";
 import ModalPay from "../ModalPay/ModalPay";
 import { getAuth } from "firebase/auth";
+import GoCart from "../GoCart/GoCart";
 
 const Cart = () => {
   const items = useSelector((state) => state.cart.items);
@@ -108,7 +109,12 @@ const Cart = () => {
       if (!queryBusqueda.empty) {
         const userDoc = queryBusqueda.docs[0];
         const { telefono, nombre, apellido } = userDoc.data();
-        setUserData({ telefono, nombre, apellido });
+        //  setUserData({ telefono, nombre, apellido });
+        setUserData({
+          telefono: telefono || "",
+          nombre: nombre || "",
+          apellido: apellido || "",
+        });
 
         localStorage.setItem("userData", JSON.stringify(userData)); // Prueba
 
@@ -270,14 +276,15 @@ const Cart = () => {
   //btn Ir a pagar:
   const handlePay = async () => {
     setLoading(true);
+
+    const user = auth.currentUser;
+
     // Verifica sincronización antes de continuar
     const sincronizacionExitosa = await sincronizarProductosCarrito();
     if (sincronizacionExitosa) {
       setLoading(false);
       return;
     }
-
-    const user = auth.currentUser;
 
     // Validaciones de usuario y montos
     if (sumaFinal < compraMinima) {
@@ -306,6 +313,8 @@ const Cart = () => {
 
     await user.reload();
 
+    console.log(userData);
+
     if (!user.emailVerified) {
       Swal.fire({
         position: "center",
@@ -318,7 +327,50 @@ const Cart = () => {
       return;
     }
 
-    setLoading(false);
+    try {
+      // Realiza una consulta para buscar el documento del usuario en la colección 'users'
+      const usersCollectionRef = collection(db, "users");
+      const q = query(usersCollectionRef, where("uid", "==", user.uid));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        const userData = userDoc.data();
+
+        setUserData({
+          telefono: userData.telefono || "",
+          nombre: userData.nombre || "",
+          apellido: userData.apellido || "",
+        });
+
+        ModalPay({
+          telefono: userData.telefono || "",
+          nombre: userData.nombre || "",
+          apellido: userData.apellido || "",
+        });
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "No se encontraron datos del usuario",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    } catch (error) {
+      console.error("Error al obtener los datos del usuario:", error);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Hubo un error al obtener los datos del usuario",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } finally {
+      setLoading(false);
+    }
+
+    // setLoading(false);
     // console.log("Pago permitido. Proceder con el flujo de pago.");
 
     openModalPay();
@@ -370,11 +422,6 @@ const Cart = () => {
                   return (
                     <li className="cart-item" key={product.id}>
                       <div className="cart-item-container">
-                        {/* <img
-                          className="card-product-picture-img"
-                          src={product.img}
-                          alt={product.nombre}
-                        /> */}
                         <picture className="card-product-picture">
                           <img
                             className="card-product-picture-img"
@@ -548,14 +595,12 @@ const Cart = () => {
                 closeModal={closeModalPay}
                 sumaFinal={sumaFinal}
                 userEmailVerified={userEmailVerified}
-                telefono={userData.telefono}
-                nombre={userData.nombre}
-                apellido={userData.apellido}
                 closeModalPay={closeModalPay}
                 zonaShippingCost={zonaShippingCost}
                 shippingCost={shippingCost}
                 envioGratisAplicado={envioGratisAplicado}
                 varSubTotal={varSubTotal}
+                userData={userData}
               />
             ) : null}
           </section>

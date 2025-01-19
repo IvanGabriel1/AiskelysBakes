@@ -1,0 +1,25 @@
+.btn-go-cart {
+  border-radius: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  height: 2.5rem;
+  width: 10rem;
+  background-color: var(--first-color);
+}
+
+.btn-go-cart:hover {
+  opacity: 0.7;
+}
+
+.btn-go-cart img {
+  width: 2rem;
+  height: 2rem;
+}
+
+@media screen and (min-width: 1024px) {
+  .btn-go-cart {
+    margin-bottom: 0;
+    margin-top: 1rem;
+  }
+}

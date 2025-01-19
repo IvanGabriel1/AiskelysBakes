@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./productdetail.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../../config/Firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Spinner from "../Spinner/Spinner";
@@ -9,6 +9,8 @@ import Carousel from "../Carousel/Carousel";
 import QuantityButtons from "../QuantityButtons/QuantityButtons";
 import { useSelector } from "react-redux";
 import { selectProductQuantity } from "../../redux/cartSlice";
+import GoCart from "../GoCart/GoCart";
+import svgBackPage from "../../assets/arrow-backPage.svg";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -18,6 +20,7 @@ const ProductDetail = () => {
   const [isMayorista, setIsMayorista] = useState(false);
   const [categoriaMayoristaMessage, setCategoriaMayoristaMessage] =
     useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -78,6 +81,10 @@ const ProductDetail = () => {
     }
   }, [product]);
 
+  const navigateBackPage = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="item-details-container">
       {loading ? (
@@ -85,106 +92,116 @@ const ProductDetail = () => {
       ) : (
         <div>
           {product ? (
-            <div className="prod-detail-sections-large">
-              <Carousel
-                images={[product.img, product.img2, product.img3].filter(
-                  Boolean
-                )}
-              />
-
-              <div className="prod-detail-info-large">
-                <p className="prod-detail-prod-nombre">{product.nombre}</p>
-                <p className="aviso-productos">
-                  <strong>Condiciones para mayoristas: </strong>
-                  {categoriaMayoristaMessage}
-                </p>
-
-                <section className="item-details-description-section">
-                  <p>
-                    <strong>Descripción:</strong>
-                  </p>
-                  <p className="item-details-description">
-                    {product.descripcion}
-                  </p>
-                </section>
+            <>
+              <div className="btn-back-container">
+                <button className="btn-back-page" onClick={navigateBackPage}>
+                  <img src={svgBackPage} alt="volver a la pagina anterior" />
+                </button>
               </div>
 
-              <section className="prod-detail-price-section">
-                {product.descuento ? (
-                  <p className="prod-detail-price">
-                    Precio Minorista: $ <s>{product.precioMinorista}</s> /{" "}
-                    {product.precioMinorista -
-                      product.precioMinorista *
-                        (product.descuento / 100).toFixed(2)}{" "}
-                    usd.
-                  </p>
-                ) : (
-                  <p className="prod-detail-price">
-                    Precio Minorista: ${product.precioMinorista} usd.
-                  </p>
-                )}
-
-                {product.descuentoMayorista ? (
-                  <p className="prod-detail-price">
-                    Precio Mayorista: $ <s>{product.precioMayorista}</s> /{" "}
-                    {(
-                      product.precioMayorista -
-                      product.precioMayorista *
-                        (product.descuentoMayorista / 100)
-                    ).toFixed(2)}{" "}
-                    usd.
-                  </p>
-                ) : (
-                  <p className="prod-detail-price">
-                    Precio Mayorista: ${product.precioMayorista} usd.
-                  </p>
-                )}
-                <QuantityButtons
-                  id={product.id}
-                  nombre={product.nombre}
-                  precioMinorista={product.precioMinorista}
-                  precioMayorista={product.precioMayorista}
-                  cantidad={cantidad}
-                  img={product.img}
-                  categoria={product.categoria}
-                  descuento={product.descuento}
-                  descuentoMayorista={product.descuentoMayorista}
+              <div className="prod-detail-sections-large">
+                <Carousel
+                  images={[product.img, product.img2, product.img3].filter(
+                    Boolean
+                  )}
                 />
-                {isMayorista ? (
-                  <span className="prod-detail-total-container">
-                    <strong className="prod-detail-total-precio-mayorista">
-                      Mayorista!
-                    </strong>
-                    <span className="prod-detail-total-precio-final">
-                      Total: $
-                      {product.descuentoMayorista
-                        ? (
-                            (product.precioMayorista -
-                              product.precioMayorista *
-                                (product.descuentoMayorista / 100)) *
-                            cantidad
-                          ).toFixed(2)
-                        : (product.precioMayorista * cantidad).toFixed(2)}
+
+                <div className="prod-detail-info-large">
+                  <p className="prod-detail-prod-nombre">{product.nombre}</p>
+                  <p className="aviso-productos">
+                    <strong>Condiciones para mayoristas: </strong>
+                    {categoriaMayoristaMessage}
+                  </p>
+
+                  <section className="item-details-description-section">
+                    <p>
+                      <strong>Descripción:</strong>
+                    </p>
+                    <p className="item-details-description">
+                      {product.descripcion}
+                    </p>
+                  </section>
+
+                  <GoCart />
+                </div>
+
+                <section className="prod-detail-price-section">
+                  {product.descuento ? (
+                    <p className="prod-detail-price">
+                      Precio Minorista: $ <s>{product.precioMinorista}</s> /{" "}
+                      {product.precioMinorista -
+                        product.precioMinorista *
+                          (product.descuento / 100).toFixed(2)}{" "}
+                      usd.
+                    </p>
+                  ) : (
+                    <p className="prod-detail-price">
+                      Precio Minorista: ${product.precioMinorista} usd.
+                    </p>
+                  )}
+
+                  {product.descuentoMayorista ? (
+                    <p className="prod-detail-price">
+                      Precio Mayorista: $ <s>{product.precioMayorista}</s> /{" "}
+                      {(
+                        product.precioMayorista -
+                        product.precioMayorista *
+                          (product.descuentoMayorista / 100)
+                      ).toFixed(2)}{" "}
+                      usd.
+                    </p>
+                  ) : (
+                    <p className="prod-detail-price">
+                      Precio Mayorista: ${product.precioMayorista} usd.
+                    </p>
+                  )}
+                  <QuantityButtons
+                    id={product.id}
+                    nombre={product.nombre}
+                    precioMinorista={product.precioMinorista}
+                    precioMayorista={product.precioMayorista}
+                    cantidad={cantidad}
+                    img={product.img}
+                    categoria={product.categoria}
+                    descuento={product.descuento}
+                    descuentoMayorista={product.descuentoMayorista}
+                  />
+                  {isMayorista ? (
+                    <span className="prod-detail-total-container">
+                      <strong className="prod-detail-total-precio-mayorista">
+                        Mayorista!
+                      </strong>
+                      <span className="prod-detail-total-precio-final">
+                        Total: $
+                        {product.descuentoMayorista
+                          ? (
+                              (product.precioMayorista -
+                                product.precioMayorista *
+                                  (product.descuentoMayorista / 100)) *
+                              cantidad
+                            ).toFixed(2)
+                          : (product.precioMayorista * cantidad).toFixed(2)}
+                      </span>
                     </span>
-                  </span>
-                ) : (
-                  <span className="prod-detail-total-container">
-                    <strong>Minorista</strong>
-                    <span className="prod-detail-total-precio-final">
-                      Total: $
-                      {product.descuento
-                        ? (
-                            (product.precioMinorista -
-                              product.precioMinorista *
-                                (product.descuento / 100)) *
-                            cantidad
-                          ).toFixed(2)
-                        : (product.precioMinorista * cantidad).toFixed(2)}
+                  ) : (
+                    <span className="prod-detail-total-container">
+                      <strong>Minorista</strong>
+                      <span className="prod-detail-total-precio-final">
+                        Total: $
+                        {product.descuento
+                          ? (
+                              (product.precioMinorista -
+                                product.precioMinorista *
+                                  (product.descuento / 100)) *
+                              cantidad
+                            ).toFixed(2)
+                          : (product.precioMinorista * cantidad).toFixed(2)}
+                      </span>
                     </span>
-                  </span>
-                )}
-              </section>
-            </div>
+                  )}
+                </section>
+              </div>
+            </>
           ) : (
             <p>Producto no encontrado</p>
           )}

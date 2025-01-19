@@ -60,6 +60,31 @@
   text-decoration: underline;
 }
 
+.btn-back-container {
+  max-width: 1024px;
+  margin: auto;
+}
+
+.btn-back-page {
+  display: block;
+  margin-left: 10px;
+  margin-bottom: 1rem;
+  border: none;
+  cursor: pointer;
+  height: 2rem;
+  background-color: transparent;
+  padding: 0;
+}
+
+.btn-back-page:hover {
+  opacity: 0.7;
+}
+
+.btn-back-page img {
+  width: 2rem;
+  height: 2rem;
+}
+
 @media screen and (min-width: 500px) {
   .prod-detail-price-section {
     text-align: center;
@@ -120,5 +145,10 @@
   .item-details-description {
     line-height: 0.9rem;
     font-size: var(--step--3);
+  }
+
+  .btn-back-page {
+    margin-left: 0;
+    padding: 0;
   }
 }

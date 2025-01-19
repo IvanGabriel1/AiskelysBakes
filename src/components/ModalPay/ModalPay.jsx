@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import "./modalpay.css";
 import FormTransferencia from "../FormTransferencia/FormTransferencia";
 //import AuthContext from "../../context/AuthContext";
@@ -7,15 +7,14 @@ const ModalPay = ({
   closeModal,
   sumaFinal,
   userEmailVerified,
-  telefono,
-  nombre,
-  apellido,
   closeModalPay,
   zonaShippingCost,
   shippingCost,
   envioGratisAplicado,
   varSubTotal,
+  userData,
 }) => {
+  const { telefono, nombre, apellido } = userData;
   const [optionPaySelected, setOptionSelected] = useState("transferencia");
   //const { email } = useContext(AuthContext);
 
@@ -53,14 +52,12 @@ const ModalPay = ({
           <FormTransferencia
             sumaFinal={sumaFinal}
             userEmailVerified={userEmailVerified}
-            telefono={telefono}
-            nombre={nombre}
-            apellido={apellido}
             closeModalPay={closeModalPay}
             zonaShippingCost={zonaShippingCost}
             shippingCost={shippingCost}
             envioGratisAplicado={envioGratisAplicado}
             varSubTotal={varSubTotal}
+            userData={userData}
           />
         ) : null}
       </div>
