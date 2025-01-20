@@ -1,14 +1,18 @@
 .footer {
-  height: 2rem;
   background-color: var(--second-color);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--white-color);
-  font-weight: 500;
 }
 
-.footer-p {
-  margin: auto;
+.footer-credits {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+.footer-credits a {
+  color: #0073b1; /* Azul LinkedIn */
+  text-decoration: none;
+}
+
+.footer-credits a:hover {
+  text-decoration: underline;
 }

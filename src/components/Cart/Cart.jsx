@@ -293,9 +293,6 @@ const Cart = () => {
     console.log(apellido);
 
     const user = auth.currentUser;
-    await user.reload();
-    // Aquí verificas si el correo está verificado y actualizas el estado
-    setUserEmailVerified(user.emailVerified);
 
     // Verifica sincronización antes de continuar
     const sincronizacionExitosa = await sincronizarProductosCarrito();
@@ -330,6 +327,9 @@ const Cart = () => {
     }
 
     await user.reload();
+
+    // Aquí verificas si el correo está verificado y actualizas el estado
+    setUserEmailVerified(user.emailVerified);
 
     if (!user.emailVerified) {
       Swal.fire({

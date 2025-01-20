@@ -298,6 +298,7 @@
   .cart-container {
     max-width: 1200px;
     grid-template-columns: 70% 1fr;
+    margin: auto;
   }
 
   .cart-summary {
