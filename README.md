@@ -12,7 +12,7 @@ Este proyecto es un e-commerce desarrollado para el negocio familiar **AiskelysB
 
 ## Vista previa
 
-![image](/src/assets/Aiskelys_Bakes_GIF.gif)
+![image](/src/assets/Aiskelys-Bakes.gif)
 
 ## Deploy
 
