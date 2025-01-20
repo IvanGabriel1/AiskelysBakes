@@ -8,6 +8,7 @@
   text-align: center;
   color: white;
   pointer-events: none;
+  z-index: 0;
 }
 
 .hero-image {

@@ -13,6 +13,7 @@ const auth = getAuth(appFirebase);
 const HeaderSingUp = () => {
   const [userLogin, setUserLogin] = useState(null);
   const [userMail, setUserMail] = useState(null);
+  const [isOpenAccordionHeader, setIsOpenAccordionHeader] = useState(false);
 
   const [isOpenLogin, modalLogin, closeModalLogin] = useModal(false);
 
@@ -74,6 +75,9 @@ const HeaderSingUp = () => {
     modalChangePassword(true);
   };
 
+  const toggleAccordion = () =>
+    setIsOpenAccordionHeader(!isOpenAccordionHeader);
+
   return (
     <header className="header">
       <div className="header-container">
@@ -84,39 +88,69 @@ const HeaderSingUp = () => {
         <section className="section-header">
           {userLogin ? (
             <div className="user-logeado-div">
-              {userMail ? (
-                <h5>
-                  Bienvenido: <br />
-                  {userMail}
-                </h5>
-              ) : (
-                <p>Cargando correo...</p>
-              )}
-              {userEmailVerified ? (
-                <h5 className="user-verified">Usuario verificado.</h5>
-              ) : (
-                <div className="user-no-verified-container">
-                  <h5 className="user-no-verified">
-                    Verifique su usuario desde su correo electronico.
-                  </h5>
-
-                  <button
-                    className="btn-resend-emailverified"
-                    onClick={() => resendVerificationMail()}
-                  >
-                    Reenviar mail
-                  </button>
-                </div>
-              )}
               <button
-                className="change-password-btn"
-                onClick={() => handleModalChange()}
+                className={`header-accordion-button ${
+                  isOpenAccordionHeader ? `open` : ``
+                }`}
+                onClick={toggleAccordion}
               >
-                <u>Cambiar contraseña</u>
+                {userMail ? (
+                  <div className="header-accordion-button-contenido">
+                    {isOpenAccordionHeader ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                      >
+                        <path d="M233.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L256 173.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z" />
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"
+                      >
+                        <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
+                      </svg>
+                    )}
+                    <h5>
+                      Bienvenido:
+                      {userMail}
+                    </h5>
+                  </div>
+                ) : (
+                  <p>Cargando correo...</p>
+                )}
               </button>
-              <button className="singup-btn" onClick={handleLogOut}>
-                Cerrar Sesión
-              </button>
+              <div
+                className={`header-accordion-content ${
+                  isOpenAccordionHeader ? `open` : ``
+                }`}
+              >
+                {userEmailVerified ? (
+                  <h5 className="user-verified">Usuario verificado.</h5>
+                ) : (
+                  <div className="user-no-verified-container">
+                    <h5 className="user-no-verified">
+                      Verifique su usuario desde su correo electronico.
+                    </h5>
+
+                    <button
+                      className="btn-resend-emailverified"
+                      onClick={() => resendVerificationMail()}
+                    >
+                      Reenviar mail
+                    </button>
+                  </div>
+                )}
+                <button
+                  className="change-password-btn"
+                  onClick={() => handleModalChange()}
+                >
+                  Cambiar contraseña
+                </button>
+                <button className="singup-btn" onClick={handleLogOut}>
+                  Cerrar Sesión
+                </button>
+              </div>
             </div>
           ) : (
             <div className="iniciar-sesion-container">

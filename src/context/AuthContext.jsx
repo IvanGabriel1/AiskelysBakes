@@ -312,14 +312,25 @@ const AuthProvider = ({ children }) => {
       await user.reload();
       setUserEmailVerified(user.emailVerified);
     } catch (error) {
-      console.error("Error al reenviar el correo de verificación:", error);
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Error al enviar el correo de verificación.",
-        showConfirmButton: false,
-        timer: 2000,
-      });
+      if (error.code === `auth/too-many-requests`) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title:
+            "Has enviado demasiadas solicitudes. Por favor, espera un momento antes de intentarlo de nuevo.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } else {
+        console.error("Error al reenviar el correo de verificación:", error);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Error al enviar el correo de verificación.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
     }
   };
 

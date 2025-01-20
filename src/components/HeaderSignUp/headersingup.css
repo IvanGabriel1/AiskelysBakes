@@ -42,6 +42,71 @@
   animation: avisoHeader 2s ease-out infinite;
 }
 
+.iniciar-sesion-container {
+  height: 2rem;
+  margin: auto;
+  text-align: center;
+}
+
+.iniciar-sesion {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  height: 2rem;
+}
+
+/** Accordion**/
+
+.header-accordion-content {
+  max-height: 0; /* Oculta el contenido inicialmente */
+  overflow: hidden; /* Oculta el contenido que desborda */
+  transition: max-height 0.5s ease-in-out; /* Transición para el deslizamiento */
+  background-color: #f1f1f1;
+}
+
+.header-accordion-content.open {
+  max-height: 600px;
+  border-top: thin solid var(--third-color);
+  border-left: thin solid var(--third-color);
+  border-right: thin solid var(--third-color);
+  border-bottom: 0;
+}
+
+.header-accordion-button {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--white-color);
+  border: thin solid black;
+  cursor: pointer;
+  text-align: center;
+  width: auto;
+  outline: none;
+  padding: 0;
+}
+
+.header-accordion-button.open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.header-accordion-button-contenido {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 2rem;
+  height: 100%;
+  width: 100%;
+}
+
+.header-accordion-button-contenido svg {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 1rem;
+}
+
+/** Fin - Accordion**/
+
 .header-container {
   width: 100%;
   margin: auto;
@@ -50,17 +115,15 @@
 .section-header {
   background-color: var(--second-color);
   height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .user-logeado-div {
-  display: block;
   height: 100%;
   margin: auto;
-  padding: 1rem;
   background-color: var(--second-color);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
 }
 
 .user-logeado-div,
@@ -102,16 +165,21 @@
   display: block;
   margin: auto;
   border: none;
-  background-color: transparent;
-  text-decoration: underline;
+  background-color: var(--white-color);
   cursor: pointer;
   font-size: var(--step--2);
-  color: var(--first-color);
-  max-width: 200px;
+  color: black;
+  width: 100%;
+  height: 2rem;
+  border-bottom: thin solid black;
+  font-weight: bold;
 }
 
 .btn-resend-emailverified {
-  color: var(--error-color);
+  color: black;
+  background-color: var(--white-color);
+  font-weight: bold;
+  height: 2rem;
 }
 
 .change-password-btn:hover,
@@ -120,15 +188,15 @@
 }
 
 .singup-btn {
-  color: var(--first-color);
-  background-color: transparent;
-  border-radius: 1rem;
-  border: thin solid var(--first-color);
+  color: var(--white-color);
+  background-color: black;
+  border: none;
   font-size: var(--step--1);
   white-space: nowrap;
   display: inline-block;
   cursor: pointer;
-  margin-bottom: 0.25rem;
+  height: 2rem;
+  width: 100%;
 }
 
 .singup-btn:hover {
@@ -137,12 +205,30 @@
 
 .user-verified {
   color: var(--correct-color);
+  font-weight: 400;
+  font-size: var(--step--3);
+  border-bottom: thin solid black;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white-color);
 }
 
 .user-no-verified {
   color: var(--error-color);
   font-weight: 400;
   font-size: var(--step--3);
+  border-bottom: thin solid black;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--white-color);
+}
+
+.user-no-verified-container {
+  background-color: var(--third-color);
 }
 
 .card-serv-decoration-tel {
@@ -182,41 +268,6 @@
 }
 
 @media screen and (min-width: 768px) {
-  .user-no-verified-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 2rem;
-  }
-
-  .user-no-verified {
-    line-height: 0.8rem;
-  }
-
-  .section-header {
-    height: 2.5rem;
-  }
-
-  .user-logeado-div {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    height: 2.5rem;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-  }
-
-  .user-verified,
-  .btn-resend-emailverified,
-  .change-password-btn {
-    max-width: 200px;
-    margin: 0;
-  }
-
-  .user-logeado-div h5:first-child {
-    max-width: 250px;
-  }
-
   .iniciar-sesion-lg {
     display: none;
   }
@@ -246,7 +297,7 @@
   }
 
   .card-serv-decoration svg {
-    vertical-align: middle; /* Asegura el posicionamiento en línea */
+    vertical-align: middle;
   }
 
   .card-serv-decoration-email {

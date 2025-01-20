@@ -31,38 +31,6 @@ const FormTransferencia = ({
 
   const [product, setProduct] = useState("");
 
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     const auth = getAuth();
-
-  //     try {
-  //       const unsubscribe = onAuthStateChanged(auth, async (user) => {
-  //         if (user) {
-  //           const userDocRef = doc(db, "users", user.uid);
-  //           const userSnapshot = await getDoc(userDocRef);
-
-  //           if (userSnapshot.exists()) {
-  //             const userData = userSnapshot.data();
-  //             setTelefono(userData.telephone || ""); // Usa directamente los datos
-  //             setNombre(userData.nombre || "");
-  //             setApellido(userData.apellido || "");
-  //           } else {
-  //             console.error("El documento del usuario no existe.");
-  //           }
-  //         } else {
-  //           console.error("No hay usuario autenticado.");
-  //         }
-  //       });
-
-  //       return () => unsubscribe();
-  //     } catch (error) {
-  //       console.error("Error al obtener los datos del usuario:", error);
-  //     }
-  //   };
-
-  //   fetchUserData();
-  // }, []);
-
   useEffect(() => {
     const fetchProduct = async () => {
       if (!cart || !cart.items || cart.items.length === 0) {
@@ -266,12 +234,12 @@ const FormTransferencia = ({
 
     //Mail de confirmacion al usuario:
     try {
-      // await send(
-      //   "service_contact",
-      //   "template_1jyyg2h",
-      //   templateParamsToUser,
-      //   "WYVJMvEJlHQIHxScZ"
-      // );
+      await send(
+        "service_contact",
+        "template_1jyyg2h",
+        templateParamsToUser,
+        "WYVJMvEJlHQIHxScZ"
+      );
       console.log("enviado");
     } catch (error) {
       console.error("El Correo NO pudo ser enviado", error);
