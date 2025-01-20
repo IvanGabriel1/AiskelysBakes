@@ -35,6 +35,9 @@ const AuthProvider = ({ children }) => {
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   useEffect(() => {
+    const auth = getAuth();
+
+    // Agrega un listener para detectar cambios de autenticación
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
@@ -42,7 +45,7 @@ const AuthProvider = ({ children }) => {
           await user.reload();
           const isVerified = user.emailVerified;
 
-          // Actualiza el estado
+          // Actualiza el estado de verificación
           setUserEmailVerified(isVerified);
 
           // Si está verificado, guarda en Firestore si es necesario
@@ -54,6 +57,7 @@ const AuthProvider = ({ children }) => {
               const additionalUserInfo = JSON.parse(
                 localStorage.getItem("additionalUserInfo")
               );
+
               await setDoc(userDocRef, {
                 mail: user.email,
                 telefono:
@@ -74,13 +78,14 @@ const AuthProvider = ({ children }) => {
           );
         }
       } else {
-        setUserEmailVerified(false); // Usuario no autenticado
+        // Usuario no autenticado
+        setUserEmailVerified(false);
       }
     });
 
+    // Limpieza al desmontar el componente
     return () => unsubscribe();
   }, []);
-  /* estraido de LoginWhitEmail:*/
 
   const handleAuthentication = async (e) => {
     e.preventDefault();
@@ -149,13 +154,11 @@ const AuthProvider = ({ children }) => {
         await setDoc(doc(db, "users", user.uid), {
           nombre,
           apellido,
-          telephone, // Cambia "telephone" a "telefono" si es consistente con tu código
-          email: user.email, // Almacena también el correo electrónico
-          verificado: false, // Puedes añadir este campo para indicar si el usuario verificó su correo
-          creadoEn: new Date().toISOString(), // Marca de tiempo para saber cuándo se creó
+          telephone,
+          email: user.email,
+          creadoEn: new Date().toLocaleString(),
         });
 
-        // Almacenar datos adicionales en localStorage o contexto temporal
         localStorage.setItem(
           "additionalUserInfo",
           JSON.stringify({ nombre, apellido, telephone })
@@ -280,55 +283,6 @@ const AuthProvider = ({ children }) => {
       setPassword("");
     }
   };
-
-  // const resendVerificationMail = async () => {
-  //   const user = auth.currentUser;
-
-  //   if (!user) {
-  //     // Usuario no autenticado
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "error",
-  //       title: "No hay un usuario logueado",
-  //       showConfirmButton: false,
-  //       timer: 2000,
-  //     });
-  //     return;
-  //   }
-
-  //   try {
-  //     // Enviar correo de verificación
-  //     await sendEmailVerification(user);
-
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "success",
-  //       title: "Correo de verificación enviado",
-  //       showConfirmButton: false,
-  //       timer: 2000,
-  //     });
-
-  //     // Recargar información del usuario
-  //     await user.reload();
-  //     setUserEmailVerified(user.emailVerified);
-  //   } catch (error) {
-  //     console.error("Error al enviar el correo de verificación:", error);
-
-  //     let errorMessage = "Error al reenviar el correo de verificación.";
-  //     if (error.code === "auth/too-many-requests") {
-  //       errorMessage =
-  //         "Has realizado demasiadas solicitudes. Por favor, intenta de nuevo más tarde.";
-  //     }
-
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "error",
-  //       title: errorMessage,
-  //       showConfirmButton: false,
-  //       timer: 3000,
-  //     });
-  //   }
-  // };
 
   const resendVerificationMail = async () => {
     const user = auth.currentUser;

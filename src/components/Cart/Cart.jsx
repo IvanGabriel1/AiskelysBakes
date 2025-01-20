@@ -42,7 +42,7 @@ const Cart = () => {
   const compraMinima = 20;
 
   //const { userEmailVerified, email } = useContext(AuthContext);
-  const { userEmailVerified } = useContext(AuthContext);
+  const { userEmailVerified, setUserEmailVerified } = useContext(AuthContext);
 
   useEffect(() => {
     if (items.length > 0) {
@@ -83,27 +83,13 @@ const Cart = () => {
     });
   }, []);
 
-  //obtener datos de firebase para el envio del mail:
-
-  // const getAuthenticatedUserEmail = () => {
-  //   const auth = getAuth();
-  //   const user = auth.currentUser;
-
-  //   if (user) {
-  //     return user.email;
-  //   } else {
-  //     console.log("No hay ningún usuario autenticado.");
-  //     return null;
-  //   }
-  // };
-
   const getAuthenticatedUserEmail = () => {
     const auth = getAuth();
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("Usuario autenticado:", user.email);
-        return user.email; // Aquí obtendrás el email del usuario autenticado.
+        return user.email;
       } else {
         console.log("No hay ningún usuario autenticado.");
         return null;
@@ -127,8 +113,6 @@ const Cart = () => {
         const userDoc = queryBusqueda.docs[0];
         const { telefono, nombre, apellido } = userDoc.data();
 
-        // localStorage.setItem("userData", JSON.stringify(userData)); // Prueba
-
         console.log(
           "Teléfono:",
           telefono,
@@ -147,14 +131,6 @@ const Cart = () => {
       throw err;
     }
   };
-
-  // Recupera datos de localStorage al cargar el componente
-  // useEffect(() => {
-  //   const storedUserData = localStorage.getItem("userData");
-  //   if (storedUserData) {
-  //     setUserData(JSON.parse(storedUserData));
-  //   }
-  // }, []);
 
   useEffect(() => {
     const email = getAuthenticatedUserEmail();
@@ -297,9 +273,9 @@ const Cart = () => {
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        setTelefono(userData.telephone || ""); // Aquí debería estar el campo
-        setNombre(userData.nombre || ""); // Aquí debería estar el campo
-        setApellido(userData.apellido || ""); // Aquí debería estar el campo
+        setTelefono(userData.telephone || "");
+        setNombre(userData.nombre || "");
+        setApellido(userData.apellido || "");
       } else {
         console.log("No se encontró el documento del usuario.");
       }
@@ -317,6 +293,9 @@ const Cart = () => {
     console.log(apellido);
 
     const user = auth.currentUser;
+    await user.reload();
+    // Aquí verificas si el correo está verificado y actualizas el estado
+    setUserEmailVerified(user.emailVerified);
 
     // Verifica sincronización antes de continuar
     const sincronizacionExitosa = await sincronizarProductosCarrito();
@@ -363,52 +342,6 @@ const Cart = () => {
       setLoading(false);
       return;
     }
-
-    // try {
-    //   // Realiza una consulta para buscar el documento del usuario en la colección 'users'
-    //   const usersCollectionRef = collection(db, "users");
-    //   const q = query(usersCollectionRef, where("uid", "==", user.uid));
-    //   const querySnapshot = await getDocs(q);
-
-    //   if (!querySnapshot.empty) {
-    //     const userDoc = querySnapshot.docs[0];
-    //     const userData = userDoc.data();
-
-    //     setUserData({
-    //       telefono: userData.telephone || "",
-    //       nombre: userData.nombre || "",
-    //       apellido: userData.apellido || "",
-    //     });
-
-    //     ModalPay({
-    //       telefono: userData.telephone || "",
-    //       nombre: userData.nombre || "",
-    //       apellido: userData.apellido || "",
-    //     });
-    //   } else {
-    //     Swal.fire({
-    //       position: "center",
-    //       icon: "error",
-    //       title: "No se encontraron datos del usuario",
-    //       showConfirmButton: false,
-    //       timer: 2000,
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.error("Error al obtener los datos del usuario:", error);
-    //   Swal.fire({
-    //     position: "center",
-    //     icon: "error",
-    //     title: "Hubo un error al obtener los datos del usuario",
-    //     showConfirmButton: false,
-    //     timer: 2000,
-    //   });
-    // } finally {
-    //   setLoading(false);
-    // }
-
-    // setLoading(false);
-    // console.log("Pago permitido. Proceder con el flujo de pago.");
 
     openModalPay();
     // Lógica para realizar el pago (pendiente de implementar)
@@ -640,6 +573,7 @@ const Cart = () => {
                 telefono={telefono}
                 nombre={nombre}
                 apellido={apellido}
+                setLoading={setLoading}
               />
             ) : null}
           </section>

@@ -150,10 +150,13 @@
   height: 2.5rem;
   width: 10rem;
   font-family: var(--font-family2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 .btn-empty-cart:hover {
-  opacity: 0.5;
+  opacity: 0.7;
+  background-color: darkred;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Cart Summary: */
@@ -227,6 +230,10 @@
   height: 2.5rem;
   width: 10rem;
   font-family: var(--font-family2);
+}
+
+.btn-go-to-pay:hover {
+  opacity: 0.7;
 }
 
 .btn-go-to-pay-spinner {

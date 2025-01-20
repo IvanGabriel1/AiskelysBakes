@@ -15,6 +15,7 @@ const ModalPay = ({
   telefono,
   nombre,
   apellido,
+  setLoading,
 }) => {
   const [optionPaySelected, setOptionSelected] = useState("transferencia");
   //const { email } = useContext(AuthContext);
@@ -23,11 +24,15 @@ const ModalPay = ({
     setOptionSelected(valor);
   };
 
+  const CloseModalPay = () => {
+    closeModal(), setLoading(false);
+  };
+
   return (
     <div className="modal-pay-container">
       <div className="modal-pay">
         <button
-          onClick={closeModal}
+          onClick={CloseModalPay}
           className="modal-pay-btn-close"
           aria-label="Cerrar modal"
         >
