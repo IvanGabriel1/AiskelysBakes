@@ -13,11 +13,17 @@ import { Link } from "react-router-dom";
 import Accordion from "../Accordion/Accordion";
 import AuthContext from "../../context/AuthContext";
 import { auth, db } from "../../config/Firebase";
-import { collection, getDocs, where, query } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  where,
+  query,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { useModal } from "../../hooks/useModal";
 import ModalPay from "../ModalPay/ModalPay";
-import { getAuth } from "firebase/auth";
-import GoCart from "../GoCart/GoCart";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Cart = () => {
   const items = useSelector((state) => state.cart.items);
@@ -27,11 +33,7 @@ const Cart = () => {
   const [zonasData, setZonasData] = useState([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [zonaShippingCost, setZonaShippingCost] = useState("");
-  const [userData, setUserData] = useState({
-    telefono: "",
-    nombre: "",
-    apellido: "",
-  });
+
   //const cart = useSelector((state) => state.cart);
 
   const [isOpenModalPay, openModalPay, closeModalPay] = useModal(false);
@@ -39,7 +41,8 @@ const Cart = () => {
   const envioGratis = 100;
   const compraMinima = 20;
 
-  const { userEmailVerified, email } = useContext(AuthContext);
+  //const { userEmailVerified, email } = useContext(AuthContext);
+  const { userEmailVerified } = useContext(AuthContext);
 
   useEffect(() => {
     if (items.length > 0) {
@@ -82,16 +85,30 @@ const Cart = () => {
 
   //obtener datos de firebase para el envio del mail:
 
+  // const getAuthenticatedUserEmail = () => {
+  //   const auth = getAuth();
+  //   const user = auth.currentUser;
+
+  //   if (user) {
+  //     return user.email;
+  //   } else {
+  //     console.log("No hay ningún usuario autenticado.");
+  //     return null;
+  //   }
+  // };
+
   const getAuthenticatedUserEmail = () => {
     const auth = getAuth();
-    const user = auth.currentUser;
 
-    if (user) {
-      return user.email;
-    } else {
-      console.log("No hay ningún usuario autenticado.");
-      return null;
-    }
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Usuario autenticado:", user.email);
+        return user.email; // Aquí obtendrás el email del usuario autenticado.
+      } else {
+        console.log("No hay ningún usuario autenticado.");
+        return null;
+      }
+    });
   };
 
   const getDataFromFirebase = async (email) => {
@@ -109,14 +126,8 @@ const Cart = () => {
       if (!queryBusqueda.empty) {
         const userDoc = queryBusqueda.docs[0];
         const { telefono, nombre, apellido } = userDoc.data();
-        //  setUserData({ telefono, nombre, apellido });
-        setUserData({
-          telefono: telefono || "",
-          nombre: nombre || "",
-          apellido: apellido || "",
-        });
 
-        localStorage.setItem("userData", JSON.stringify(userData)); // Prueba
+        // localStorage.setItem("userData", JSON.stringify(userData)); // Prueba
 
         console.log(
           "Teléfono:",
@@ -138,12 +149,12 @@ const Cart = () => {
   };
 
   // Recupera datos de localStorage al cargar el componente
-  useEffect(() => {
-    const storedUserData = localStorage.getItem("userData");
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedUserData = localStorage.getItem("userData");
+  //   if (storedUserData) {
+  //     setUserData(JSON.parse(storedUserData));
+  //   }
+  // }, []);
 
   useEffect(() => {
     const email = getAuthenticatedUserEmail();
@@ -273,9 +284,37 @@ const Cart = () => {
 
   const varSubTotal = calcularSubtotal();
 
+  const [telefono, setTelefono] = useState();
+  const [nombre, setNombre] = useState();
+  const [apellido, setApellido] = useState();
+
+  const obtenerTelefono = async () => {
+    const auth = getAuth(); // Inicializa Firebase Auth
+    const user = auth.currentUser; // Obtén el usuario autenticado
+    try {
+      const userRef = doc(db, "users", user.uid); // uid debe estar definido
+      const userDoc = await getDoc(userRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        setTelefono(userData.telephone || ""); // Aquí debería estar el campo
+        setNombre(userData.nombre || ""); // Aquí debería estar el campo
+        setApellido(userData.apellido || ""); // Aquí debería estar el campo
+      } else {
+        console.log("No se encontró el documento del usuario.");
+      }
+    } catch (error) {
+      console.error("Error al obtener el documento:", error);
+    }
+  };
+
   //btn Ir a pagar:
   const handlePay = async () => {
     setLoading(true);
+    obtenerTelefono();
+    console.log(telefono);
+    console.log(nombre);
+    console.log(apellido);
 
     const user = auth.currentUser;
 
@@ -313,8 +352,6 @@ const Cart = () => {
 
     await user.reload();
 
-    console.log(userData);
-
     if (!user.emailVerified) {
       Swal.fire({
         position: "center",
@@ -327,48 +364,48 @@ const Cart = () => {
       return;
     }
 
-    try {
-      // Realiza una consulta para buscar el documento del usuario en la colección 'users'
-      const usersCollectionRef = collection(db, "users");
-      const q = query(usersCollectionRef, where("uid", "==", user.uid));
-      const querySnapshot = await getDocs(q);
+    // try {
+    //   // Realiza una consulta para buscar el documento del usuario en la colección 'users'
+    //   const usersCollectionRef = collection(db, "users");
+    //   const q = query(usersCollectionRef, where("uid", "==", user.uid));
+    //   const querySnapshot = await getDocs(q);
 
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        const userData = userDoc.data();
+    //   if (!querySnapshot.empty) {
+    //     const userDoc = querySnapshot.docs[0];
+    //     const userData = userDoc.data();
 
-        setUserData({
-          telefono: userData.telefono || "",
-          nombre: userData.nombre || "",
-          apellido: userData.apellido || "",
-        });
+    //     setUserData({
+    //       telefono: userData.telephone || "",
+    //       nombre: userData.nombre || "",
+    //       apellido: userData.apellido || "",
+    //     });
 
-        ModalPay({
-          telefono: userData.telefono || "",
-          nombre: userData.nombre || "",
-          apellido: userData.apellido || "",
-        });
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "No se encontraron datos del usuario",
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      }
-    } catch (error) {
-      console.error("Error al obtener los datos del usuario:", error);
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Hubo un error al obtener los datos del usuario",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-    } finally {
-      setLoading(false);
-    }
+    //     ModalPay({
+    //       telefono: userData.telephone || "",
+    //       nombre: userData.nombre || "",
+    //       apellido: userData.apellido || "",
+    //     });
+    //   } else {
+    //     Swal.fire({
+    //       position: "center",
+    //       icon: "error",
+    //       title: "No se encontraron datos del usuario",
+    //       showConfirmButton: false,
+    //       timer: 2000,
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.error("Error al obtener los datos del usuario:", error);
+    //   Swal.fire({
+    //     position: "center",
+    //     icon: "error",
+    //     title: "Hubo un error al obtener los datos del usuario",
+    //     showConfirmButton: false,
+    //     timer: 2000,
+    //   });
+    // } finally {
+    //   setLoading(false);
+    // }
 
     // setLoading(false);
     // console.log("Pago permitido. Proceder con el flujo de pago.");
@@ -600,7 +637,9 @@ const Cart = () => {
                 shippingCost={shippingCost}
                 envioGratisAplicado={envioGratisAplicado}
                 varSubTotal={varSubTotal}
-                userData={userData}
+                telefono={telefono}
+                nombre={nombre}
+                apellido={apellido}
               />
             ) : null}
           </section>

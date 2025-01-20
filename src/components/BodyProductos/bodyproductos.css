@@ -28,6 +28,10 @@
   padding-inline: 1rem;
 }
 
+.bp-go-cart-container {
+  margin-bottom: 1rem;
+}
+
 @media screen and (min-width: 1024px) {
   .aviso-productos {
     display: flex;

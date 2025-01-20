@@ -64,13 +64,17 @@ const ProductItem = ({
           {descuento ? (
             <div className="card-product-price conDescuento">
               <b>
-                Minorista: $ <s>{precioMinorista}</s> /
-                {precioMinorista - precioMinorista * (descuento / 100)} usd.-
+                Minorista: $ <s>{precioMinorista.toFixed(2)}</s> /
+                {(
+                  precioMinorista -
+                  precioMinorista * (descuento / 100)
+                ).toFixed(2)}{" "}
+                usd
               </b>
             </div>
           ) : (
             <p className="card-product-price">
-              <b>Minorista: ${precioMinorista} usd.-</b>
+              <b>Minorista: ${precioMinorista} usd</b>
             </p>
           )}
 
@@ -82,12 +86,12 @@ const ProductItem = ({
                   precioMayorista -
                   precioMayorista * (descuentoMayorista / 100)
                 ).toFixed(2)}
-                {` `} usd.-
+                {` `} usd
               </b>
             </div>
           ) : (
             <p className="card-product-price">
-              <b>Mayorista: ${precioMayorista} usd.-</b>
+              <b>Mayorista: ${precioMayorista} usd</b>
             </p>
           )}
         </div>

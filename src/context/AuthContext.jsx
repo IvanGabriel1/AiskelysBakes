@@ -34,49 +34,6 @@ const AuthProvider = ({ children }) => {
 
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
-  //     if (user && user.emailVerified) {
-  //       try {
-  //         // Verificar si el usuario ya tiene datos guardados
-  //         const userDocRef = doc(db, "users", user.uid);
-  //         const userSnapshot = await getDoc(userDocRef);
-  //         const additionalUserInfo = JSON.parse(
-  //           localStorage.getItem("additionalUserInfo")
-  //         );
-
-  //         if (!userSnapshot.exists()) {
-  //           console.log("Datos que intentas guardar:", {
-  //             mail: user.email,
-  //             telefono: user.telephone,
-  //             nombre: user.nombre,
-  //             apellido: user.apellido,
-  //             emailVerified: true,
-  //           });
-  //           // Guardar los datos del usuario en Firestore
-  //           await setDoc(userDocRef, {
-  //             mail: user.email,
-  //             telefono:
-  //               additionalUserInfo?.telephone || "Teléfono no proporcionado",
-  //             nombre: additionalUserInfo?.nombre || "Nombre no proporcionado",
-  //             apellido:
-  //               additionalUserInfo?.apellido || "Apellido no proporcionado",
-  //             emailVerified: true,
-  //           });
-
-  //           localStorage.removeItem("additionalUserInfo");
-
-  //           console.log("Datos guardados exitosamente en Firestore");
-  //         }
-  //       } catch (error) {
-  //         console.error("Error al guardar los datos del usuario: ", error);
-  //       }
-  //     }
-  //   });
-
-  //   return () => unsubscribe(); // Limpia el listener cuando el componente se desmonta
-  // }, []);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -187,6 +144,16 @@ const AuthProvider = ({ children }) => {
           displayName: `${nombre} ${apellido}`, // Nombre y apellido para displayName
         });
         console.log("Nombre del usuario actualizado correctamente.");
+
+        // Guardar los datos en Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          nombre,
+          apellido,
+          telephone, // Cambia "telephone" a "telefono" si es consistente con tu código
+          email: user.email, // Almacena también el correo electrónico
+          verificado: false, // Puedes añadir este campo para indicar si el usuario verificó su correo
+          creadoEn: new Date().toISOString(), // Marca de tiempo para saber cuándo se creó
+        });
 
         // Almacenar datos adicionales en localStorage o contexto temporal
         localStorage.setItem(

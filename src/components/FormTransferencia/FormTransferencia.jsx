@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./formtransferencia.css";
 import { send } from "emailjs-com";
 import { useDispatch, useSelector } from "react-redux";
-import { onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../config/Firebase";
 import { doc, getDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
@@ -16,17 +16,52 @@ const FormTransferencia = ({
   shippingCost,
   envioGratisAplicado,
   varSubTotal,
-  userData,
+  telefono,
+  nombre,
+  apellido,
 }) => {
-  const { telefono, nombre, apellido } = userData;
   const [loading, setLoading] = useState(false);
-
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  // const [telefono, setTelefono] = useState();
+  // const [apellido, setApellido] = useState("");
+  // const [nombre, setNombre] = useState("");
 
   //------------
 
   const [product, setProduct] = useState("");
+
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     const auth = getAuth();
+
+  //     try {
+  //       const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  //         if (user) {
+  //           const userDocRef = doc(db, "users", user.uid);
+  //           const userSnapshot = await getDoc(userDocRef);
+
+  //           if (userSnapshot.exists()) {
+  //             const userData = userSnapshot.data();
+  //             setTelefono(userData.telephone || ""); // Usa directamente los datos
+  //             setNombre(userData.nombre || "");
+  //             setApellido(userData.apellido || "");
+  //           } else {
+  //             console.error("El documento del usuario no existe.");
+  //           }
+  //         } else {
+  //           console.error("No hay usuario autenticado.");
+  //         }
+  //       });
+
+  //       return () => unsubscribe();
+  //     } catch (error) {
+  //       console.error("Error al obtener los datos del usuario:", error);
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -200,6 +235,7 @@ const FormTransferencia = ({
     };
 
     //Mail al comercio:
+
     try {
       await send(
         "service_contact",
@@ -207,6 +243,8 @@ const FormTransferencia = ({
         templateParams,
         "WYVJMvEJlHQIHxScZ"
       );
+
+      console.log("enviado");
 
       // console.log("Email enviado al:", userMail);
       // console.log("telefono:", telefono);
@@ -228,12 +266,13 @@ const FormTransferencia = ({
 
     //Mail de confirmacion al usuario:
     try {
-      await send(
-        "service_contact",
-        "template_1jyyg2h",
-        templateParamsToUser,
-        "WYVJMvEJlHQIHxScZ"
-      );
+      // await send(
+      //   "service_contact",
+      //   "template_1jyyg2h",
+      //   templateParamsToUser,
+      //   "WYVJMvEJlHQIHxScZ"
+      // );
+      console.log("enviado");
     } catch (error) {
       console.error("El Correo NO pudo ser enviado", error);
       alert("Hubo un problema al enviar el correo al comprador.");

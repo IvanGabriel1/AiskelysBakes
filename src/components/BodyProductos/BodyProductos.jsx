@@ -9,6 +9,7 @@ import HeroImage from "../HeroImage/HeroImage";
 import heroProductos from "../../assets/hero-productos.jpg";
 import FollowUs from "../FollowUs/FollowUs";
 import Spinner from "../Spinner/Spinner";
+import GoCart from "../GoCart/GoCart";
 
 const BodyProductos = () => {
   const [products, setProducts] = useState([]);
@@ -84,6 +85,10 @@ const BodyProductos = () => {
             )}
           </div>
         )}
+
+        <div className="bp-go-cart-container">
+          <GoCart />
+        </div>
 
         <FollowUs />
       </div>
