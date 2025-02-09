@@ -6,7 +6,6 @@ import imgMision from "../../assets/MisionNosotrosImg.jpeg";
 import imgNosotros from "../../assets/Nosotros-Img.jpeg";
 import imgValores from "../../assets/ValoresNosotrosImg.jpeg";
 import FollowUs from "../FollowUs/FollowUs";
-import NavBar from "../NavBar/NavBar";
 
 const BodyNosotros = () => {
   return (
@@ -23,10 +22,10 @@ const BodyNosotros = () => {
           <article>
             <h2>Historia</h2>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam,
-              consectetur quibusdam velit, culpa porro eveniet quaerat quidem
-              cum rem harum maiores atque, exercitationem at sit placeat fuga
-              sed ipsum reprehenderit!
+              Aiskely`s Bakes nació en 2020 como un negocio familiar con el
+              sueño de ofrecer productos de calidad. Con esfuerzo y dedicación,
+              creamos un espacio donde la pasión y el compromiso se reflejan en
+              cada detalle. ¡Conócenos y sé parte de nuestra historia
             </p>
           </article>
           <img src={imgNosotros} alt="Imagen sobre nosotros" />
@@ -34,10 +33,10 @@ const BodyNosotros = () => {
           <article>
             <h2>Misión</h2>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-              suscipit cumque eos quia. Sequi, officia! Error ipsam hic nihil
-              voluptatum quaerat minus voluptate, provident qui, veritatis,
-              atque eius velit unde.
+              Nuestra misión es ofrecer comida casera de calidad, preparada con
+              ingredientes frescos y mucho amor. Queremos que cada bocado te
+              haga sentir como en casa, brindando sabor, tradición y un servicio
+              cálido para nuestros clientes.
             </p>
           </article>
 
@@ -46,10 +45,10 @@ const BodyNosotros = () => {
           <article>
             <h2>Valores</h2>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-              suscipit cumque eos quia. Sequi, officia! Error ipsam hic nihil
-              voluptatum quaerat minus voluptate, provident qui, veritatis,
-              atque eius velit unde.
+              Nos guiamos por valores como la calidad, la honestidad y el
+              compromiso. Creemos en la importancia de la comida casera hecha
+              con pasión, el trato cercano con nuestros clientes y el esfuerzo
+              diario para ofrecer lo mejor en cada plato.
             </p>
           </article>
 
